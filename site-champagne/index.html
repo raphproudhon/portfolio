@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <title>Domaine Champagne - Maison d'Exception</title>
+    <meta name="description" content="Découvrez un domaine champenois familial, son terroir, son savoir-faire et ses champagnes d'exception.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" sizes="any">
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Préchargement de l'image hero (LCP) -->
+    <link rel="preload" as="image" href="assets/images/vignoble.jpg">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="age-lock">
+
+    <!-- VERIFICATION AGE -->
+    <div class="age-overlay" id="agePopup" role="dialog" aria-modal="true" aria-labelledby="ageVerifTitle">
+        <div class="age-modal">
+
+            <div class="age-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <h2 id="ageVerifTitle">Vérification d'âge</h2>
+
+            <p>
+                Ce site contient des informations relatives aux boissons alcoolisées.
+                Vous devez avoir l'âge légal pour accéder à son contenu.
+            </p>
+
+            <div class="age-buttons">
+                <button type="button" id="yesAge">J'ai l'âge légal</button>
+                <button type="button" id="noAge">Quitter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="site-content">
+
+        <!-- LOADER -->
+        <div class="loader" aria-hidden="true">
+            <div class="loader-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="domaine.html">Le domaine</a></li>
+                    <li><a href="terroir.html">Terroir</a></li>
+                    <li><a href="champagnes.html">Champagnes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-overlay"></div>
+
+                <div class="hero-content">
+                    <p class="subtitle">Au cœur de la Champagne</p>
+
+                    <h1>
+                        L'expression<br>
+                        d'un terroir<br>
+                        d'exception
+                    </h1>
+
+                    <a href="domaine.html" class="button">Découvrir le domaine</a>
+                </div>
+            </section>
+
+            <!-- INTRODUCTION -->
+            <section class="intro">
+                <div class="intro-text">
+                    <p class="subtitle">Notre histoire</p>
+
+                    <h2>Une maison familiale, portée par la passion de la vigne</h2>
+
+                    <p>
+                        Depuis plusieurs générations, notre domaine cultive ses
+                        parcelles avec respect et précision afin de créer des
+                        champagnes authentiques, révélateurs de leur terroir.
+                    </p>
+
+                    <a href="domaine.html">En savoir plus →</a>
+                </div>
+
+                <div class="intro-image">
+                    <img src="assets/images/vigneron.jpg" alt="Vigneron dans les vignes" loading="lazy" decoding="async">
+                </div>
+            </section>
+
+            <!-- TERROIR -->
+            <section class="terroir">
+                <div class="terroir-content">
+                    <p class="subtitle">Le terroir</p>
+
+                    <h2>Entre tradition et nature</h2>
+
+                    <p>
+                        Chaque parcelle possède son identité.
+                        Nos sols, nos cépages et notre savoir-faire
+                        donnent naissance à des champagnes uniques.
+                    </p>
+
+                    <a href="terroir.html" class="button">Explorer notre terroir</a>
+                </div>
+            </section>
+
+            <!-- CHAMPAGNES -->
+            <section class="champagnes">
+                <p class="subtitle">Nos cuvées</p>
+                <h2>Des champagnes d'émotion</h2>
+
+                <div class="cards">
+                    <div class="card">
+                        <img src="assets/images/blanc-noirs.jpg" alt="Champagne Blanc de Noirs" loading="lazy" decoding="async">
+                        <h3>Blanc de Noirs</h3>
+                        <p>La pure expression du Pinot Noir.</p>
+                    </div>
+
+                    <div class="card">
+                        <img src="assets/images/brut-reserve.jpg" alt="Champagne Brut Réserve" loading="lazy" decoding="async">
+                        <h3>Brut Réserve</h3>
+                        <p>L'équilibre entre finesse et caractère.</p>
+                    </div>
+
+                    <div class="card">
+                        <img src="assets/images/rose.jpg" alt="Champagne Rosé" loading="lazy" decoding="async">
+                        <h3>Rosé de Saignée</h3>
+                        <p>Une cuvée élégante et délicate.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPERIENCE -->
+            <section class="experience">
+                <div>
+                    <p class="subtitle">Visite du domaine</p>
+
+                    <h2>Vivez l'expérience champenoise</h2>
+
+                    <p>
+                        Découvrez nos caves, nos vinifications et partagez
+                        un moment privilégié au cœur du domaine.
+                    </p>
+
+                    <a href="contact.html" class="button">Réserver une visite</a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <p>© 2026 Domaine Champagne - Tous droits réservés</p>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>

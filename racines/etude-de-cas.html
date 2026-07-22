@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étude de cas — Racines, identité &amp; produit de A à Z</title>
+<meta name="description" content="Étude de cas : création complète d'une marque fictive d'abonnement plantes — naming, identité, site vitrine et prototype d'app mobile.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#2f4f3e; --green-mid:#4c7a5e; --terracotta:#c97b4a;
+    --cream:#f7f3ec; --cream-2:#efe8db; --ink:#1f2a24; --white:#fff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Work Sans', sans-serif; color:var(--ink); background:var(--cream); line-height:1.8; font-weight:300;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--green-deep); font-weight:600;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--terracotta); font-weight:600; margin-bottom:14px;}
+
+  .hero{background:var(--green-deep); color:#fff; padding:clamp(80px,12vw,140px) 8% 60px;}
+  .hero h1{font-size:clamp(36px,6vw,64px); line-height:1.1; max-width:760px; color:#fff;}
+  .hero p.lead{margin-top:20px; max-width:560px; font-size:14px; color:#b9c9be;}
+
+  .meta-strip{
+    background:var(--green-deep); color:#fff; padding:0 8% 60px;
+    display:flex; flex-wrap:wrap; gap:clamp(30px,6vw,80px);
+  }
+  .meta-strip div .k{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#8fa596; margin-bottom:6px;}
+  .meta-strip div .v{font-family:'Fraunces', serif; font-size:19px; color:#e9c9a8;}
+
+  section.block{padding:clamp(50px,8vw,90px) 8%; max-width:1100px;}
+  section.block.alt{background:var(--white); max-width:none;}
+  section.block.alt .inner{max-width:calc(1100px - 16%);}
+  .block h2{font-size:clamp(28px,4vw,40px); margin-bottom:18px;}
+  .block p{max-width:640px; font-size:14.5px; color:#4a544d; margin-bottom:16px;}
+  .block ul{max-width:640px; margin:0 0 16px 20px; font-size:14.5px; color:#4a544d;}
+  .block li{margin-bottom:8px;}
+  .block li b{font-weight:500; color:var(--ink);}
+
+  .logo-strip{
+    display:flex; align-items:center; justify-content:center; gap:40px; flex-wrap:wrap;
+    background:var(--white); border-radius:20px; padding:40px; margin:34px 0 10px; max-width:820px;
+    border:1px solid rgba(47,79,62,.08);
+  }
+  .img-caption{font-size:12px; color:#8a9a8e; margin-top:6px;}
+
+  .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; margin-top:30px; max-width:900px;}
+  .step-card{background:var(--cream); border-radius:16px; padding:24px;}
+  .alt .step-card{background:var(--cream);}
+  .step-card .n{
+    font-family:'Fraunces', serif; font-size:15px; font-weight:700; color:var(--white);
+    background:var(--terracotta); width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  }
+  .step-card .t{font-weight:600; font-size:14.5px; color:var(--green-deep); margin-bottom:6px; font-family:'Fraunces', serif; font-size:17px;}
+  .step-card .d{font-size:12.5px; color:#5d6a62; line-height:1.6;}
+
+  .deliverables{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin-top:30px;}
+  .del-card{
+    background:var(--white); border-radius:18px; padding:26px 26px 22px;
+    text-decoration:none; transition:transform .3s, box-shadow .3s; display:block;
+    box-shadow:0 4px 14px rgba(47,79,62,.06);
+  }
+  .del-card:hover{transform:translateY(-6px); box-shadow:0 14px 34px rgba(47,79,62,.12);}
+  .del-card .t{font-family:'Fraunces', serif; font-size:21px; color:var(--green-deep); font-weight:600;}
+  .del-card .d{font-size:12.5px; color:#5d6a62; margin-top:8px; line-height:1.6;}
+  .del-card .go{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--terracotta); font-weight:600; margin-top:16px; display:block;}
+
+  footer{background:var(--green-deep); color:#8fa596; text-align:center; padding:50px 8%; font-size:12px; letter-spacing:.5px;}
+  footer a{color:#e9c9a8; text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Étude de cas · Marque complète</p>
+  <h1>Racines : une marque construite de zéro, du logo à l'app</h1>
+  <p class="lead">
+    Cas d'école fictif mené comme une vraie mission : créer l'identité, le site
+    et le produit digital d'un service d'abonnement de plantes d'intérieur.
+  </p>
+</header>
+<div class="meta-strip">
+  <div><div class="k">Rôle</div><div class="v">Branding · UI/UX · Dev</div></div>
+  <div><div class="k">Type</div><div class="v">Marque + site + app</div></div>
+  <div><div class="k">Stack</div><div class="v">HTML · CSS · JavaScript · SVG</div></div>
+  <div><div class="k">Année</div><div class="v">2026</div></div>
+</div>
+
+<section class="block">
+  <h2>Le brief (fictif, mené comme un vrai)</h2>
+  <p>
+    Racines est un service d'abonnement imaginaire : chaque mois, une plante d'intérieur
+    choisie pour votre logement, accompagnée de conseils d'entretien. La mission :
+    tout créer — le nom existait, rien d'autre.
+  </p>
+  <ul>
+    <li><b>Cibles :</b> urbains 25-40 ans, envie de verdure, peur de « tout faire mourir ».</li>
+    <li><b>Ton :</b> chaleureux, rassurant, un brin artisanal — ni startup froide, ni jardinerie datée.</li>
+    <li><b>Objectif produit :</b> convertir à l'abonnement, puis fidéliser via une app de suivi des plantes.</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>La démarche : de l'identité au produit</h2>
+  <div class="steps">
+    <div class="step-card">
+      <div class="n">1</div>
+      <div class="t">Identité</div>
+      <div class="d">Logo feuille-racine en SVG, palette vert profond / terracotta, duo Fraunces + Work Sans.</div>
+    </div>
+    <div class="step-card">
+      <div class="n">2</div>
+      <div class="t">Charte</div>
+      <div class="d">Déclinaisons du logo, règles d'usage, échelle typographique — le référentiel de la marque.</div>
+    </div>
+    <div class="step-card">
+      <div class="n">3</div>
+      <div class="t">Site vitrine</div>
+      <div class="d">Un one-page orienté conversion : promesse, fonctionnement, formules, réassurance.</div>
+    </div>
+    <div class="step-card">
+      <div class="n">4</div>
+      <div class="t">App mobile</div>
+      <div class="d">Prototype cliquable du produit de fidélisation : mes plantes, rappels d'arrosage, profil.</div>
+    </div>
+  </div>
+  <div class="logo-strip">
+    <svg width="64" height="80" viewBox="0 0 100 130" role="img" aria-label="Logo Racines"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3"/></svg>
+    <svg width="200" height="58" viewBox="0 0 480 140" role="img" aria-label="Logotype Racines"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e" transform="translate(10,20)"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3" transform="translate(10,20)"/><text x="120" y="102" font-family="Georgia, serif" font-weight="600" font-size="52" fill="#2f4f3e">Racines</text></svg>
+  </div>
+  <p class="img-caption">Le logo : une feuille dont la nervure descend en racine — dessiné en SVG, déclinable à l'infini.</p>
+</div></section>
+
+<section class="block">
+  <h2>Les choix design &amp; techniques</h2>
+  <ul>
+    <li><b>Un langage commun site/app :</b> mêmes variables de couleur, mêmes rayons, même voix — la marque est reconnaissable d'un support à l'autre.</li>
+    <li><b>Prototype d'app réaliste :</b> cadre iPhone, trois écrans cliquables (accueil, détail plante, profil), états et micro-interactions.</li>
+    <li><b>Logo 100% SVG :</b> léger, net à toutes les tailles, recolorable en CSS.</li>
+    <li><b>Zéro dépendance :</b> tout est fait main en HTML/CSS/JS — chargement instantané.</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>Les livrables</h2>
+  <div class="deliverables">
+    <a class="del-card" href="index.html">
+      <span class="t">Site vitrine</span>
+      <span class="d">One-page de conversion : promesse, formules, réassurance.</span>
+      <span class="go">Voir le site →</span>
+    </a>
+    <a class="del-card" href="charte-graphique.html">
+      <span class="t">Charte graphique</span>
+      <span class="d">Logo et déclinaisons, palette, typographies, règles d'usage.</span>
+      <span class="go">Voir la charte →</span>
+    </a>
+    <a class="del-card" href="prototype-app.html">
+      <span class="t">Prototype d'app</span>
+      <span class="d">3 écrans cliquables : mes plantes, détail, profil.</span>
+      <span class="go">Voir le prototype →</span>
+    </a>
+  </div>
+</div></section>
+
+<section class="block">
+  <h2>Ce que ce projet démontre</h2>
+  <ul>
+    <li><b>La vision 360° :</b> une marque pensée comme un tout — identité, vitrine, produit — par un seul interlocuteur.</li>
+    <li><b>La cohérence :</b> chaque livrable renforce les autres au lieu d'exister isolément.</li>
+    <li><b>La méthode :</b> un brief cadré, des étapes claires, des livrables nommés — même sur un projet fictif.</li>
+  </ul>
+</section>
+
+<footer>
+  Étude de cas — marque fictive créée intégralement à des fins de démonstration.<br><br>
+  <a href="../index.html">← Retour au portfolio</a> · <a href="index.html">Voir le site Racines</a>
+</footer>
+
+</body>
+</html>

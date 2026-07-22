@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <title>Nos Champagnes - Maison d'Exception</title>
+    <meta name="description" content="Découvrez nos cuvées : Blanc de Noirs, Brut Réserve et Rosé de Saignée, l'expression de notre terroir champenois.">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="assets/images/champagnes-hero.jpg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="age-lock">
+
+    <!-- VERIFICATION AGE -->
+    <div class="age-overlay" id="agePopup" role="dialog" aria-modal="true" aria-labelledby="ageVerifTitle">
+        <div class="age-modal">
+
+            <div class="age-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <h2 id="ageVerifTitle">Vérification d'âge</h2>
+
+            <p>
+                L'accès à ce site est réservé aux personnes majeures.
+                Veuillez confirmer que vous avez l'âge légal pour découvrir nos champagnes.
+            </p>
+
+            <div class="age-buttons">
+                <button type="button" id="yesAge">J'ai l'âge légal</button>
+                <button type="button" id="noAge">Quitter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="site-content">
+
+        <div class="loader" aria-hidden="true">
+            <div class="loader-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="domaine.html">Le domaine</a></li>
+                    <li><a href="terroir.html">Terroir</a></li>
+                    <li><a href="champagnes.html">Champagnes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO -->
+            <section class="page-hero champagnes-hero">
+                <div class="page-overlay"></div>
+
+                <div class="page-title">
+                    <p class="subtitle">Nos cuvées</p>
+
+                    <h1>
+                        Des champagnes<br>
+                        d'émotion
+                    </h1>
+                </div>
+            </section>
+
+            <!-- INTRO -->
+            <section class="champagnes-intro">
+                <p class="subtitle">Notre catalogue</p>
+
+                <h2>Trois expressions d'un même terroir</h2>
+
+                <p>
+                    Chacune de nos cuvées révèle une facette différente de notre domaine,
+                    entre puissance, équilibre et élégance.
+                </p>
+            </section>
+
+            <!-- CATALOGUE -->
+            <section class="catalogue">
+
+                <div class="card">
+                    <img src="assets/images/blanc-noirs.jpg" alt="Champagne Blanc de Noirs" loading="lazy" decoding="async">
+                    <h3>Blanc de Noirs</h3>
+                    <span class="cepage-tag">100% Pinot Noir</span>
+                    <p>
+                        La pure expression du Pinot Noir : structure, puissance
+                        et profondeur, pour une dégustation intense et généreuse.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/brut-reserve.jpg" alt="Champagne Brut Réserve" loading="lazy" decoding="async">
+                    <h3>Brut Réserve</h3>
+                    <span class="cepage-tag">Assemblage Pinot Noir · Chardonnay</span>
+                    <p>
+                        L'équilibre entre finesse et caractère : une cuvée
+                        polyvalente, à la fois vive et enveloppante.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/rose.jpg" alt="Champagne Rosé de Saignée" loading="lazy" decoding="async">
+                    <h3>Rosé de Saignée</h3>
+                    <span class="cepage-tag">100% Pinot Noir</span>
+                    <p>
+                        Une cuvée élégante et délicate, aux notes de fruits rouges,
+                        obtenue par la méthode traditionnelle de saignée.
+                    </p>
+                </div>
+
+            </section>
+
+            <!-- CTA -->
+            <section class="experience">
+                <div>
+                    <p class="subtitle">Envie d'en savoir plus ?</p>
+
+                    <h2>Échangez avec notre équipe</h2>
+
+                    <p>
+                        Pour toute question sur nos cuvées, leur disponibilité
+                        ou pour organiser une dégustation, contactez-nous.
+                    </p>
+
+                    <a href="contact.html" class="button">Nous contacter</a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <p>© 2026 Domaine Champagne - Tous droits réservés</p>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>

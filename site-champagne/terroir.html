@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <title>Le Terroir </title>
+    <meta name="description" content="Découvrez le terroir champenois, les sols, les cépages et l'identité des parcelles du domaine.">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="assets/images/terroir-hero.jpg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="age-lock">
+
+    <!-- VERIFICATION AGE (ajoutée pour cohérence avec index.html et domaine.html) -->
+    <div class="age-overlay" id="agePopup" role="dialog" aria-modal="true" aria-labelledby="ageVerifTitle">
+        <div class="age-modal">
+
+            <div class="age-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <h2 id="ageVerifTitle">Vérification d'âge</h2>
+
+            <p>
+                L'accès à ce site est réservé aux personnes majeures.
+                Veuillez confirmer que vous avez l'âge légal pour découvrir nos champagnes.
+            </p>
+
+            <div class="age-buttons">
+                <button type="button" id="yesAge">J'ai l'âge légal</button>
+                <button type="button" id="noAge">Quitter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="site-content">
+
+        <div class="loader" aria-hidden="true">
+            <div class="loader-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="domaine.html">Le domaine</a></li>
+                    <li><a href="terroir.html">Terroir</a></li>
+                    <li><a href="champagnes.html">Champagnes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO -->
+            <section class="page-hero terroir-hero">
+                <div class="page-overlay"></div>
+
+                <div class="page-title">
+                    <p class="subtitle">Le terroir</p>
+
+                    <h1>
+                        L'expression<br>
+                        d'un lieu unique
+                    </h1>
+                </div>
+            </section>
+
+            <!-- INTRO TERROIR -->
+            <section class="terroir-intro">
+                <div class="terroir-text">
+                    <p class="subtitle">La Côte des Bar</p>
+
+                    <h2>Un terroir façonné par le temps</h2>
+
+                    <p>
+                        Situé au sud de la Champagne, notre vignoble s'étend sur un territoire
+                        où la nature a façonné des sols riches et complexes.
+                    </p>
+
+                    <p>
+                        Ici, chaque parcelle possède sa propre personnalité.
+                        Le relief, l'exposition et la composition des sols influencent
+                        profondément l'identité de nos vins.
+                    </p>
+                </div>
+
+                <div class="terroir-image">
+                    <img src="assets/images/paysage-vigne.jpg" alt="Paysage du vignoble champenois" loading="lazy" decoding="async">
+                </div>
+            </section>
+
+            <!-- SOLS -->
+            <section class="sols">
+                <div>
+                    <p class="subtitle">La terre</p>
+
+                    <h2>Des sols qui racontent une histoire</h2>
+
+                    <p>
+                        Nos vignes reposent sur des sols principalement argilo-calcaires,
+                        hérités de formations géologiques anciennes.
+                    </p>
+
+                    <p>
+                        Cette richesse apporte fraîcheur, minéralité et profondeur,
+                        des caractéristiques essentielles à l'équilibre de nos champagnes.
+                    </p>
+                </div>
+            </section>
+
+            <!-- CEPAGES -->
+            <section class="cepages">
+                <div class="cepage-card">
+                    <h3>Pinot Noir</h3>
+                    <p>
+                        Cépage emblématique de notre région, il apporte structure,
+                        puissance et profondeur aux assemblages.
+                    </p>
+                </div>
+
+                <div class="cepage-card">
+                    <h3>Chardonnay</h3>
+                    <p>
+                        Il apporte finesse, élégance et fraîcheur,
+                        avec des notes florales et minérales.
+                    </p>
+                </div>
+
+                <div class="cepage-card">
+                    <h3>Pinot Blanc</h3>
+                    <p>
+                        Un cépage historique qui participe à l'identité
+                        et à la singularité de certaines cuvées.
+                    </p>
+                </div>
+            </section>
+
+            <!-- PARCELLES -->
+            <section class="parcelles">
+                <div>
+                    <p class="subtitle">Une viticulture de précision</p>
+
+                    <h2>Chaque parcelle possède son identité</h2>
+
+                    <p>
+                        Nous travaillons nos vignes avec une approche parcellaire,
+                        afin de révéler au mieux les expressions naturelles
+                        de chaque terroir.
+                    </p>
+
+                    <a href="champagnes.html" class="button">Découvrir nos champagnes</a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <p>© 2026 Domaine Champagne - Tous droits réservés</p>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>

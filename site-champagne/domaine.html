@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <title>Le Domaine </title>
+    <meta name="description" content="Découvrez l'histoire du domaine, son savoir-faire familial et son engagement dans la création de champagnes d'exception.">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="assets/images/domaine.jpg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="age-lock">
+
+    <!-- VERIFICATION AGE -->
+    <div class="age-overlay" id="agePopup" role="dialog" aria-modal="true" aria-labelledby="ageVerifTitle">
+        <div class="age-modal">
+
+            <div class="age-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <h2 id="ageVerifTitle">Vérification d'âge</h2>
+
+            <p>
+                L'accès à ce site est réservé aux personnes majeures.
+                Veuillez confirmer que vous avez l'âge légal pour découvrir nos champagnes.
+            </p>
+
+            <div class="age-buttons">
+                <button type="button" id="yesAge">J'ai l'âge légal</button>
+                <button type="button" id="noAge">Quitter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="site-content">
+
+        <!-- LOADER -->
+        <div class="loader" aria-hidden="true">
+            <div class="loader-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="domaine.html">Le domaine</a></li>
+                    <li><a href="terroir.html">Terroir</a></li>
+                    <li><a href="champagnes.html">Champagnes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO DOMAINE -->
+            <section class="page-hero domaine-hero">
+                <div class="page-overlay"></div>
+
+                <div class="page-title">
+                    <p class="subtitle">Notre histoire</p>
+
+                    <h1>
+                        Un domaine<br>
+                        familial d'exception
+                    </h1>
+                </div>
+            </section>
+
+            <!-- HISTOIRE -->
+            <section class="story">
+                <div class="story-text">
+                    <p class="subtitle">Depuis plusieurs générations</p>
+
+                    <h2>Une passion transmise par la vigne</h2>
+
+                    <p>
+                        Au cœur de la Champagne, notre domaine perpétue un savoir-faire familial
+                        fondé sur le respect du terroir et la recherche constante d'authenticité.
+                    </p>
+
+                    <p>
+                        Chaque parcelle est travaillée avec précision afin de révéler l'identité
+                        unique de nos sols et de nos cépages.
+                    </p>
+                </div>
+
+                <div class="story-image">
+                    <img src="assets/images/family.jpg" alt="Famille du domaine" loading="lazy" decoding="async">
+                </div>
+            </section>
+
+            <!-- PHILOSOPHIE -->
+            <section class="philosophie">
+                <div>
+                    <p class="subtitle">Notre philosophie</p>
+
+                    <h2>Respecter la nature pour révéler le vin</h2>
+
+                    <p>
+                        Notre approche repose sur une viticulture attentive,
+                        où chaque intervention dans la vigne possède un objectif :
+                        préserver l'équilibre naturel et exprimer pleinement notre terroir.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SAVOIR FAIRE -->
+            <section class="savoir-faire">
+                <div class="savoir-card">
+                    <h3>La vigne</h3>
+                    <p>
+                        Observer, accompagner et respecter chaque cycle végétatif
+                        pour obtenir des raisins d'une grande précision.
+                    </p>
+                </div>
+
+                <div class="savoir-card">
+                    <h3>La vinification</h3>
+                    <p>
+                        Des vinifications minutieuses permettant de conserver
+                        la finesse et l'identité de chaque parcelle.
+                    </p>
+                </div>
+
+                <div class="savoir-card">
+                    <h3>Le temps</h3>
+                    <p>
+                        Un élevage patient en cave afin de développer
+                        complexité et élégance.
+                    </p>
+                </div>
+            </section>
+
+            <!-- IMAGE IMMERSION -->
+            <section class="immersion">
+                <div>
+                    <h2>L'empreinte d'un terroir</h2>
+
+                    <a href="terroir.html" class="button">Découvrir notre terroir</a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <p>© 2026 Domaine Champagne - Tous droits réservés</p>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>

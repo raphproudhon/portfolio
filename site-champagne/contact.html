@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+
+    <title>Contact - Maison d'Exception</title>
+    <meta name="description" content="Contactez le domaine pour toute question, réservation de visite ou dégustation de nos champagnes.">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="assets/images/contact-hero.jpg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="age-lock">
+
+    <!-- VERIFICATION AGE -->
+    <div class="age-overlay" id="agePopup" role="dialog" aria-modal="true" aria-labelledby="ageVerifTitle">
+        <div class="age-modal">
+
+            <div class="age-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <h2 id="ageVerifTitle">Vérification d'âge</h2>
+
+            <p>
+                L'accès à ce site est réservé aux personnes majeures.
+                Veuillez confirmer que vous avez l'âge légal pour découvrir nos champagnes.
+            </p>
+
+            <div class="age-buttons">
+                <button type="button" id="yesAge">J'ai l'âge légal</button>
+                <button type="button" id="noAge">Quitter</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="site-content">
+
+        <div class="loader" aria-hidden="true">
+            <div class="loader-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </a>
+
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="domaine.html">Le domaine</a></li>
+                    <li><a href="terroir.html">Terroir</a></li>
+                    <li><a href="champagnes.html">Champagnes</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            <!-- HERO -->
+            <section class="page-hero contact-hero">
+                <div class="page-overlay"></div>
+
+                <div class="page-title">
+                    <p class="subtitle">Nous écrire</p>
+
+                    <h1>
+                        Restons<br>
+                        en contact
+                    </h1>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section class="contact-section">
+
+                <div class="contact-info">
+                    <p class="subtitle">Nous trouver</p>
+
+                    <h2>Une question, une visite à réserver ?</h2>
+
+                    <p>
+                        Notre équipe se tient à votre disposition pour toute demande
+                        concernant nos champagnes, la visite du domaine ou une dégustation.
+                    </p>
+
+                    <ul class="contact-details">
+                        <li>
+                            <strong>Adresse</strong>
+                            12 rue des Vignes, 10340 Les Riceys, France
+                        </li>
+                        <li>
+                            <strong>Téléphone</strong>
+                            +33 (0)3 25 00 00 00
+                        </li>
+                        <li>
+                            <strong>Email</strong>
+                            contact@domaine-champagne.fr
+                        </li>
+                        <li>
+                            <strong>Horaires</strong>
+                            Du lundi au samedi, 9h – 18h (sur rendez-vous)
+                        </li>
+                    </ul>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div>
+                            <label for="firstname">Prénom</label>
+                            <input type="text" id="firstname" name="firstname" required>
+                        </div>
+                        <div>
+                            <label for="lastname">Nom</label>
+                            <input type="text" id="lastname" name="lastname" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div>
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject" placeholder="Visite, dégustation, question...">
+                    </div>
+
+                    <div>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit">Envoyer</button>
+                </form>
+
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-logo">
+                CHAMPAGNE
+                <span>Maison d'Exception</span>
+            </div>
+
+            <p>© 2026 Domaine Champagne - Tous droits réservés</p>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>

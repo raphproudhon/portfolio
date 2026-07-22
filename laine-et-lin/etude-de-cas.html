@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étude de cas — Laine &amp; Lin, une marque sans photos</title>
+<meta name="description" content="Étude de cas : one-page pour une boutique fictive de vêtements en fibres naturelles — identité 100% CSS/SVG, démarche design et choix techniques.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ecru:#f4efe6; --lin:#ddd3c0; --charbon:#26241f; --indigo:#3b5268;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Karla', sans-serif; color:var(--charbon); background:var(--ecru); font-weight:300; line-height:1.8;}
+  h1,h2,h3{font-family:'Marcellus', serif; font-weight:400; line-height:1.15;}
+  a{color:inherit;}
+
+  .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--indigo); font-weight:600; margin-bottom:14px;}
+  .hero{background:var(--charbon); color:var(--ecru); padding:clamp(80px,12vw,140px) 8% 60px;}
+  .hero .kicker{color:var(--lin);}
+  .hero h1{font-size:clamp(36px,6vw,64px); max-width:780px;}
+  .hero p.lead{margin-top:20px; max-width:560px; font-size:14px; color:#a39d90;}
+
+  .meta-strip{background:var(--charbon); color:var(--ecru); padding:0 8% 60px; display:flex; flex-wrap:wrap; gap:clamp(30px,6vw,80px);}
+  .meta-strip div .k{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#6e695f; margin-bottom:6px;}
+  .meta-strip div .v{font-family:'Marcellus', serif; font-size:19px; color:var(--lin);}
+
+  section.block{padding:clamp(50px,8vw,90px) 8%; max-width:1100px;}
+  section.block.alt{background:#fff; max-width:none;}
+  section.block.alt .inner{max-width:calc(1100px - 16%);}
+  .block h2{font-size:clamp(28px,4vw,42px); margin-bottom:18px;}
+  .block p{max-width:640px; font-size:14.5px; color:#4a453b; margin-bottom:16px;}
+  .block ul{max-width:640px; margin:0 0 16px 20px; font-size:14.5px; color:#4a453b;}
+  .block li{margin-bottom:8px;}
+  .block li b{font-weight:500; color:var(--charbon);}
+  .block code{font-size:13px; background:rgba(38,36,31,.06); padding:2px 6px; border-radius:4px;}
+
+  .visual-band{
+    margin:34px 0 10px; max-width:820px; height:200px; display:flex;
+  }
+  .visual-band .a{flex:2; background:
+      repeating-linear-gradient(0deg, rgba(38,36,31,.045) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(90deg, rgba(38,36,31,.045) 0 1px, transparent 1px 5px),
+      var(--lin);
+    display:flex; align-items:center; justify-content:center;}
+  .visual-band .b{flex:1; background:var(--indigo); display:flex; align-items:center; justify-content:center;}
+  .img-caption{font-size:12px; color:#8a8375; margin-top:8px;}
+
+  .deliverables{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin-top:30px;}
+  .del-card{
+    background:var(--ecru); border:1px solid rgba(38,36,31,.1); padding:26px 26px 22px;
+    text-decoration:none; transition:transform .3s, box-shadow .3s; display:block;
+  }
+  .del-card:hover{transform:translateY(-6px); box-shadow:0 12px 30px rgba(38,36,31,.1);}
+  .del-card .t{font-family:'Marcellus', serif; font-size:21px;}
+  .del-card .d{font-size:12.5px; color:#5c574c; margin-top:8px; line-height:1.6;}
+  .del-card .go{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--indigo); font-weight:600; margin-top:16px; display:block;}
+
+  footer{background:var(--charbon); color:#a39d90; text-align:center; padding:50px 8%; font-size:12px; letter-spacing:.5px;}
+  footer a{color:var(--lin); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Étude de cas · Marque fictive</p>
+  <h1>Laine &amp; Lin : une identité de marque… sans une seule photo</h1>
+  <p class="lead">
+    Concevoir le site d'une boutique de vêtements en fibres naturelles avec une contrainte
+    radicale : zéro image. Tout est typographie, texture CSS et illustration SVG.
+  </p>
+</header>
+<div class="meta-strip">
+  <div><div class="k">Rôle</div><div class="v">Branding · UI/UX · Dev</div></div>
+  <div><div class="k">Type</div><div class="v">One-page e-commerce</div></div>
+  <div><div class="k">Stack</div><div class="v">HTML · CSS · JS · SVG</div></div>
+  <div><div class="k">Année</div><div class="v">2026</div></div>
+</div>
+
+<section class="block">
+  <h2>Le brief (fictif, mené comme un vrai)</h2>
+  <p>
+    Laine &amp; Lin est une boutique-atelier imaginaire : des vêtements en laine, lin et
+    coton bio, teints aux plantes, cousus à Roubaix, vendus en précommande.
+    Le site doit porter un positionnement anti-fast-fashion : moins, mais mieux.
+  </p>
+  <ul>
+    <li><b>Cibles :</b> consommateurs exigeants sur l'origine, sensibles à l'artisanat et à la durabilité.</li>
+    <li><b>Conversion :</b> l'inscription à la newsletter saisonnière (la marque vend en précommande).</li>
+    <li><b>Contrainte choisie :</b> la marque démarre, pas de shooting photo — le site doit être beau sans images.</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>La démarche design</h2>
+  <p>
+    La contrainte « zéro photo » devient le concept : <b>montrer la matière plutôt que le mannequin</b>.
+    Les couleurs sont des couleurs de fibre (écru, lin, charbon, indigo de cuve), les fonds sont
+    des trames tissées dessinées en CSS, et les produits sont illustrés au trait en SVG.
+  </p>
+  <ul>
+    <li><b>Typographie :</b> Marcellus (capitales romaines, voix posée) + Karla (chaleur humaniste).</li>
+    <li><b>Textures :</b> deux <code>repeating-linear-gradient</code> croisés suffisent à tisser une toile — zéro requête réseau.</li>
+    <li><b>Illustrations :</b> pull, chemise, pantalon dessinés au trait 2.5px, cohérents avec les pictos.</li>
+    <li><b>Narration :</b> collection → matières → atelier → engagements → newsletter, du produit à la preuve.</li>
+  </ul>
+  <div class="visual-band">
+    <div class="a">
+      <svg width="90" height="106" viewBox="0 0 120 140" fill="none" stroke="#26241f" stroke-width="2.5">
+        <path d="M38 20 L20 32 L14 60 L28 56 L28 122 L92 122 L92 56 L106 60 L100 32 L82 20 L60 30 L38 20Z"/>
+        <path d="M60 30 L60 122" opacity=".55"/>
+      </svg>
+    </div>
+    <div class="b">
+      <svg width="80" height="80" viewBox="0 0 100 100" fill="none" stroke="#f4efe6" stroke-width="2">
+        <circle cx="50" cy="50" r="30"/>
+        <path d="M25 40 Q50 25 75 40M22 52 Q50 40 78 52M26 64 Q50 55 74 64"/>
+      </svg>
+    </div>
+  </div>
+  <p class="img-caption">Trame tissée en CSS pur + illustrations SVG au trait : l'identité complète pèse quelques Ko.</p>
+</div></section>
+
+<section class="block">
+  <h2>Les choix techniques</h2>
+  <ul>
+    <li><b>Poids plume :</b> aucune image bitmap — le site complet (hors fontes) tient sous 30 Ko. Chargement quasi instantané, même en 3G.</li>
+    <li><b>Animations au scroll :</b> <code>IntersectionObserver</code> natif, apparitions douces, aucune librairie.</li>
+    <li><b>Header dynamique :</b> transparent sur le hero, fond flouté au scroll.</li>
+    <li><b>Micro-interactions :</b> tampon rotatif en SVG (<code>textPath</code> + animation CSS), cartes produits en élévation.</li>
+    <li><b>Accessibilité :</b> décor en <code>aria-hidden</code>, labels de formulaire, contrastes charbon/écru vérifiés.</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>Les livrables</h2>
+  <div class="deliverables">
+    <a class="del-card" href="index.html">
+      <span class="t">One-page</span>
+      <span class="d">Collection, matières, atelier, engagements, newsletter.</span>
+      <span class="go">Voir le site →</span>
+    </a>
+    <a class="del-card" href="ui-kit.html">
+      <span class="t">UI Kit</span>
+      <span class="d">Palette, textures, typographies, composants, règles d'usage.</span>
+      <span class="go">Voir l'UI kit →</span>
+    </a>
+  </div>
+</div></section>
+
+<section class="block">
+  <h2>Ce que ce projet démontre</h2>
+  <ul>
+    <li><b>Faire d'une contrainte un style :</b> pas de photos → une identité graphique plus forte et plus légère.</li>
+    <li><b>Le dessin dans le code :</b> textures, illustrations et logo réalisés directement en CSS/SVG, retouchables en quelques lignes.</li>
+    <li><b>La performance comme argument commercial :</b> un site quasi instantané, utile à tout commerçant.</li>
+  </ul>
+</section>
+
+<footer>
+  Étude de cas — marque fictive créée intégralement à des fins de démonstration.<br><br>
+  <a href="../index.html">← Retour au portfolio</a> · <a href="index.html">Voir le site Laine &amp; Lin</a>
+</footer>
+
+</body>
+</html>

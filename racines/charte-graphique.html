@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Racines — Charte graphique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#2f4f3e;
+    --green-mid:#4c7a5e;
+    --terracotta:#c97b4a;
+    --cream:#f7f3ec;
+    --cream-2:#efe8db;
+    --ink:#1f2a24;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Work Sans', sans-serif; background:var(--cream); color:var(--ink); line-height:1.6;}
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--green-deep);}
+  .wrap{max-width:960px; margin:0 auto; padding:60px 24px 100px;}
+  .cover{ text-align:center; padding:60px 24px 80px; }
+  .cover .icon{margin:0 auto 24px;}
+  .cover h1{font-size:44px; margin-bottom:10px;}
+  .cover p{color:#6b7a70; font-size:15px;}
+  section{margin-bottom:72px;}
+  .section-label{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--terracotta); font-weight:700; margin-bottom:10px;}
+  section h2{font-size:28px; margin-bottom:28px;}
+
+  /* Logo block */
+  .logo-showcase{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .logo-box{ border-radius:20px; padding:44px 24px; display:flex; align-items:center; justify-content:center; }
+  .logo-box.light{ background:var(--white); border:1px solid rgba(47,79,62,0.08);}
+  .logo-box.dark{ background:var(--green-deep); }
+  .logo-caption{ font-size:13px; color:#8a9a8e; text-align:center; margin-top:10px; }
+
+  /* Colors */
+  .palette{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
+  .swatch{ border-radius:16px; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,0.05); }
+  .swatch-color{ height:100px; }
+  .swatch-info{ background:var(--white); padding:14px 16px; }
+  .swatch-info .name{ font-weight:600; font-size:14px; margin-bottom:4px; }
+  .swatch-info .hex{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color:#8a9a8e; }
+
+  /* Typography */
+  .type-sample{ background:var(--white); border-radius:18px; padding:32px; margin-bottom:20px; }
+  .type-sample .label{ font-size:12px; color:#8a9a8e; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px; }
+  .type-h{ font-family:'Fraunces', serif; font-size:38px; color:var(--green-deep); margin-bottom:6px; }
+  .type-body{ font-family:'Work Sans', sans-serif; font-size:16px; color:var(--ink); max-width:560px; }
+  .type-meta{ font-size:13px; color:#8a9a8e; margin-top:14px; }
+
+  /* Usage */
+  .usage-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .usage-card{ border-radius:16px; padding:24px; }
+  .usage-card.do{ background:#e4efe6; }
+  .usage-card.dont{ background:#fbe9e1; }
+  .usage-card .tag{ font-weight:700; font-size:13px; margin-bottom:10px; display:block; }
+  .usage-card.do .tag{ color:var(--green-mid); }
+  .usage-card.dont .tag{ color:var(--terracotta); }
+  .usage-card p{ font-size:13.5px; opacity:0.85; }
+
+  .footer-note{ text-align:center; font-size:13px; color:#8a9a8e; padding-top:40px; border-top:1px solid rgba(47,79,62,0.1); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="icon">
+    <svg width="72" height="90" viewBox="0 0 100 130"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3"/></svg>
+  </div>
+  <h1>Racines</h1>
+  <p>Charte graphique — v1, juillet 2026</p>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <div class="section-label">Identité</div>
+    <h2>Logo</h2>
+    <div class="logo-showcase">
+      <div>
+        <div class="logo-box light">
+          <svg width="220" height="64" viewBox="0 0 480 140"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e" transform="translate(10,20)"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3" transform="translate(10,20)"/><text x="120" y="102" font-family="Georgia, serif" font-weight="600" font-size="52" fill="#2f4f3e">Racines</text></svg>
+        </div>
+        <div class="logo-caption">Version principale — fond clair</div>
+      </div>
+      <div>
+        <div class="logo-box dark">
+          <svg width="220" height="64" viewBox="0 0 480 140"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#f7f3ec" transform="translate(10,20)"/><path d="M50 100V40" stroke="#2f4f3e" stroke-width="3" transform="translate(10,20)"/><text x="120" y="102" font-family="Georgia, serif" font-weight="600" font-size="52" fill="#f7f3ec">Racines</text></svg>
+        </div>
+        <div class="logo-caption">Version inversée — fond foncé</div>
+      </div>
+      <div>
+        <div class="logo-box light" style="padding:36px;">
+          <svg width="70" height="70" viewBox="0 0 100 130"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3"/></svg>
+        </div>
+        <div class="logo-caption">Icône seule — favicon, app icon, réseaux sociaux</div>
+      </div>
+      <div>
+        <div class="logo-box light" style="padding:36px;">
+          <svg width="70" height="70" viewBox="0 0 100 130"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="none" stroke="#2f4f3e" stroke-width="4"/><path d="M50 100V40" stroke="#2f4f3e" stroke-width="3"/></svg>
+        </div>
+        <div class="logo-caption">Version outline — usage sur textile, gravure</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Palette</div>
+    <h2>Couleurs</h2>
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#2f4f3e;"></div>
+        <div class="swatch-info"><div class="name">Vert profond</div><div class="hex">#2F4F3E — primaire</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#4c7a5e;"></div>
+        <div class="swatch-info"><div class="name">Vert moyen</div><div class="hex">#4C7A5E — secondaire</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#c97b4a;"></div>
+        <div class="swatch-info"><div class="name">Terracotta</div><div class="hex">#C97B4A — accent / CTA</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f7f3ec;"></div>
+        <div class="swatch-info"><div class="name">Crème</div><div class="hex">#F7F3EC — fond principal</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#efe8db;"></div>
+        <div class="swatch-info"><div class="name">Crème foncée</div><div class="hex">#EFE8DB — fond secondaire</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1f2a24;"></div>
+        <div class="swatch-info"><div class="name">Encre</div><div class="hex">#1F2A24 — texte</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Typographie</div>
+    <h2>Polices</h2>
+    <div class="type-sample">
+      <div class="label">Titres — Fraunces (serif)</div>
+      <div class="type-h">Des plantes qui survivent vraiment.</div>
+      <div class="type-meta">Fraunces, graisses 500 à 700 · utilisée pour les titres et accroches</div>
+    </div>
+    <div class="type-sample">
+      <div class="label">Texte courant — Work Sans (sans-serif)</div>
+      <div class="type-body">Racines vous envoie chaque mois une plante adaptée à votre intérieur, avec un guide d'entretien simple et des rappels pour ne plus jamais l'oublier.</div>
+      <div class="type-meta">Work Sans, graisses 400 à 600 · utilisée pour le corps de texte, boutons, UI</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Bon usage</div>
+    <h2>Règles d'utilisation</h2>
+    <div class="usage-grid">
+      <div class="usage-card do">
+        <span class="tag">✓ À faire</span>
+        <p>Garder un espace de respiration autour du logo équivalent à la hauteur de l'icône. Utiliser la version inversée sur fonds foncés (vert profond, photos sombres).</p>
+      </div>
+      <div class="usage-card dont">
+        <span class="tag">✗ À éviter</span>
+        <p>Ne pas étirer, colorer différemment ou faire pivoter le logo. Ne pas placer le logo couleur sur un fond de couleur proche (vert sur vert).</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-note">Racines — Charte graphique v1 · projet fictif réalisé à des fins de portfolio</div>
+</div>
+
+</body>
+</html>

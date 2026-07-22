@@ -1,0 +1,18 @@
+<svg viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wordmark { font-family: Georgia, 'Times New Roman', serif; font-weight: 600; }
+    </style>
+  </defs>
+  <!-- Icon: leaf + root -->
+  <g transform="translate(10,20)">
+    <path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e"/>
+    <path d="M50 100V40" stroke="#f7f3ec" stroke-width="3"/>
+    <path d="M50 55C50 55 35 50 30 34" stroke="#f7f3ec" stroke-width="2.5" fill="none"/>
+    <path d="M50 70C50 70 65 65 70 49" stroke="#f7f3ec" stroke-width="2.5" fill="none"/>
+    <path d="M40 100C36 108 30 112 22 112" stroke="#c97b4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M60 100C64 108 70 112 78 112" stroke="#c97b4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="110" y="82" class="wordmark" font-size="52" fill="#2f4f3e">Racines</text>
+</svg>

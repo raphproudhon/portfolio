@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laine &amp; Lin — UI Kit &amp; Design System</title>
+<meta name="description" content="Design system de la marque fictive Laine & Lin : couleurs, typographies, textures, boutons et composants — projet de démonstration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ecru:#f4efe6; --lin:#ddd3c0; --lin-clair:#e9e2d3;
+    --charbon:#26241f; --indigo:#3b5268; --indigo-deep:#2c3f51;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Karla', sans-serif; background:var(--ecru); color:var(--charbon); font-weight:300; line-height:1.75;}
+  h1,h2,h3{font-family:'Marcellus', serif; font-weight:400; line-height:1.15;}
+  a{color:inherit;}
+
+  .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--indigo); font-weight:600; margin-bottom:14px;}
+
+  .weave{
+    background:
+      repeating-linear-gradient(0deg, rgba(38,36,31,.045) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(90deg, rgba(38,36,31,.045) 0 1px, transparent 1px 5px),
+      var(--lin);
+  }
+  .weave-indigo{
+    background:
+      repeating-linear-gradient(0deg, rgba(244,239,230,.05) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(90deg, rgba(244,239,230,.05) 0 1px, transparent 1px 5px),
+      var(--indigo);
+  }
+
+  .kit-hero{background:var(--charbon); color:var(--ecru); padding:clamp(80px,12vw,150px) 8% 70px; position:relative; overflow:hidden;}
+  .kit-hero::after{
+    content:"L&L"; position:absolute; right:-1%; bottom:-60px;
+    font-family:'Marcellus', serif; font-size:clamp(140px,22vw,300px);
+    color:rgba(221,211,192,.06); pointer-events:none;
+  }
+  .kit-hero .kicker{color:var(--lin);}
+  .kit-hero h1{font-size:clamp(40px,7vw,76px); max-width:720px;}
+  .kit-hero p.lead{margin-top:22px; max-width:540px; font-size:14px; color:#a39d90;}
+
+  section.block{padding:clamp(60px,9vw,110px) 8%;}
+  section.block.alt{background:#fff;}
+  .block h2{font-size:clamp(30px,4.5vw,46px); margin-bottom:10px;}
+  .block > p.desc{max-width:560px; font-size:14px; color:#5c574c; margin-bottom:45px;}
+
+  /* Logo */
+  .logo-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px;}
+  .logo-tile{min-height:190px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(38,36,31,.09); position:relative; background:#fff;}
+  .logo-tile .tag{position:absolute; top:12px; left:14px; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#a39d90; font-weight:500;}
+  .logo-tile.dark{background:var(--charbon); border-color:var(--charbon);}
+  .logo-tile.tex{border:none;}
+  .ll-logo{font-family:'Marcellus', serif; font-size:26px; letter-spacing:2px;}
+  .ll-logo b{color:var(--indigo); font-weight:400;}
+  .dark .ll-logo{color:var(--ecru);}
+  .dark .ll-logo b{color:var(--lin);}
+  .ll-mono{font-family:'Marcellus', serif; font-size:40px; color:var(--indigo);}
+
+  /* Couleurs */
+  .swatches{display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:20px;}
+  .swatch{border:1px solid rgba(38,36,31,.09); background:#fff;}
+  .swatch .chip{height:120px;}
+  .swatch .meta{padding:15px 17px;}
+  .swatch .name{font-family:'Marcellus', serif; font-size:19px;}
+  .swatch .hex{font-family:'JetBrains Mono', monospace; font-size:11px; color:#a39d90; margin-top:2px;}
+  .swatch .use{font-size:12px; color:#5c574c; margin-top:8px; line-height:1.6;}
+
+  /* Textures */
+  .tex-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:30px;}
+  .tex-tile{height:150px; border:1px solid rgba(38,36,31,.09);}
+  .tex-cap{font-size:12px; color:#8a8375; margin-top:8px;}
+
+  /* Typo */
+  .type-row{display:grid; grid-template-columns:220px 1fr; gap:30px; align-items:baseline; padding:26px 0; border-bottom:1px solid rgba(38,36,31,.09);}
+  .type-row:first-of-type{border-top:1px solid rgba(38,36,31,.09);}
+  .type-meta{font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#a39d90; line-height:1.9;}
+  .type-meta b{color:var(--charbon); font-weight:600; display:block;}
+  .spec-h1{font-family:'Marcellus', serif; font-size:clamp(38px,5vw,62px); line-height:1.1;}
+  .spec-h1 em{font-style:normal; color:var(--indigo);}
+  .spec-h2{font-family:'Marcellus', serif; font-size:clamp(28px,3.5vw,44px);}
+  .spec-sub{font-size:12px; letter-spacing:4px; text-transform:uppercase; color:var(--indigo); font-weight:600;}
+  .spec-body{font-size:15px; line-height:1.75; max-width:520px;}
+
+  /* Boutons */
+  .demo-row{display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; margin-bottom:36px;}
+  .demo-cell{display:flex; flex-direction:column; gap:14px;}
+  .demo-cell .cap{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#a39d90; font-weight:500;}
+  .btn{
+    display:inline-block; padding:17px 42px; background:var(--charbon); color:var(--ecru);
+    font-size:12px; letter-spacing:3px; text-transform:uppercase; font-weight:600;
+    border:1px solid var(--charbon); transition:.35s; cursor:pointer; font-family:'Karla', sans-serif;
+    text-decoration:none; text-align:center;
+  }
+  .btn:hover, .btn.is-hover{background:transparent; color:var(--charbon);}
+  .on-dark{background:var(--charbon); padding:34px 38px; display:flex; flex-wrap:wrap; gap:40px;}
+  .on-dark .cap{color:#6e695f;}
+  .btn.light{background:var(--ecru); color:var(--charbon); border-color:var(--ecru);}
+  .btn.light:hover, .btn.light.is-hover{background:transparent; color:var(--ecru);}
+
+  /* Composants */
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:38px; align-items:start;}
+  .comp-cell .cap{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#a39d90; font-weight:500; margin-bottom:16px;}
+
+  .piece{background:var(--ecru); border:1px solid rgba(38,36,31,.07); padding-bottom:26px; text-align:center; transition:transform .35s, box-shadow .35s; cursor:pointer;}
+  .piece:hover{transform:translateY(-10px); box-shadow:0 22px 44px rgba(38,36,31,.1);}
+  .piece .visual{height:210px; display:flex; align-items:center; justify-content:center;}
+  .piece h3{font-size:24px; margin-top:22px;}
+  .piece .matiere{font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--indigo); font-weight:600; margin-top:6px;}
+  .piece .prix{display:inline-block; margin-top:14px; font-family:'Marcellus', serif; font-size:19px;}
+
+  .nl{border:1px solid var(--charbon); display:flex; background:#fff;}
+  .nl input{flex:1; padding:15px 17px; border:none; background:transparent; font-family:'Karla', sans-serif; font-size:14px; min-width:0;}
+  .nl input:focus{outline:none;}
+  .nl button{padding:15px 24px; border:none; background:var(--charbon); color:var(--ecru); font-size:11px; letter-spacing:2px; text-transform:uppercase; font-weight:600; cursor:pointer; transition:.3s; font-family:'Karla', sans-serif;}
+  .nl button:hover{background:var(--indigo);}
+
+  .eng-card{padding:26px 26px; background:var(--ecru); border-left:2px solid var(--indigo);}
+  .eng-card h3{font-size:19px;}
+  .eng-card p{font-size:13px; color:#5c574c; margin-top:8px;}
+
+  /* Règles */
+  .rules{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px;}
+  .rule{background:#fff; border:1px solid rgba(38,36,31,.09); padding:24px 26px;}
+  .rule .ok{color:#4a7d5f; font-weight:600; font-size:11px; letter-spacing:2px; text-transform:uppercase;}
+  .rule .ko{color:#a8563f; font-weight:600; font-size:11px; letter-spacing:2px; text-transform:uppercase;}
+  .rule p{font-size:13px; color:#5c574c; margin-top:10px;}
+
+  footer{background:var(--charbon); color:#a39d90; text-align:center; padding:56px 8%; font-size:12px; letter-spacing:.5px;}
+  footer a{color:var(--lin); text-decoration:none;}
+
+  @media (max-width:760px){.type-row{grid-template-columns:1fr; gap:10px;}}
+</style>
+</head>
+<body>
+
+<header class="kit-hero">
+  <p class="kicker">Design system · v1.0 · marque fictive</p>
+  <h1>UI Kit<br>Laine &amp; Lin</h1>
+  <p class="lead">
+    Documentation de l'identité et des composants du site : couleurs, textures tissées,
+    typographies et éléments d'interface d'une marque de vêtements en fibres naturelles.
+  </p>
+</header>
+
+<!-- Logo -->
+<section class="block">
+  <p class="kicker">01 — Identité</p>
+  <h2>Logotype</h2>
+  <p class="desc">
+    Un logotype typographique en Marcellus, l'esperluette teinte à l'indigo —
+    le seul ornement d'une marque qui n'en veut pas.
+  </p>
+  <div class="logo-grid">
+    <div class="logo-tile"><span class="tag">Fond clair</span><span class="ll-logo">LAINE <b>&amp;</b> LIN</span></div>
+    <div class="logo-tile dark"><span class="tag">Fond sombre</span><span class="ll-logo">LAINE <b>&amp;</b> LIN</span></div>
+    <div class="logo-tile tex weave"><span class="tag">Sur texture</span><span class="ll-logo">LAINE <b>&amp;</b> LIN</span></div>
+    <div class="logo-tile"><span class="tag">Monogramme — étiquettes, boutons</span><span class="ll-mono">L&amp;L</span></div>
+  </div>
+</section>
+
+<!-- Couleurs -->
+<section class="block alt">
+  <p class="kicker">02 — Couleurs &amp; textures</p>
+  <h2>Palette</h2>
+  <p class="desc">
+    Des couleurs de matière, pas d'écran : écru du coton cru, lin naturel,
+    charbon de la bure, indigo de cuve. Aucune couleur « chimique ».
+  </p>
+
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#f4efe6; border-bottom:1px solid rgba(38,36,31,.06);"></div>
+      <div class="meta"><div class="name">Écru</div><div class="hex">#F4EFE6</div><div class="use">Fond principal — le coton cru.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#ddd3c0;"></div>
+      <div class="meta"><div class="name">Lin</div><div class="hex">#DDD3C0</div><div class="use">Surfaces secondaires, textures.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#26241f;"></div>
+      <div class="meta"><div class="name">Charbon</div><div class="hex">#26241F</div><div class="use">Texte, boutons, footer — jamais un noir pur.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#3b5268;"></div>
+      <div class="meta"><div class="name">Indigo</div><div class="hex">#3B5268</div><div class="use">Accent : liens, esperluette, matières.</div></div></div>
+  </div>
+
+  <div class="tex-grid">
+    <div><div class="tex-tile weave"></div><div class="tex-cap">Texture « toile » — trame CSS sur fond lin, aucune image.</div></div>
+    <div><div class="tex-tile weave-indigo"></div><div class="tex-cap">Texture « cuve d'indigo » — même trame sur fond indigo.</div></div>
+  </div>
+</section>
+
+<!-- Typo -->
+<section class="block">
+  <p class="kicker">03 — Typographie</p>
+  <h2>Typographies &amp; échelle</h2>
+  <p class="desc">
+    La Marcellus, inspirée des capitales romaines, donne la voix posée de la marque ;
+    la Karla assure la lecture avec une pointe de chaleur.
+  </p>
+
+  <div class="type-row">
+    <div class="type-meta"><b>H1 — Hero</b>Marcellus · 42→84px · lh 1.15</div>
+    <div class="spec-h1">Des vêtements qui viennent <em>de la terre</em></div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>H2 — Section</b>Marcellus · 30→50px</div>
+    <div class="spec-h2">La fibre avant la forme</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>Sous-titre</b>Karla 600 · 12px · caps · +4px</div>
+    <div class="spec-sub">Fibres naturelles · Atelier français</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>Corps de texte</b>Karla 300 · 14-16px · lh 1.75</div>
+    <div class="spec-body">
+      Laine des Pyrénées, lin de Normandie, coton biologique. Des pièces intemporelles,
+      teintes aux plantes, cousues pour durer des décennies.
+    </div>
+  </div>
+</section>
+
+<!-- Boutons -->
+<section class="block alt">
+  <p class="kicker">04 — Boutons</p>
+  <h2>Boutons &amp; interactions</h2>
+  <p class="desc">
+    Un bouton plein charbon qui se vide au survol — le contour reste, la matière s'en va.
+    Une seule forme, deux contextes.
+  </p>
+
+  <div class="demo-row">
+    <div class="demo-cell"><span class="cap">Sur fond clair · repos</span><a class="btn" href="#" onclick="return false;">Découvrir la collection</a></div>
+    <div class="demo-cell"><span class="cap">Sur fond clair · survol</span><a class="btn is-hover" href="#" onclick="return false;">Découvrir la collection</a></div>
+  </div>
+  <div class="on-dark">
+    <div class="demo-cell"><span class="cap">Sur fond sombre · repos</span><a class="btn light" href="#" onclick="return false;">Voir l'atelier</a></div>
+    <div class="demo-cell"><span class="cap">Sur fond sombre · survol</span><a class="btn light is-hover" href="#" onclick="return false;">Voir l'atelier</a></div>
+  </div>
+</section>
+
+<!-- Composants -->
+<section class="block">
+  <p class="kicker">05 — Composants</p>
+  <h2>Composants récurrents</h2>
+  <p class="desc">
+    Carte produit illustrée en SVG (pas de photos : la marque montre le trait, pas le mannequin),
+    formulaire une-ligne et carte engagement.
+  </p>
+
+  <div class="comp-grid">
+    <div class="comp-cell">
+      <div class="cap">Carte produit · survol : élévation</div>
+      <article class="piece">
+        <div class="visual weave-indigo">
+          <svg width="95" height="112" viewBox="0 0 120 140" fill="none" stroke="#f4efe6" stroke-width="2.5">
+            <path d="M38 22 L20 34 L14 62 L28 58 L28 122 L92 122 L92 58 L106 62 L100 34 L82 22 Q60 34 38 22Z"/>
+            <path d="M38 22 Q60 40 82 22" opacity=".6"/>
+            <path d="M28 108 L92 108" opacity=".5"/>
+          </svg>
+        </div>
+        <h3>Le pull Ardenne</h3>
+        <div class="matiere">100% laine des Pyrénées</div>
+        <span class="prix">145 €</span>
+      </article>
+    </div>
+
+    <div class="comp-cell">
+      <div class="cap">Formulaire newsletter</div>
+      <div class="nl">
+        <input type="email" placeholder="Votre adresse e-mail" aria-label="Adresse e-mail">
+        <button type="button">S'inscrire</button>
+      </div>
+      <div class="cap" style="margin-top:34px;">Carte engagement · filet indigo</div>
+      <div class="eng-card">
+        <h3>Réparation à vie</h3>
+        <p>Un accroc, une couture lâche ? Retour atelier, réparation offerte, pour toujours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Règles -->
+<section class="block alt">
+  <p class="kicker">06 — Règles d'usage</p>
+  <h2>À faire / à éviter</h2>
+  <p class="desc">L'identité tient à sa retenue : des matières, des traits, pas d'effets.</p>
+
+  <div class="rules">
+    <div class="rule"><span class="ok">✓ À faire</span><p>Illustrer en SVG au trait (2–2.5px) : produits, pictos, atelier — un seul style de dessin.</p></div>
+    <div class="rule"><span class="ok">✓ À faire</span><p>Utiliser les textures tissées CSS pour donner de la matière aux aplats, jamais d'images de stock.</p></div>
+    <div class="rule"><span class="ok">✓ À faire</span><p>Réserver l'indigo aux accents : esperluette, liens, matières, filets.</p></div>
+    <div class="rule"><span class="ko">✗ À éviter</span><p>Noir pur (#000) ou blanc pur (#FFF) en grande surface : toujours charbon et écru.</p></div>
+    <div class="rule"><span class="ko">✗ À éviter</span><p>Ombres portées lourdes, dégradés brillants, arrondis prononcés — la marque est mate et droite.</p></div>
+    <div class="rule"><span class="ko">✗ À éviter</span><p>Plus d'une couleur d'accent par écran : l'indigo travaille seul.</p></div>
+  </div>
+</section>
+
+<footer>
+  UI Kit — marque fictive créée intégralement à des fins de démonstration.<br><br>
+  <a href="index.html">← Retour au site</a> · <a href="etude-de-cas.html">Étude de cas</a>
+</footer>
+
+</body>
+</html>

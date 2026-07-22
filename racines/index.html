@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Racines — Abonnement plantes & jardinage urbain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#2f4f3e;
+    --green-mid:#4c7a5e;
+    --terracotta:#c97b4a;
+    --cream:#f7f3ec;
+    --cream-2:#efe8db;
+    --ink:#1f2a24;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; color:var(--green-deep);}
+  a{text-decoration:none; color:inherit;}
+  img,svg{display:block;}
+  .container{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* Nav */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,243,236,0.92); backdrop-filter: blur(6px);
+    border-bottom:1px solid rgba(47,79,62,0.08);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1100px; margin:0 auto;}
+  .logo{display:flex; align-items:center; gap:8px; font-family:'Fraunces', serif; font-weight:700; font-size:22px; color:var(--green-deep);}
+  .nav-links{display:flex; gap:32px; font-size:15px; font-weight:500;}
+  .nav-links a{opacity:0.85; transition:opacity .2s;}
+  .nav-links a:hover{opacity:1; color:var(--terracotta);}
+  .btn{
+    display:inline-block; padding:12px 26px; border-radius:999px;
+    background:var(--green-deep); color:var(--white); font-weight:600; font-size:14px;
+    transition:background .2s, transform .2s;
+  }
+  .btn:hover{background:var(--terracotta); transform:translateY(-1px);}
+  .btn-outline{
+    background:transparent; border:1.5px solid var(--green-deep); color:var(--green-deep);
+  }
+  .btn-outline:hover{background:var(--green-deep); color:var(--white);}
+
+  /* Hero */
+  .hero{
+    padding:90px 24px 70px; display:flex; align-items:center; gap:48px; flex-wrap:wrap;
+  }
+  .hero-text{flex:1 1 420px;}
+  .eyebrow{
+    display:inline-block; font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--terracotta); font-weight:600; margin-bottom:16px;
+  }
+  .hero h1{font-size:48px; line-height:1.15; margin-bottom:20px;}
+  .hero p{font-size:17px; max-width:480px; margin-bottom:32px; opacity:0.85;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .hero-visual{flex:1 1 380px; display:flex; justify-content:center;}
+
+  /* Steps */
+  .steps{padding:80px 24px; background:var(--white);}
+  .section-head{text-align:center; max-width:600px; margin:0 auto 56px;}
+  .section-head h2{font-size:34px; margin-bottom:12px;}
+  .section-head p{opacity:0.75; font-size:16px;}
+  .steps-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:36px;}
+  .step-card{text-align:center; padding:24px;}
+  .step-icon{
+    width:64px; height:64px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px;
+  }
+  .step-card h3{font-size:19px; margin-bottom:8px;}
+  .step-card p{font-size:14.5px; opacity:0.75;}
+
+  /* Plants */
+  .plants{padding:80px 24px;}
+  .plants-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:28px;}
+  .plant-card{
+    background:var(--white); border-radius:18px; padding:28px; text-align:center;
+    box-shadow:0 6px 24px rgba(47,79,62,0.06); transition:transform .2s, box-shadow .2s;
+  }
+  .plant-card:hover{transform:translateY(-4px); box-shadow:0 12px 30px rgba(47,79,62,0.12);}
+  .plant-icon{width:80px; height:80px; margin:0 auto 18px;}
+  .plant-card h3{font-size:18px; margin-bottom:4px;}
+  .plant-tag{
+    display:inline-block; font-size:12px; padding:3px 10px; border-radius:999px;
+    background:var(--cream-2); color:var(--green-mid); font-weight:600; margin-bottom:10px;
+  }
+  .plant-price{font-weight:600; color:var(--terracotta); margin-top:8px;}
+
+  /* Testimonials */
+  .testimonials{padding:80px 24px; background:var(--green-deep); color:var(--cream);}
+  .testimonials .section-head h2{color:var(--cream);}
+  .testimonials .section-head p{color:var(--cream); opacity:0.7;}
+  .t-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:28px;}
+  .t-card{background:rgba(255,255,255,0.06); border-radius:16px; padding:28px; font-size:15px;}
+  .t-card .stars{color:var(--terracotta); margin-bottom:12px; font-size:14px; letter-spacing:2px;}
+  .t-name{margin-top:16px; font-weight:600; font-size:14px; opacity:0.9;}
+
+  /* Pricing */
+  .pricing{padding:80px 24px;}
+  .price-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:28px; max-width:960px; margin:0 auto;}
+  .price-card{
+    background:var(--white); border-radius:18px; padding:36px 28px; text-align:center;
+    border:2px solid transparent; transition:border-color .2s, transform .2s;
+  }
+  .price-card.featured{border-color:var(--terracotta); transform:scale(1.03);}
+  .price-card h3{font-size:20px; margin-bottom:4px;}
+  .price-card .price{font-family:'Fraunces', serif; font-size:36px; color:var(--green-deep); margin:16px 0;}
+  .price-card .price span{font-size:15px; font-family:'Work Sans', sans-serif; font-weight:500; opacity:0.6;}
+  .price-card ul{list-style:none; margin:20px 0; text-align:left; font-size:14px;}
+  .price-card li{padding:6px 0; opacity:0.8; display:flex; gap:8px; align-items:baseline;}
+  .price-card li::before{content:"✓"; color:var(--green-mid); font-weight:700;}
+
+  /* CTA */
+  .cta{padding:70px 24px; text-align:center;}
+  .cta h2{font-size:32px; margin-bottom:16px;}
+  .cta p{opacity:0.75; margin-bottom:28px;}
+
+  /* Footer */
+  footer{padding:48px 24px 32px; background:var(--cream-2); font-size:14px;}
+  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:24px;}
+  .footer-col h4{font-size:14px; margin-bottom:12px; color:var(--green-deep);}
+  .footer-col a{display:block; opacity:0.75; margin-bottom:6px;}
+  .footer-bottom{border-top:1px solid rgba(47,79,62,0.12); padding-top:20px; opacity:0.6; font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+
+  @media(max-width:640px){
+    .hero h1{font-size:34px;}
+    nav{flex-wrap:wrap; gap:12px;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="#">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 5 16.5 5 10.5C5 6.9 8 4 11.5 4C11.5 4 12 4 12 4C12 4 12.5 4 12.5 4C16 4 19 6.9 19 10.5C19 16.5 12 21 12 21Z" stroke="#2f4f3e" stroke-width="1.6"/><path d="M12 21V9" stroke="#2f4f3e" stroke-width="1.6"/></svg>
+      Racines
+    </a>
+    <div class="nav-links">
+      <a href="#concept">Le concept</a>
+      <a href="#plantes">Nos plantes</a>
+      <a href="#abonnement">Abonnement</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn" href="#abonnement">S'abonner</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">Jardinage urbain, livré chez vous</span>
+    <h1>Des plantes qui survivent vraiment à votre appartement.</h1>
+    <p>Racines vous envoie chaque mois une plante adaptée à votre intérieur, avec un guide d'entretien simple et des rappels pour ne plus jamais l'oublier.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#abonnement">Découvrir les formules</a>
+      <a class="btn btn-outline" href="#concept">Comment ça marche</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg width="320" height="320" viewBox="0 0 320 320" fill="none">
+      <circle cx="160" cy="160" r="150" fill="#efe8db"/>
+      <path d="M160 260C160 260 100 220 100 160C100 120 130 90 160 90C190 90 220 120 220 160C220 220 160 260 160 260Z" fill="#4c7a5e"/>
+      <path d="M160 260V90" stroke="#2f4f3e" stroke-width="3"/>
+      <path d="M160 140C160 140 130 130 120 105" stroke="#2f4f3e" stroke-width="2.5" fill="none"/>
+      <path d="M160 175C160 175 195 165 205 138" stroke="#2f4f3e" stroke-width="2.5" fill="none"/>
+      <ellipse cx="160" cy="270" rx="46" ry="14" fill="#c97b4a" opacity="0.35"/>
+    </svg>
+  </div>
+</section>
+
+<section class="steps" id="concept">
+  <div class="container">
+    <div class="section-head">
+      <h2>Comment ça marche</h2>
+      <p>Trois étapes, zéro plante morte.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4" stroke="#2f4f3e" stroke-width="2" stroke-linecap="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="#2f4f3e" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>1. Le questionnaire</h3>
+        <p>Luminosité, taille de l'appart, temps disponible : on trouve la plante qui vous correspond.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M20 12l-6-6v4H4v4h10v4l6-6z" fill="#2f4f3e"/></svg>
+        </div>
+        <h3>2. La livraison</h3>
+        <p>Votre plante arrive en boîte adaptée, avec pot en terre cuite et guide d'entretien illustré.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="#2f4f3e" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>3. Les rappels</h3>
+        <p>Notifications d'arrosage et de rempotage via l'app, réglées automatiquement selon la saison.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="plants" id="plantes">
+  <div class="container">
+    <div class="section-head">
+      <h2>Nos plantes du moment</h2>
+      <p>Sélectionnées pour résister aux appartements peu lumineux et aux arrosages irréguliers.</p>
+    </div>
+    <div class="plants-grid">
+      <div class="plant-card">
+        <svg class="plant-icon" viewBox="0 0 80 80" fill="none"><path d="M40 70V30" stroke="#4c7a5e" stroke-width="3"/><path d="M40 30C25 30 18 18 18 8C30 8 40 18 40 30Z" fill="#4c7a5e"/><path d="M40 40C55 40 62 28 62 18C50 18 40 28 40 40Z" fill="#2f4f3e"/><rect x="26" y="66" width="28" height="10" rx="2" fill="#c97b4a"/></svg>
+        <span class="plant-tag">Facile</span>
+        <h3>Pothos doré</h3>
+        <p>Résiste à tout, même à l'oubli.</p>
+        <div class="plant-price">19 €/mois</div>
+      </div>
+      <div class="plant-card">
+        <svg class="plant-icon" viewBox="0 0 80 80" fill="none"><path d="M40 70V25" stroke="#4c7a5e" stroke-width="3"/><ellipse cx="40" cy="22" rx="14" ry="20" fill="#4c7a5e"/><rect x="26" y="66" width="28" height="10" rx="2" fill="#c97b4a"/></svg>
+        <span class="plant-tag">Facile</span>
+        <h3>Sansevieria</h3>
+        <p>Idéale en chambre, purifie l'air la nuit.</p>
+        <div class="plant-price">22 €/mois</div>
+      </div>
+      <div class="plant-card">
+        <svg class="plant-icon" viewBox="0 0 80 80" fill="none"><path d="M40 70V35" stroke="#4c7a5e" stroke-width="3"/><path d="M40 35C20 35 15 20 15 10C33 10 40 25 40 35Z" fill="#2f4f3e"/><path d="M40 35C60 35 65 20 65 10C47 10 40 25 40 35Z" fill="#4c7a5e"/><rect x="26" y="66" width="28" height="10" rx="2" fill="#c97b4a"/></svg>
+        <span class="plant-tag">Intermédiaire</span>
+        <h3>Monstera deliciosa</h3>
+        <p>La star des salons lumineux.</p>
+        <div class="plant-price">28 €/mois</div>
+      </div>
+      <div class="plant-card">
+        <svg class="plant-icon" viewBox="0 0 80 80" fill="none"><path d="M40 70V38" stroke="#4c7a5e" stroke-width="3"/><circle cx="40" cy="26" r="18" fill="#4c7a5e"/><circle cx="40" cy="26" r="10" fill="#2f4f3e"/><rect x="26" y="66" width="28" height="10" rx="2" fill="#c97b4a"/></svg>
+        <span class="plant-tag">Exigeante</span>
+        <h3>Calathea orbifolia</h3>
+        <p>Feuillage spectaculaire, un peu capricieuse.</p>
+        <div class="plant-price">26 €/mois</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="container">
+    <div class="section-head">
+      <h2>Ils ont arrêté de tuer leurs plantes</h2>
+      <p>Quelques retours de nos abonnés.</p>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p>"J'ai un pouce noir depuis 15 ans. Ma sansevieria Racines est toujours vivante après 8 mois, c'est un record personnel."</p>
+        <div class="t-name">— Camille, Lyon</div>
+      </div>
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p>"Les rappels d'arrosage dans l'app sont devenus un vrai réflexe. Simple, sans blabla inutile."</p>
+        <div class="t-name">— Yanis, Bordeaux</div>
+      </div>
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p>"Le questionnaire d'entrée a bien cerné mon appart sombre. La plante reçue est parfaite."</p>
+        <div class="t-name">— Inès, Paris</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="abonnement">
+  <div class="container">
+    <div class="section-head">
+      <h2>Choisissez votre formule</h2>
+      <p>Sans engagement, résiliable à tout moment.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Découverte</h3>
+        <div class="price">19€<span>/mois</span></div>
+        <ul>
+          <li>1 plante facile d'entretien</li>
+          <li>Guide de soin illustré</li>
+          <li>Rappels d'arrosage dans l'app</li>
+        </ul>
+        <a class="btn btn-outline" href="#contact" style="width:100%; display:block;">Choisir</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Racines+</h3>
+        <div class="price">29€<span>/mois</span></div>
+        <ul>
+          <li>1 plante (tous niveaux)</li>
+          <li>Pot en terre cuite inclus</li>
+          <li>Rappels + diagnostic photo</li>
+          <li>Support prioritaire</li>
+        </ul>
+        <a class="btn" href="#contact" style="width:100%; display:block;">Choisir</a>
+      </div>
+      <div class="price-card">
+        <h3>Collection</h3>
+        <div class="price">45€<span>/mois</span></div>
+        <ul>
+          <li>2 plantes par mois</li>
+          <li>Accessoires en cadeau surprise</li>
+          <li>Accès prioritaire nouveautés</li>
+        </ul>
+        <a class="btn btn-outline" href="#contact" style="width:100%; display:block;">Choisir</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container">
+    <h2>Prêt à verdir votre intérieur ?</h2>
+    <p>Répondez à 5 questions, recevez votre première plante sous 4 jours.</p>
+    <a class="btn" href="#">Commencer le questionnaire</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Racines</h4>
+        <a href="#concept">Le concept</a>
+        <a href="#plantes">Nos plantes</a>
+        <a href="#abonnement">Abonnement</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Guide d'entretien</a>
+        <a href="#">FAQ</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Suivez-nous</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Racines — projet fictif réalisé à des fins de portfolio</span>
+      <span>Site conçu et développé par Raphaël</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

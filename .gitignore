@@ -1,0 +1,10 @@
+# Documents internes — ne pas publier
+CONTEXTE-PROJET.md
+profil-malt.md
+
+# Système
+Thumbs.db
+desktop.ini
+
+# Editeur
+.vscode/

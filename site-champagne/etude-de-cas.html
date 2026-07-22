@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étude de cas — Site vitrine Champagne Maison d'Exception</title>
+<meta name="description" content="Étude de cas : conception et développement d'un site vitrine haut de gamme pour un domaine champenois — démarche design, choix techniques, livrables.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-serif:'Cormorant Garamond', serif;
+    --font-sans:'Montserrat', sans-serif;
+    --ink:#1a1a1a; --cream:#f8f5ef; --gold:#c9a45c; --gold-light:#d9bd85; --dark:#111;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:var(--font-sans); color:var(--ink); background:var(--cream); font-weight:300; line-height:1.8;}
+  h1,h2,h3{font-family:var(--font-serif); font-weight:500;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .kicker{font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:14px;}
+
+  .hero{background:var(--dark); color:#fff; padding:clamp(80px,12vw,140px) 8% 60px;}
+  .hero h1{font-size:clamp(36px,6vw,68px); line-height:1.08; max-width:760px;}
+  .hero p.lead{margin-top:20px; max-width:560px; font-size:14px; color:#bbb;}
+
+  .meta-strip{
+    background:var(--dark); color:#fff; padding:0 8% 60px;
+    display:flex; flex-wrap:wrap; gap:clamp(30px,6vw,80px);
+  }
+  .meta-strip div .k{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:6px;}
+  .meta-strip div .v{font-family:var(--font-serif); font-size:19px; color:var(--gold-light);}
+
+  section.block{padding:clamp(50px,8vw,90px) 8%; max-width:1100px;}
+  section.block.alt{background:#fff; max-width:none;}
+  section.block.alt .inner{max-width:calc(1100px - 16%); }
+  .block h2{font-size:clamp(28px,4vw,42px); margin-bottom:18px;}
+  .block p{max-width:640px; font-size:14.5px; color:#4a443c; margin-bottom:16px;}
+  .block ul{max-width:640px; margin:0 0 16px 20px; font-size:14.5px; color:#4a443c;}
+  .block li{margin-bottom:8px;}
+  .block li b{font-weight:500; color:var(--ink);}
+
+  .img-duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:34px 0 10px; max-width:820px;}
+  .img-duo img{width:100%; height:240px; object-fit:cover;}
+  .img-caption{font-size:12px; color:#9a9184; margin-top:4px;}
+  @media (max-width:700px){.img-duo{grid-template-columns:1fr;}}
+
+  .deliverables{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin-top:30px;}
+  .del-card{
+    background:#fff; border:1px solid rgba(0,0,0,.08); padding:26px 26px 22px;
+    text-decoration:none; transition:transform .3s, box-shadow .3s; display:block;
+  }
+  .del-card:hover{transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,.08);}
+  .del-card .t{font-family:var(--font-serif); font-size:22px;}
+  .del-card .d{font-size:12.5px; color:#6f685e; margin-top:8px; line-height:1.6;}
+  .del-card .go{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-top:16px; display:block;}
+  .alt .del-card{border:1px solid rgba(0,0,0,.08); background:var(--cream);}
+
+  footer{background:var(--dark); color:#999; text-align:center; padding:50px 8%; font-size:12px; letter-spacing:1px;}
+  footer a{color:var(--gold-light); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Étude de cas · Dev + Design</p>
+  <h1>Un site vitrine à la hauteur d'un champagne d'exception</h1>
+  <p class="lead">
+    Conception complète — identité, design UI/UX et développement — d'un site vitrine
+    haut de gamme pour un domaine champenois familial. Projet de démonstration.
+  </p>
+</header>
+<div class="meta-strip">
+  <div><div class="k">Rôle</div><div class="v">Design &amp; développement</div></div>
+  <div><div class="k">Type</div><div class="v">Site vitrine · 5 pages</div></div>
+  <div><div class="k">Stack</div><div class="v">HTML · CSS · JavaScript</div></div>
+  <div><div class="k">Année</div><div class="v">2026</div></div>
+</div>
+
+<section class="block">
+  <h2>Le brief</h2>
+  <p>
+    Un domaine champenois familial souhaite exister en ligne à la hauteur de son produit :
+    un site sobre et élégant qui raconte le terroir, présente les cuvées et incite
+    à la visite du domaine — sans vente en ligne, la conversion cible étant la prise de contact.
+  </p>
+  <ul>
+    <li><b>Positionnement :</b> luxe discret, tradition familiale, authenticité — loin des clichés clinquants.</li>
+    <li><b>Cibles :</b> particuliers amateurs, œnotourisme, cavistes et restaurateurs.</li>
+    <li><b>Contrainte légale :</b> vérification d'âge obligatoire à l'entrée (loi Évin).</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>La démarche design</h2>
+  <p>
+    Tout part d'un principe : <b>la rareté crée la valeur</b>. La palette se limite à
+    deux neutres et un or unique, réservé aux accents. Le duo typographique oppose
+    une garalde émotionnelle (Cormorant Garamond) à une linéale discrète (Montserrat).
+  </p>
+  <ul>
+    <li><b>Architecture :</b> 5 pages (accueil, domaine, terroir, champagnes, contact) qui suivent le récit naturel d'une visite : l'histoire, la terre, le vin, la rencontre.</li>
+    <li><b>Rythme :</b> grandes respirations, sections en pleine largeur, photos immersives en voile sombre pour la lisibilité.</li>
+    <li><b>Micro-interactions :</b> transitions lentes (.4 à .8s), survols feutrés — le luxe ne se presse pas.</li>
+  </ul>
+  <div class="img-duo">
+    <img src="assets/images/vignoble.jpg" alt="Hero du site — vignoble" loading="lazy">
+    <img src="assets/images/cave.jpg" alt="Ambiance cave" loading="lazy">
+  </div>
+  <p class="img-caption">Univers photographique : lumières naturelles, matières vraies.</p>
+</div></section>
+
+<section class="block">
+  <h2>Les choix techniques</h2>
+  <p>
+    Un site vitrine n'a pas besoin d'un framework : le choix du <b>vanilla HTML/CSS/JS</b>
+    garantit un chargement rapide, un référencement propre et une maintenance triviale.
+  </p>
+  <ul>
+    <li><b>CSS structuré par variables :</b> palette, typos et transitions centralisées dans <code>:root</code> — un changement d'identité se fait en 10 lignes.</li>
+    <li><b>Performance :</b> préchargement de l'image LCP, lazy loading sur toutes les images hors écran, <code>decoding="async"</code>.</li>
+    <li><b>Accessibilité :</b> navigation au clavier, rôles ARIA sur la modale d'âge, contrastes vérifiés, textes alternatifs systématiques.</li>
+    <li><b>Vérification d'âge :</b> modale bloquante accessible, mémorisée pour ne pas gêner la navigation répétée.</li>
+    <li><b>Responsive :</b> tailles fluides en <code>clamp()</code>, grilles adaptatives, menu mobile.</li>
+  </ul>
+</section>
+
+<section class="block alt"><div class="inner">
+  <h2>Les livrables</h2>
+  <p>Au-delà du site, une identité complète et déclinable :</p>
+  <div class="deliverables">
+    <a class="del-card" href="index.html">
+      <span class="t">Site vitrine</span>
+      <span class="d">5 pages — accueil, domaine, terroir, champagnes, contact.</span>
+      <span class="go">Voir le site →</span>
+    </a>
+    <a class="del-card" href="charte-graphique.html">
+      <span class="t">Charte graphique</span>
+      <span class="d">Logotype, palette, typographies, iconographie, règles d'usage.</span>
+      <span class="go">Voir la charte →</span>
+    </a>
+    <a class="del-card" href="ui-kit.html">
+      <span class="t">UI Kit</span>
+      <span class="d">Design system du site : composants, boutons, échelle typographique.</span>
+      <span class="go">Voir l'UI kit →</span>
+    </a>
+    <a class="del-card" href="prototype-app.html">
+      <span class="t">Prototype d'app</span>
+      <span class="d">Espace client mobile : réservation, commandes, fidélité.</span>
+      <span class="go">Voir le prototype →</span>
+    </a>
+  </div>
+</div></section>
+
+<section class="block">
+  <h2>Ce que ce projet démontre</h2>
+  <ul>
+    <li><b>La double compétence dev + design :</b> une identité pensée puis codée par la même personne, sans perte entre la maquette et l'écran.</li>
+    <li><b>La déclinaison d'une identité :</b> du site à l'app mobile en passant par la charte, le même langage visuel partout.</li>
+    <li><b>Le souci du détail :</b> performance, accessibilité et contraintes légales traitées dès la conception, pas après coup.</li>
+  </ul>
+</section>
+
+<footer>
+  Étude de cas — projet de démonstration réalisé dans le cadre d'un portfolio.<br><br>
+  <a href="../index.html">← Retour au portfolio</a> · <a href="index.html">Voir le site</a>
+</footer>
+
+</body>
+</html>

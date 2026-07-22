@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Racines — Prototype app UI/UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#2f4f3e;
+    --green-mid:#4c7a5e;
+    --terracotta:#c97b4a;
+    --cream:#f7f3ec;
+    --cream-2:#efe8db;
+    --ink:#1f2a24;
+    --white:#ffffff;
+    --danger:#c9574a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:#e8e2d4;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:40px 16px;
+    gap:20px;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; color:var(--green-deep);}
+
+  .caption{
+    text-align:center; font-size:13px; color:#6b6459; letter-spacing:0.4px;
+  }
+  .caption b{color:var(--green-deep);}
+
+  .switcher{
+    display:flex; gap:8px; background:var(--white); padding:6px; border-radius:999px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.06);
+  }
+  .switcher button{
+    border:none; background:transparent; padding:9px 18px; border-radius:999px;
+    font-family:'Work Sans', sans-serif; font-size:13px; font-weight:600; color:#7a8a7f;
+    cursor:pointer; transition:all .2s;
+  }
+  .switcher button.active{background:var(--green-deep); color:var(--white);}
+
+  /* Phone frame */
+  .phone{
+    width:375px; height:780px; background:var(--ink); border-radius:46px;
+    padding:14px; box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  }
+  .screen{
+    width:100%; height:100%; background:var(--cream); border-radius:34px; overflow:hidden;
+    position:relative; display:flex; flex-direction:column;
+  }
+  .notch{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:24px; background:var(--ink); border-radius:0 0 16px 16px; z-index:20;
+  }
+  .status-bar{
+    height:44px; flex-shrink:0; display:flex; align-items:flex-end; justify-content:space-between;
+    padding:0 26px 8px; font-size:13px; font-weight:600; color:var(--ink);
+  }
+
+  .view{ display:none; flex:1; flex-direction:column; overflow-y:auto; }
+  .view.active{ display:flex; }
+
+  /* Top bar */
+  .topbar{ padding:8px 20px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .topbar h2{font-size:22px;}
+  .avatar{width:36px; height:36px; border-radius:50%; background:var(--green-mid); display:flex; align-items:center; justify-content:center; color:white; font-weight:600; font-size:14px;}
+  .icon-btn{width:36px; height:36px; border-radius:50%; background:var(--cream-2); display:flex; align-items:center; justify-content:center; cursor:pointer; border:none;}
+
+  /* Accueil */
+  .greeting{padding:0 20px 12px; font-size:13px; color:#7a8a7f;}
+  .progress-card{
+    margin:0 20px 20px; background:var(--green-deep); border-radius:20px; padding:20px; color:white;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .progress-card .label{font-size:12px; opacity:0.75; margin-bottom:4px;}
+  .progress-card .value{font-family:'Fraunces', serif; font-size:26px;}
+  .ring{width:56px; height:56px; border-radius:50%; background:conic-gradient(var(--terracotta) 0% 70%, rgba(255,255,255,0.15) 70% 100%); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;}
+  .ring span{background:var(--green-deep); width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+
+  .section-title{padding:0 20px; font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;}
+  .section-title a{font-size:12px; color:var(--terracotta); font-weight:600;}
+
+  .plant-row{ padding:0 20px; display:flex; flex-direction:column; gap:12px; margin-bottom:20px;}
+  .plant-item{
+    background:var(--white); border-radius:16px; padding:14px; display:flex; align-items:center; gap:14px;
+    cursor:pointer; transition:transform .15s; box-shadow:0 2px 10px rgba(47,79,62,0.05);
+  }
+  .plant-item:active{ transform:scale(0.98); }
+  .plant-thumb{width:52px; height:52px; border-radius:12px; background:var(--cream-2); flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .plant-info{flex:1;}
+  .plant-info .name{font-size:14.5px; font-weight:600; color:var(--ink);}
+  .plant-info .meta{font-size:12px; color:#8a9a8e; margin-top:2px;}
+  .plant-status{font-size:11px; font-weight:700; padding:4px 9px; border-radius:999px;}
+  .status-ok{background:#e4efe6; color:var(--green-mid);}
+  .status-due{background:#fbe9e1; color:var(--terracotta);}
+
+  /* Bottom nav */
+  .bottom-nav{
+    height:74px; flex-shrink:0; background:var(--white); border-top:1px solid rgba(0,0,0,0.05);
+    display:flex; align-items:center; justify-content:space-around; padding-bottom:10px;
+  }
+  .nav-item{ display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10.5px; font-weight:600; color:#a9b3ab; cursor:pointer; background:none; border:none;}
+  .nav-item.active{color:var(--green-deep);}
+  .nav-item svg{opacity:0.55;}
+  .nav-item.active svg{opacity:1;}
+
+  /* Detail screen */
+  .detail-hero{ height:220px; background:linear-gradient(180deg, var(--green-mid), var(--green-deep)); position:relative; flex-shrink:0; display:flex; align-items:flex-end; padding:20px; }
+  .back-btn{ position:absolute; top:16px; left:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .detail-hero h2{ color:white; font-size:26px; }
+  .detail-body{ padding:20px; flex:1; }
+  .care-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+  .care-stat{ background:var(--white); border-radius:14px; padding:14px; }
+  .care-stat .label{font-size:11px; color:#8a9a8e; margin-bottom:6px;}
+  .care-stat .val{font-size:15px; font-weight:600; color:var(--ink);}
+  .reminder-card{ background:var(--terracotta); color:white; border-radius:16px; padding:18px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; }
+  .reminder-card .txt{font-size:13px; font-weight:600; max-width:180px;}
+  .btn-water{ background:white; color:var(--terracotta); font-size:12px; font-weight:700; padding:8px 14px; border-radius:999px; border:none; }
+  .timeline{ display:flex; flex-direction:column; gap:14px; }
+  .timeline-item{ display:flex; gap:12px; align-items:flex-start; font-size:13px; }
+  .timeline-dot{ width:8px; height:8px; border-radius:50%; background:var(--green-mid); margin-top:6px; flex-shrink:0; }
+  .timeline-item .t-title{font-weight:600; color:var(--ink);}
+  .timeline-item .t-date{color:#a9b3ab; font-size:11.5px;}
+
+  /* Profil */
+  .profile-header{ padding:30px 20px 20px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .profile-avatar{ width:74px; height:74px; border-radius:50%; background:var(--green-mid); display:flex; align-items:center; justify-content:center; color:white; font-family:'Fraunces',serif; font-size:26px; margin-bottom:12px;}
+  .profile-header h2{font-size:19px;}
+  .profile-header p{font-size:13px; color:#8a9a8e; margin-top:2px;}
+  .plan-badge{ margin-top:10px; background:var(--cream-2); color:var(--green-deep); font-size:12px; font-weight:700; padding:6px 14px; border-radius:999px; }
+  .menu-list{ padding:10px 20px; display:flex; flex-direction:column; gap:2px; }
+  .menu-item{ background:var(--white); padding:15px 16px; border-radius:14px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; font-size:14px; font-weight:500; color:var(--ink); }
+  .menu-item .chev{color:#c8cfc9;}
+</style>
+</head>
+<body>
+
+<div class="caption">Prototype cliquable — app <b>Racines</b> (démo UI/UX, projet fictif)</div>
+
+<div class="switcher">
+  <button class="tab-btn active" data-tab="home">Accueil</button>
+  <button class="tab-btn" data-tab="detail">Détail plante</button>
+  <button class="tab-btn" data-tab="profile">Profil</button>
+</div>
+
+<div class="phone">
+  <div class="screen">
+    <div class="notch"></div>
+
+    <!-- ACCUEIL -->
+    <div class="view active" id="view-home">
+      <div class="status-bar"><span>9:41</span><span>●●●●</span></div>
+      <div class="topbar">
+        <div>
+          <h2>Mes plantes</h2>
+        </div>
+        <div class="avatar">RC</div>
+      </div>
+      <div class="greeting">Bonjour Camille, voici l'état de votre jungle 🌿</div>
+
+      <div class="progress-card">
+        <div>
+          <div class="label">Plantes en pleine forme</div>
+          <div class="value">3 / 4</div>
+        </div>
+        <div class="ring"><span>70%</span></div>
+      </div>
+
+      <div class="section-title"><span>À arroser bientôt</span><a href="#">Voir tout</a></div>
+      <div class="plant-row">
+        <div class="plant-item" onclick="goTo('detail')">
+          <div class="plant-thumb">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V8" stroke="#4c7a5e" stroke-width="2"/><path d="M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" fill="#4c7a5e"/><path d="M12 12C18 12 19 7 19 7C13 7 12 10 12 12Z" fill="#2f4f3e"/></svg>
+          </div>
+          <div class="plant-info">
+            <div class="name">Monstera deliciosa</div>
+            <div class="meta">Salon · dernière eau il y a 6 jours</div>
+          </div>
+          <div class="plant-status status-due">À arroser</div>
+        </div>
+        <div class="plant-item" onclick="goTo('detail')">
+          <div class="plant-thumb">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="10" rx="6" ry="9" fill="#4c7a5e"/></svg>
+          </div>
+          <div class="plant-info">
+            <div class="name">Sansevieria</div>
+            <div class="meta">Chambre · dernière eau il y a 12 jours</div>
+          </div>
+          <div class="plant-status status-ok">En forme</div>
+        </div>
+      </div>
+
+      <div class="section-title"><span>Toute la collection</span></div>
+      <div class="plant-row">
+        <div class="plant-item" onclick="goTo('detail')">
+          <div class="plant-thumb">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V10" stroke="#4c7a5e" stroke-width="2"/><circle cx="12" cy="7" r="5" fill="#2f4f3e"/></svg>
+          </div>
+          <div class="plant-info">
+            <div class="name">Pothos doré</div>
+            <div class="meta">Cuisine · dernière eau il y a 3 jours</div>
+          </div>
+          <div class="plant-status status-ok">En forme</div>
+        </div>
+        <div class="plant-item" onclick="goTo('detail')">
+          <div class="plant-thumb">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="7" fill="#4c7a5e"/></svg>
+          </div>
+          <div class="plant-info">
+            <div class="name">Calathea orbifolia</div>
+            <div class="meta">Bureau · dernière eau il y a 9 jours</div>
+          </div>
+          <div class="plant-status status-due">À arroser</div>
+        </div>
+      </div>
+
+      <div style="flex:1;"></div>
+      <div class="bottom-nav">
+        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item" onclick="goTo('detail')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item" onclick="goTo('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+      </div>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="view" id="view-detail">
+      <div class="status-bar" style="color:white;"><span>9:41</span><span>●●●●</span></div>
+      <div class="detail-hero">
+        <div class="back-btn" onclick="goTo('home')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </div>
+        <h2>Monstera deliciosa</h2>
+      </div>
+      <div class="detail-body">
+        <div class="care-grid">
+          <div class="care-stat"><div class="label">Emplacement</div><div class="val">Salon, lumière indirecte</div></div>
+          <div class="care-stat"><div class="label">Fréquence</div><div class="val">1x / semaine</div></div>
+          <div class="care-stat"><div class="label">Dernier arrosage</div><div class="val">Il y a 6 jours</div></div>
+          <div class="care-stat"><div class="label">Niveau</div><div class="val">Intermédiaire</div></div>
+        </div>
+
+        <div class="reminder-card">
+          <div class="txt">Arrosage recommandé aujourd'hui</div>
+          <button class="btn-water">Marquer fait</button>
+        </div>
+
+        <div class="section-title" style="padding:0 0 12px;">Historique de soin</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="t-title">Arrosage effectué</div><div class="t-date">16 juillet 2026</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="t-title">Feuille taillée</div><div class="t-date">3 juillet 2026</div></div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div><div class="t-title">Rempotage</div><div class="t-date">28 mai 2026</div></div></div>
+        </div>
+      </div>
+      <div class="bottom-nav">
+        <button class="nav-item" onclick="goTo('home')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item" onclick="goTo('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+      </div>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="view" id="view-profile">
+      <div class="status-bar"><span>9:41</span><span>●●●●</span></div>
+      <div class="profile-header">
+        <div class="profile-avatar">RC</div>
+        <h2>Camille Ravel</h2>
+        <p>camille.ravel@email.com</p>
+        <div class="plan-badge">Formule Racines+</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item"><span>Mon abonnement</span><span class="chev">›</span></div>
+        <div class="menu-item"><span>Adresses de livraison</span><span class="chev">›</span></div>
+        <div class="menu-item"><span>Notifications & rappels</span><span class="chev">›</span></div>
+        <div class="menu-item"><span>Moyens de paiement</span><span class="chev">›</span></div>
+        <div class="menu-item"><span>Aide & contact</span><span class="chev">›</span></div>
+      </div>
+      <div style="flex:1;"></div>
+      <div class="bottom-nav">
+        <button class="nav-item" onclick="goTo('home')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item" onclick="goTo('detail')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function goTo(tab){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + tab).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  }
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => goTo(btn.dataset.tab));
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Champagne — UI Kit &amp; Design System</title>
+<meta name="description" content="Design system du site Champagne Maison d'Exception : couleurs, typographies, boutons et composants — documentation UI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-serif:'Cormorant Garamond', serif;
+    --font-sans:'Montserrat', sans-serif;
+    --ink:#1a1a1a;
+    --cream:#f8f5ef;
+    --gold:#c9a45c;
+    --gold-light:#d9bd85;
+    --dark:#111;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-sans); color:var(--ink); background:var(--cream);
+    font-weight:300; line-height:1.7;
+  }
+  h1,h2,h3{font-family:var(--font-serif); font-weight:500;}
+  img{display:block; max-width:100%;}
+
+  .kicker{
+    font-size:11px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:600; margin-bottom:14px;
+  }
+
+  /* ============ HERO ============ */
+  .kit-hero{
+    background:var(--dark); color:#fff; padding:clamp(80px,12vw,150px) 8% 70px;
+    position:relative; overflow:hidden;
+  }
+  .kit-hero::after{
+    content:"CHAMPAGNE";
+    position:absolute; right:-2%; bottom:-30px;
+    font-family:var(--font-serif); font-size:clamp(90px,16vw,220px);
+    color:rgba(201,164,92,.07); letter-spacing:10px; pointer-events:none; white-space:nowrap;
+  }
+  .kit-hero h1{font-size:clamp(40px,7vw,80px); line-height:1.05; max-width:700px;}
+  .kit-hero p.lead{margin-top:22px; max-width:520px; font-size:14px; color:#bbb;}
+  .kit-hero .brand{
+    font-family:var(--font-serif); letter-spacing:5px; font-size:22px; margin-bottom:40px;
+  }
+  .kit-hero .brand span{display:block; font-family:var(--font-sans); font-size:9px; letter-spacing:4px; color:var(--gold-light); margin-top:4px;}
+
+  /* ============ SECTIONS ============ */
+  section.block{padding:clamp(60px,9vw,110px) 8%;}
+  section.block.alt{background:#fff;}
+  .block h2{font-size:clamp(30px,4.5vw,46px); margin-bottom:10px;}
+  .block > p.desc{max-width:560px; font-size:14px; color:#6f685e; margin-bottom:45px;}
+
+  /* ============ LOGO ============ */
+  .logo-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px;}
+  .logo-tile{
+    border:1px solid rgba(0,0,0,.08); min-height:220px;
+    display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .logo-tile .tag{
+    position:absolute; top:14px; left:16px; font-size:9px; letter-spacing:2px;
+    text-transform:uppercase; color:#9a9184; font-weight:500;
+  }
+  .logo-tile.on-dark{background:var(--dark); border-color:var(--dark);}
+  .logo-tile.on-dark .tag{color:#777;}
+  .logo-mark{
+    font-family:var(--font-serif); font-size:30px; letter-spacing:6px; text-align:center;
+  }
+  .logo-mark span{
+    display:block; font-family:var(--font-sans); font-size:9px; letter-spacing:4px;
+    margin-top:6px; font-weight:400;
+  }
+  .on-dark .logo-mark{color:#fff;}
+  .on-dark .logo-mark span{color:var(--gold-light);}
+  .logo-tile.gold-mark .logo-mark{color:var(--gold);}
+
+  /* ============ COULEURS ============ */
+  .swatches{display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:20px;}
+  .swatch{border:1px solid rgba(0,0,0,.08); background:#fff;}
+  .swatch .chip{height:130px;}
+  .swatch .meta{padding:16px 18px;}
+  .swatch .name{font-family:var(--font-serif); font-size:20px;}
+  .swatch .hex{font-size:11px; letter-spacing:2px; color:#9a9184; text-transform:uppercase; margin-top:2px;}
+  .swatch .use{font-size:12px; color:#6f685e; margin-top:8px; line-height:1.6;}
+
+  /* ============ TYPO ============ */
+  .type-row{
+    display:grid; grid-template-columns:220px 1fr; gap:30px; align-items:baseline;
+    padding:28px 0; border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  .type-row:first-of-type{border-top:1px solid rgba(0,0,0,.08);}
+  .type-meta{font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#9a9184; line-height:1.9;}
+  .type-meta b{color:var(--ink); font-weight:600; display:block;}
+  .spec-h1{font-family:var(--font-serif); font-size:clamp(38px,5vw,64px); line-height:1.05; font-weight:500;}
+  .spec-h2{font-family:var(--font-serif); font-size:clamp(28px,3.5vw,44px); font-weight:500;}
+  .spec-h3{font-family:var(--font-serif); font-size:28px; font-weight:500;}
+  .spec-sub{font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:500;}
+  .spec-body{font-size:15px; font-weight:300; line-height:1.8; max-width:520px;}
+  .spec-label{font-size:12px; letter-spacing:2px; text-transform:uppercase; font-weight:400;}
+
+  .font-cards{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; margin-bottom:50px;}
+  .font-card{background:#fff; border:1px solid rgba(0,0,0,.08); padding:30px;}
+  .font-card .glyphs{font-size:44px; line-height:1.2; margin-bottom:14px;}
+  .font-card.serif .glyphs{font-family:var(--font-serif);}
+  .font-card .fname{font-size:13px; font-weight:600; letter-spacing:1px;}
+  .font-card .frole{font-size:12px; color:#6f685e; margin-top:4px;}
+
+  /* ============ BOUTONS ============ */
+  .demo-row{display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start;}
+  .demo-cell{display:flex; flex-direction:column; gap:14px;}
+  .demo-cell .cap{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#9a9184; font-weight:500;}
+
+  .on-dark-strip{background:var(--dark); padding:36px 40px; display:flex; flex-wrap:wrap; gap:40px;}
+  .on-dark-strip .cap{color:#777;}
+
+  .button{
+    display:inline-block; padding:18px 45px; border:1px solid var(--gold);
+    color:#fff; letter-spacing:3px; text-transform:uppercase; font-size:12px;
+    background:none; cursor:pointer; font-family:var(--font-sans); text-decoration:none;
+    transition:background .4s ease, color .4s ease; text-align:center;
+  }
+  .button:hover{background:var(--gold); color:var(--dark);}
+  .button.is-hover{background:var(--gold); color:var(--dark);}
+
+  .button-dark{
+    display:inline-block; padding:16px 45px; border:1px solid var(--dark);
+    background:var(--dark); color:#fff; letter-spacing:3px; text-transform:uppercase;
+    font-size:12px; cursor:pointer; font-family:var(--font-sans); transition:.4s ease;
+    text-align:center;
+  }
+  .button-dark:hover{background:var(--gold); border-color:var(--gold); color:var(--dark);}
+
+  /* ============ COMPOSANTS ============ */
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:40px; align-items:start;}
+  .comp-cell .cap{
+    font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#9a9184;
+    font-weight:500; margin-bottom:16px;
+  }
+
+  .card{background:#fff; padding-bottom:35px; box-shadow:0 2px 20px rgba(0,0,0,.05); text-align:center;}
+  .card img{width:100%; height:280px; object-fit:cover;}
+  .card h3{font-size:30px; margin:24px 0 8px;}
+  .cepage-tag{
+    display:inline-block; font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--gold); font-weight:500; margin-bottom:12px;
+  }
+  .card p{font-size:13.5px; color:#6f685e; padding:0 24px;}
+
+  .field label{
+    display:block; font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:8px; font-weight:400;
+  }
+  .field input, .field textarea{
+    width:100%; padding:14px 16px; border:1px solid rgba(0,0,0,.2); background:#fff;
+    font-family:var(--font-sans); font-size:14px; color:var(--ink);
+  }
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--gold);}
+  .field + .field{margin-top:18px;}
+  .field.focus-demo input{border-color:var(--gold);}
+
+  .details-list{list-style:none;}
+  .details-list li{padding:14px 0; border-bottom:1px solid rgba(0,0,0,.1); font-size:14px;}
+  .details-list strong{
+    display:block; font-family:var(--font-serif); font-size:18px;
+    letter-spacing:1px; margin-bottom:4px; font-weight:500;
+  }
+
+  /* ============ RÈGLES ============ */
+  .rules{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px;}
+  .rule{background:#fff; border:1px solid rgba(0,0,0,.08); padding:26px 28px;}
+  .rule .ok{color:#5a7d5a; font-weight:600; font-size:11px; letter-spacing:2px; text-transform:uppercase;}
+  .rule .ko{color:#a8563f; font-weight:600; font-size:11px; letter-spacing:2px; text-transform:uppercase;}
+  .rule p{font-size:13px; color:#6f685e; margin-top:10px;}
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--dark); color:#999; text-align:center;
+    padding:60px 8%; font-size:12px; letter-spacing:1px;
+  }
+  footer .logo-mark{color:#fff; margin:0 auto 20px; font-size:24px;}
+  footer .logo-mark span{color:var(--gold-light);}
+  footer a{color:var(--gold-light); text-decoration:none;}
+
+  @media (max-width:760px){
+    .type-row{grid-template-columns:1fr; gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="kit-hero">
+  <div class="brand">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+  <p class="kicker">Design system · v1.0</p>
+  <h1>UI Kit du site<br>Maison d'Exception</h1>
+  <p class="lead">
+    Documentation de l'identité visuelle et des composants d'interface du site vitrine :
+    couleurs, typographies, boutons et éléments récurrents.
+  </p>
+</header>
+
+<!-- ============ LOGO ============ -->
+<section class="block">
+  <p class="kicker">01 — Identité</p>
+  <h2>Logotype</h2>
+  <p class="desc">
+    Logotype purement typographique : le mot-symbole en Cormorant Garamond, interlettré,
+    surmonté de la signature « Maison d'Exception » en Montserrat capitales espacées.
+  </p>
+
+  <div class="logo-grid">
+    <div class="logo-tile">
+      <span class="tag">Sur fond clair</span>
+      <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+    </div>
+    <div class="logo-tile on-dark">
+      <span class="tag">Sur fond sombre</span>
+      <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+    </div>
+    <div class="logo-tile gold-mark">
+      <span class="tag">Version dorée · usages ponctuels</span>
+      <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COULEURS ============ -->
+<section class="block alt">
+  <p class="kicker">02 — Couleurs</p>
+  <h2>Palette</h2>
+  <p class="desc">
+    Une palette resserrée : deux neutres, un noir profond et un or unique.
+    L'or est réservé aux accents — jamais en aplat de fond sur de grandes surfaces.
+  </p>
+
+  <div class="swatches">
+    <div class="swatch">
+      <div class="chip" style="background:#c9a45c;"></div>
+      <div class="meta">
+        <div class="name">Or</div>
+        <div class="hex">#C9A45C · --color-gold</div>
+        <div class="use">Accents, bordures de boutons, sous-titres, hover.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#d9bd85;"></div>
+      <div class="meta">
+        <div class="name">Or clair</div>
+        <div class="hex">#D9BD85 · --color-gold-light</div>
+        <div class="use">Déclinaison sur fonds sombres, signatures.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#111;"></div>
+      <div class="meta">
+        <div class="name">Noir profond</div>
+        <div class="hex">#111111 · --color-dark</div>
+        <div class="use">Sections sombres, header scrollé, footer.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#1a1a1a;"></div>
+      <div class="meta">
+        <div class="name">Encre</div>
+        <div class="hex">#1A1A1A · --color-text</div>
+        <div class="use">Couleur de texte principale.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#f8f5ef; border-bottom:1px solid rgba(0,0,0,.06);"></div>
+      <div class="meta">
+        <div class="name">Crème</div>
+        <div class="hex">#F8F5EF · --color-bg</div>
+        <div class="use">Fond général du site.</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="chip" style="background:#ffffff; border-bottom:1px solid rgba(0,0,0,.06);"></div>
+      <div class="meta">
+        <div class="name">Blanc</div>
+        <div class="hex">#FFFFFF</div>
+        <div class="use">Cartes, formulaires, surfaces posées sur le fond crème.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TYPOGRAPHIE ============ -->
+<section class="block">
+  <p class="kicker">03 — Typographie</p>
+  <h2>Typographies &amp; échelle</h2>
+  <p class="desc">
+    Un duo classique : une serif de caractère pour les titres, une sans-serif
+    discrète pour le texte courant et les éléments d'interface.
+  </p>
+
+  <div class="font-cards">
+    <div class="font-card serif">
+      <div class="glyphs">Aa Bb Cc — 1234</div>
+      <div class="fname">Cormorant Garamond · 300 → 700</div>
+      <div class="frole">Titres (H1–H3), logotype, chiffres mis en avant. Graisse de référence : 500.</div>
+    </div>
+    <div class="font-card">
+      <div class="glyphs" style="font-size:36px;">Aa Bb Cc — 1234</div>
+      <div class="fname">Montserrat · 300 → 500</div>
+      <div class="frole">Texte courant (300), navigation, labels et boutons en capitales espacées.</div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta"><b>H1 — Hero</b>Serif 500 · clamp 38→64px · lh 1.05</div>
+    <div class="spec-h1">L'expression d'un terroir</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>H2 — Section</b>Serif 500 · clamp 28→44px</div>
+    <div class="spec-h2">Trois expressions d'un même terroir</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>H3 — Carte</b>Serif 500 · 28–35px</div>
+    <div class="spec-h3">Blanc de Noirs</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>Sous-titre</b>Sans 500 · 12px · caps · +3px</div>
+    <div class="spec-sub">Au cœur de la Champagne</div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>Corps de texte</b>Sans 300 · 15px · lh 1.8</div>
+    <div class="spec-body">
+      Chacune de nos cuvées révèle une facette différente de notre domaine,
+      entre puissance, équilibre et élégance.
+    </div>
+  </div>
+  <div class="type-row">
+    <div class="type-meta"><b>Label / bouton</b>Sans 400 · 12px · caps · +2-3px</div>
+    <div class="spec-label">Découvrir le domaine</div>
+  </div>
+</section>
+
+<!-- ============ BOUTONS ============ -->
+<section class="block alt">
+  <p class="kicker">04 — Boutons</p>
+  <h2>Boutons &amp; interactions</h2>
+  <p class="desc">
+    Le bouton principal est un contour or sur fond transparent ; le survol inverse
+    le rapport en remplissant d'or. Transitions longues (.4s) pour un effet feutré.
+  </p>
+
+  <div class="on-dark-strip" style="margin-bottom:40px;">
+    <div class="demo-cell">
+      <span class="cap">Principal · repos</span>
+      <a class="button" href="#" onclick="return false;">Découvrir le domaine</a>
+    </div>
+    <div class="demo-cell">
+      <span class="cap">Principal · survol</span>
+      <a class="button is-hover" href="#" onclick="return false;">Découvrir le domaine</a>
+    </div>
+  </div>
+
+  <div class="demo-row">
+    <div class="demo-cell">
+      <span class="cap">Formulaire · repos (survolez)</span>
+      <button class="button-dark" type="button">Envoyer</button>
+    </div>
+    <div class="demo-cell">
+      <span class="cap">Sur fond clair (survolez)</span>
+      <button class="button" type="button" style="color:var(--ink);">Nous contacter</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPOSANTS ============ -->
+<section class="block">
+  <p class="kicker">05 — Composants</p>
+  <h2>Composants récurrents</h2>
+  <p class="desc">
+    Les éléments d'interface du site, réutilisables tels quels :
+    carte cuvée, champs de formulaire et liste de coordonnées.
+  </p>
+
+  <div class="comp-grid">
+    <div class="comp-cell">
+      <div class="cap">Carte cuvée · hover : translateY(-15px)</div>
+      <div class="card">
+        <img src="assets/images/brut-reserve.jpg" alt="Champagne Brut Réserve" loading="lazy">
+        <h3>Brut Réserve</h3>
+        <span class="cepage-tag">Assemblage Pinot Noir · Chardonnay</span>
+        <p>L'équilibre entre finesse et caractère : une cuvée polyvalente, vive et enveloppante.</p>
+      </div>
+    </div>
+
+    <div class="comp-cell">
+      <div class="cap">Champs de formulaire</div>
+      <div class="field">
+        <label for="demo-nom">Nom</label>
+        <input id="demo-nom" type="text" placeholder="Votre nom">
+      </div>
+      <div class="field focus-demo">
+        <label for="demo-mail">E-mail — état focus</label>
+        <input id="demo-mail" type="email" placeholder="vous@exemple.fr">
+      </div>
+      <div class="field">
+        <label for="demo-msg">Message</label>
+        <textarea id="demo-msg" rows="4" placeholder="Votre message…"></textarea>
+      </div>
+    </div>
+
+    <div class="comp-cell">
+      <div class="cap">Liste de coordonnées</div>
+      <ul class="details-list">
+        <li><strong>Adresse</strong>12 rue des Vignes, 10340 Les Riceys</li>
+        <li><strong>Téléphone</strong>03 25 00 00 00</li>
+        <li><strong>Horaires</strong>Du lundi au samedi, sur rendez-vous</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RÈGLES ============ -->
+<section class="block alt">
+  <p class="kicker">06 — Règles d'usage</p>
+  <h2>À faire / à éviter</h2>
+  <p class="desc">Quelques garde-fous pour préserver la cohérence de l'identité.</p>
+
+  <div class="rules">
+    <div class="rule">
+      <span class="ok">✓ À faire</span>
+      <p>Réserver l'or aux accents : bordures, sous-titres, états de survol. C'est sa rareté qui crée le sentiment de luxe.</p>
+    </div>
+    <div class="rule">
+      <span class="ok">✓ À faire</span>
+      <p>Poser les titres en Cormorant Garamond graisse 500, avec des interlignages serrés (1.05–1.2) sur les grands corps.</p>
+    </div>
+    <div class="rule">
+      <span class="ok">✓ À faire</span>
+      <p>Espacer généreusement : sections en clamp(70px, 10vw, 140px), marges latérales de 8 à 10 %.</p>
+    </div>
+    <div class="rule">
+      <span class="ko">✗ À éviter</span>
+      <p>Aplats d'or en fond de section ou de bouton au repos — l'or plein est un état de survol, pas un état par défaut.</p>
+    </div>
+    <div class="rule">
+      <span class="ko">✗ À éviter</span>
+      <p>Graisses lourdes (bold) en texte courant : le corps reste en Montserrat 300 pour préserver la légèreté.</p>
+    </div>
+    <div class="rule">
+      <span class="ko">✗ À éviter</span>
+      <p>Introduire de nouvelles couleurs ou déformer le logotype (étirement, ombres, contours).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+  <p>UI Kit — document de démonstration réalisé dans le cadre d'un projet de portfolio.</p>
+  <p style="margin-top:8px;"><a href="index.html">← Retour au site</a> · <a href="prototype-app.html">Voir le prototype d'app</a></p>
+</footer>
+
+</body>
+</html>

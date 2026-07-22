@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Champagne Maison d'Exception — Charte graphique</title>
+<meta name="description" content="Charte graphique du domaine Champagne Maison d'Exception : logotype, couleurs, typographies et règles d'usage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-serif:'Cormorant Garamond', serif;
+    --font-sans:'Montserrat', sans-serif;
+    --ink:#1a1a1a;
+    --cream:#f8f5ef;
+    --gold:#c9a45c;
+    --gold-light:#d9bd85;
+    --dark:#111;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:var(--font-sans); background:var(--cream); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:var(--font-serif); font-weight:500;}
+
+  /* ============ COUVERTURE ============ */
+  .cover{
+    background:var(--dark); color:#fff; text-align:center;
+    padding:clamp(90px,14vw,160px) 24px;
+    position:relative; overflow:hidden;
+  }
+  .cover::before, .cover::after{
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    width:min(640px, 86%); height:1px; background:rgba(201,164,92,.4);
+  }
+  .cover::before{top:48px;}
+  .cover::after{bottom:48px;}
+  .cover .mark{
+    font-family:var(--font-serif); font-size:clamp(38px,6vw,58px);
+    letter-spacing:10px; line-height:1.1;
+  }
+  .cover .mark span{
+    display:block; font-family:var(--font-sans); font-size:clamp(10px,1.4vw,13px);
+    letter-spacing:6px; color:var(--gold-light); margin-top:12px; font-weight:400;
+  }
+  .cover p.doc{
+    margin-top:36px; font-size:11px; letter-spacing:3px;
+    text-transform:uppercase; color:#888;
+  }
+
+  /* ============ STRUCTURE ============ */
+  .wrap{max-width:1000px; margin:0 auto; padding:clamp(60px,8vw,100px) 24px 60px;}
+  section{margin-bottom:clamp(64px,9vw,96px);}
+  .section-label{
+    font-size:11px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:600; margin-bottom:12px;
+  }
+  section h2{font-size:clamp(28px,4vw,40px); margin-bottom:14px;}
+  section > p.intro{max-width:560px; font-size:14px; color:#6f685e; margin-bottom:36px;}
+
+  /* ============ LOGO ============ */
+  .logo-showcase{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:22px;}
+  .logo-box{
+    min-height:200px; display:flex; align-items:center; justify-content:center;
+    border:1px solid rgba(0,0,0,.08); padding:36px 24px;
+  }
+  .logo-box.dark-bg{background:var(--dark); border-color:var(--dark);}
+  .logo-box.white-bg{background:#fff;}
+  .logo-caption{font-size:12px; color:#9a9184; text-align:center; margin-top:10px;}
+
+  .logo-mark{
+    font-family:var(--font-serif); font-size:28px; letter-spacing:6px; text-align:center;
+    color:var(--ink);
+  }
+  .logo-mark span{
+    display:block; font-family:var(--font-sans); font-size:8.5px;
+    letter-spacing:4px; margin-top:6px; font-weight:400;
+  }
+  .dark-bg .logo-mark{color:#fff;}
+  .dark-bg .logo-mark span{color:var(--gold-light);}
+  .logo-mark.gold{color:var(--gold);}
+  .logo-mark.monogram{font-size:44px; letter-spacing:0;}
+  .logo-mark.monogram span{font-size:8px; letter-spacing:3px; margin-top:2px;}
+
+  /* Zone de protection */
+  .safe-zone{
+    background:#fff; border:1px solid rgba(0,0,0,.08); padding:50px;
+    display:flex; align-items:center; justify-content:center; margin-top:22px;
+  }
+  .safe-inner{
+    border:1px dashed var(--gold); padding:40px 56px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ============ COULEURS ============ */
+  .palette{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px;}
+  .swatch{border:1px solid rgba(0,0,0,.08); overflow:hidden; background:#fff;}
+  .swatch-color{height:110px;}
+  .swatch-info{padding:14px 16px;}
+  .swatch-info .name{font-family:var(--font-serif); font-size:19px;}
+  .swatch-info .hex{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:#9a9184; margin-top:3px;}
+  .swatch-info .role{font-size:11.5px; color:#6f685e; margin-top:8px; line-height:1.6;}
+
+  .ratio-bar{display:flex; height:52px; margin-top:26px; border:1px solid rgba(0,0,0,.08);}
+  .ratio-bar div{display:flex; align-items:center; justify-content:center; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; font-weight:500;}
+  .ratio-caption{font-size:12px; color:#9a9184; margin-top:10px;}
+
+  /* ============ TYPO ============ */
+  .type-sample{background:#fff; border:1px solid rgba(0,0,0,.08); padding:32px; margin-bottom:20px;}
+  .type-sample .label{
+    font-size:10px; color:#9a9184; margin-bottom:14px;
+    text-transform:uppercase; letter-spacing:2px; font-weight:500;
+  }
+  .type-h{font-family:var(--font-serif); font-size:clamp(30px,4.5vw,44px); line-height:1.1;}
+  .type-sub{font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:500;}
+  .type-body{font-size:15px; max-width:560px; line-height:1.8;}
+  .type-meta{font-size:12px; color:#9a9184; margin-top:14px;}
+
+  /* ============ ICONOGRAPHIE ============ */
+  .photo-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;}
+  .photo-grid figure{margin:0;}
+  .photo-grid img{width:100%; height:190px; object-fit:cover; display:block;}
+  .photo-grid figcaption{font-size:12px; color:#9a9184; margin-top:8px;}
+
+  /* ============ USAGE ============ */
+  .usage-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
+  .usage-card{padding:24px 26px; border:1px solid rgba(0,0,0,.08); background:#fff;}
+  .usage-card .tag{
+    font-weight:600; font-size:11px; letter-spacing:2px;
+    text-transform:uppercase; display:block; margin-bottom:10px;
+  }
+  .usage-card.do .tag{color:#5a7d5a;}
+  .usage-card.dont .tag{color:#a8563f;}
+  .usage-card p{font-size:13px; color:#6f685e;}
+
+  .footer-note{
+    text-align:center; font-size:12px; color:#9a9184;
+    padding:40px 24px 60px; border-top:1px solid rgba(0,0,0,.08);
+  }
+  .footer-note a{color:var(--gold); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<!-- ============ COUVERTURE ============ -->
+<header class="cover">
+  <div class="mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+  <p class="doc">Charte graphique · v1 · juillet 2026</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ LOGO ============ -->
+  <section>
+    <div class="section-label">01 · Identité</div>
+    <h2>Logotype</h2>
+    <p class="intro">
+      Un logotype purement typographique, à l'image des grandes maisons : le mot-symbole
+      en Cormorant Garamond largement interlettré, surmonté de la signature en capitales Montserrat.
+    </p>
+
+    <div class="logo-showcase">
+      <div>
+        <div class="logo-box white-bg">
+          <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+        </div>
+        <div class="logo-caption">Version principale — fond clair</div>
+      </div>
+      <div>
+        <div class="logo-box dark-bg">
+          <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+        </div>
+        <div class="logo-caption">Version inversée — fond sombre</div>
+      </div>
+      <div>
+        <div class="logo-box white-bg">
+          <div class="logo-mark gold">CHAMPAGNE<span style="color:var(--ink);">MAISON D'EXCEPTION</span></div>
+        </div>
+        <div class="logo-caption">Version or — étiquettes, coffrets, usages précieux</div>
+      </div>
+      <div>
+        <div class="logo-box white-bg">
+          <div class="logo-mark monogram">ME<span>MAISON D'EXCEPTION</span></div>
+        </div>
+        <div class="logo-caption">Monogramme — favicon, capsule, marquage discret</div>
+      </div>
+    </div>
+
+    <div class="safe-zone">
+      <div class="safe-inner">
+        <div class="logo-mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+      </div>
+    </div>
+    <div class="logo-caption">
+      Zone de protection : un espace équivalent à la hauteur du mot « CHAMPAGNE » est préservé
+      autour du logotype. Aucun élément graphique ne doit y pénétrer.
+    </div>
+  </section>
+
+  <!-- ============ COULEURS ============ -->
+  <section>
+    <div class="section-label">02 · Palette</div>
+    <h2>Couleurs</h2>
+    <p class="intro">
+      Quatre couleurs seulement. Les neutres portent l'ensemble ;
+      l'or n'intervient qu'en touche, comme un fil précieux.
+    </p>
+
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#111;"></div>
+        <div class="swatch-info">
+          <div class="name">Noir profond</div>
+          <div class="hex">#111111</div>
+          <div class="role">Fonds sombres, header, footer, textes sur clair.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f8f5ef; border-bottom:1px solid rgba(0,0,0,.06);"></div>
+        <div class="swatch-info">
+          <div class="name">Crème</div>
+          <div class="hex">#F8F5EF</div>
+          <div class="role">Fond principal, respiration générale.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#c9a45c;"></div>
+        <div class="swatch-info">
+          <div class="name">Or</div>
+          <div class="hex">#C9A45C</div>
+          <div class="role">Accent unique : filets, boutons, sous-titres.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#d9bd85;"></div>
+        <div class="swatch-info">
+          <div class="name">Or clair</div>
+          <div class="hex">#D9BD85</div>
+          <div class="role">Déclinaison de l'or sur fonds sombres.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ratio-bar">
+      <div style="flex:6; background:#f8f5ef; color:#9a9184;">Crème · 60%</div>
+      <div style="flex:3; background:#111; color:#888;">Noir · 30%</div>
+      <div style="flex:1; background:#c9a45c; color:#111;">Or</div>
+    </div>
+    <p class="ratio-caption">Répartition indicative 60 / 30 / 10 — l'or reste minoritaire en toutes circonstances.</p>
+  </section>
+
+  <!-- ============ TYPO ============ -->
+  <section>
+    <div class="section-label">03 · Typographie</div>
+    <h2>Typographies</h2>
+    <p class="intro">
+      Un duo contrasté : la rondeur classique d'une garalde pour l'émotion,
+      la neutralité d'une linéale pour la lecture et l'interface.
+    </p>
+
+    <div class="type-sample">
+      <div class="label">Titrage — Cormorant Garamond · graisses 300 à 700, référence 500</div>
+      <div class="type-h">L'expression d'un terroir d'exception</div>
+      <div class="type-meta">Usage : titres H1–H3, logotype, grands chiffres. Interlignage serré (1.05–1.2).</div>
+    </div>
+
+    <div class="type-sample">
+      <div class="label">Sous-titres &amp; labels — Montserrat · 400-500, capitales espacées</div>
+      <div class="type-sub">Au cœur de la Champagne</div>
+      <div class="type-meta">Usage : sous-titres de section, navigation, boutons. Interlettrage +2 à +5px.</div>
+    </div>
+
+    <div class="type-sample">
+      <div class="label">Texte courant — Montserrat · 300</div>
+      <p class="type-body">
+        Depuis quatre générations, notre famille cultive la vigne sur les coteaux
+        de la Côte des Bar, dans le respect du terroir et des savoir-faire transmis.
+      </p>
+      <div class="type-meta">Usage : paragraphes. Corps 14–15px, interlignage 1.8, jamais de gras.</div>
+    </div>
+  </section>
+
+  <!-- ============ ICONOGRAPHIE ============ -->
+  <section>
+    <div class="section-label">04 · Iconographie</div>
+    <h2>Univers photographique</h2>
+    <p class="intro">
+      Lumières naturelles, matières vraies : la vigne, la craie, la cave, les mains.
+      Pas de photos de banque génériques ni de mises en scène artificielles.
+    </p>
+
+    <div class="photo-grid">
+      <figure>
+        <img src="assets/images/vignoble.jpg" alt="Vignoble en coteaux" loading="lazy">
+        <figcaption>Paysages — coteaux, rangs de vigne, horizons.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/images/vigne-travail.jpg" alt="Travail de la vigne" loading="lazy">
+        <figcaption>Gestes — travail de la vigne, vendanges, mains.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/images/cave.jpg" alt="Cave voûtée" loading="lazy">
+        <figcaption>Caves — pénombre, bouteilles sur lattes, patine.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/images/sol.jpg" alt="Sol crayeux" loading="lazy">
+        <figcaption>Matières — craie, sol, écorces, textures brutes.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ USAGE ============ -->
+  <section>
+    <div class="section-label">05 · Règles d'usage</div>
+    <h2>À faire / à éviter</h2>
+
+    <div class="usage-grid">
+      <div class="usage-card do">
+        <span class="tag">✓ À faire</span>
+        <p>Laisser respirer : grandes marges, sections aérées, logotype entouré de sa zone de protection.</p>
+      </div>
+      <div class="usage-card do">
+        <span class="tag">✓ À faire</span>
+        <p>Employer l'or avec parcimonie — filets, sous-titres, survols — pour préserver sa valeur.</p>
+      </div>
+      <div class="usage-card do">
+        <span class="tag">✓ À faire</span>
+        <p>Poser le logotype sur des fonds unis (crème, noir, photo sombre à faible contraste local).</p>
+      </div>
+      <div class="usage-card dont">
+        <span class="tag">✗ À éviter</span>
+        <p>Déformer, incliner, ombrer ou contourner le logotype ; modifier son interlettrage.</p>
+      </div>
+      <div class="usage-card dont">
+        <span class="tag">✗ À éviter</span>
+        <p>Introduire une couleur hors palette, ou utiliser l'or en aplat de grande surface.</p>
+      </div>
+      <div class="usage-card dont">
+        <span class="tag">✗ À éviter</span>
+        <p>Poser le logotype sur une photo chargée ou un fond à contraste insuffisant.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer-note">
+  Charte graphique — document de démonstration réalisé dans le cadre d'un projet de portfolio.<br>
+  <a href="index.html">← Retour au site</a> · <a href="ui-kit.html">UI Kit</a> · <a href="prototype-app.html">Prototype d'app</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Champagne — Prototype app espace client (UI/UX)</title>
+<meta name="description" content="Prototype cliquable d'application mobile espace client pour un domaine champenois — démo UI/UX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-serif:'Cormorant Garamond', serif;
+    --font-sans:'Montserrat', sans-serif;
+    --ink:#1a1a1a;
+    --cream:#f8f5ef;
+    --cream-2:#efeae0;
+    --gold:#c9a45c;
+    --gold-light:#d9bd85;
+    --dark:#111;
+    --ok:#5a7d5a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:var(--font-sans);
+    background:#e9e4da;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:40px 16px; gap:20px;
+    color:var(--ink);
+  }
+  h1,h2,h3{font-family:var(--font-serif); font-weight:500;}
+
+  .caption{text-align:center; font-size:12px; color:#7a736a; letter-spacing:1px;}
+  .caption b{color:var(--ink); letter-spacing:2px;}
+
+  .switcher{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:6px;
+    background:#fff; padding:6px; border-radius:999px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+  }
+  .switcher button{
+    border:none; background:transparent; padding:9px 16px; border-radius:999px;
+    font-family:var(--font-sans); font-size:11px; font-weight:600; letter-spacing:1px;
+    text-transform:uppercase; color:#9a9184; cursor:pointer; transition:all .25s;
+  }
+  .switcher button.active{background:var(--dark); color:var(--gold-light);}
+
+  /* ============ PHONE FRAME ============ */
+  .phone{
+    width:375px; height:780px; background:var(--dark); border-radius:46px;
+    padding:14px; box-shadow:0 30px 60px rgba(0,0,0,.3);
+  }
+  .screen{
+    width:100%; height:100%; background:var(--cream); border-radius:34px;
+    overflow:hidden; position:relative; display:flex; flex-direction:column;
+  }
+  .notch{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:24px; background:var(--dark);
+    border-radius:0 0 16px 16px; z-index:20;
+  }
+  .status-bar{
+    height:44px; flex-shrink:0; display:flex; align-items:flex-end;
+    justify-content:space-between; padding:0 26px 8px;
+    font-size:12px; font-weight:600; color:var(--ink);
+  }
+
+  .view{display:none; flex:1; flex-direction:column; overflow-y:auto; scrollbar-width:none;}
+  .view::-webkit-scrollbar{display:none;}
+  .view.active{display:flex;}
+
+  .label{
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:600;
+  }
+
+  /* Topbar */
+  .topbar{padding:10px 22px 14px; display:flex; align-items:center; justify-content:space-between;}
+  .topbar .brand{font-family:var(--font-serif); font-size:20px; letter-spacing:4px;}
+  .topbar .brand span{display:block; font-family:var(--font-sans); font-size:7.5px; letter-spacing:3px; color:#8c8478; margin-top:2px;}
+  .avatar{
+    width:36px; height:36px; border-radius:50%; background:var(--dark); color:var(--gold-light);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-serif); font-size:15px; letter-spacing:1px;
+  }
+
+  /* ============ ACCUEIL ============ */
+  .greeting{padding:4px 22px 16px;}
+  .greeting h2{font-size:27px;}
+  .greeting p{font-size:12px; color:#8c8478; margin-top:2px;}
+
+  .member-card{
+    margin:0 22px 22px; border-radius:18px; overflow:hidden; position:relative;
+    background:var(--dark); color:#fff; padding:20px;
+  }
+  .member-card::after{
+    content:""; position:absolute; inset:6px;
+    border:1px solid rgba(201,164,92,.45); border-radius:13px; pointer-events:none;
+  }
+  .member-card .label{margin-bottom:8px; display:block;}
+  .member-card .points{font-family:var(--font-serif); font-size:34px; color:var(--gold-light);}
+  .member-card .points small{font-family:var(--font-sans); font-size:11px; color:#bbb; letter-spacing:1px; margin-left:6px;}
+  .member-card .tier{
+    position:absolute; top:20px; right:20px; font-size:9px; letter-spacing:2px;
+    text-transform:uppercase; border:1px solid var(--gold); color:var(--gold-light);
+    padding:6px 10px; border-radius:999px;
+  }
+  .member-card .bar{height:3px; background:rgba(255,255,255,.15); border-radius:2px; margin-top:16px;}
+  .member-card .bar i{display:block; height:100%; width:64%; background:var(--gold); border-radius:2px;}
+  .member-card .next{font-size:10px; color:#aaa; margin-top:8px; letter-spacing:.5px;}
+
+  .section-title{
+    padding:0 22px; margin-bottom:12px;
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .section-title h3{font-size:20px;}
+  .section-title button{
+    background:none; border:none; cursor:pointer;
+    font-family:var(--font-sans); font-size:10px; letter-spacing:2px;
+    text-transform:uppercase; color:var(--gold); font-weight:600;
+  }
+
+  .visit-card{
+    margin:0 22px 22px; background:#fff; border-radius:16px; overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,0,0,.05); cursor:pointer; transition:transform .15s;
+  }
+  .visit-card:active{transform:scale(.98);}
+  .visit-card img{width:100%; height:110px; object-fit:cover; display:block;}
+  .visit-card .body{padding:14px 16px; display:flex; align-items:center; justify-content:space-between;}
+  .visit-card .t{font-size:13px; font-weight:600;}
+  .visit-card .d{font-size:11.5px; color:#8c8478; margin-top:3px;}
+  .badge{
+    font-size:9px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    padding:5px 10px; border-radius:999px; background:#ede4d0; color:#8a6f35;
+  }
+  .badge.ok{background:#e2ead9; color:var(--ok);}
+
+  .order-item{
+    margin:0 22px 12px; background:#fff; border-radius:14px; padding:14px 16px;
+    display:flex; align-items:center; gap:14px; cursor:pointer; transition:transform .15s;
+    box-shadow:0 2px 10px rgba(0,0,0,.04);
+  }
+  .order-item:active{transform:scale(.98);}
+  .order-thumb{
+    width:46px; height:46px; border-radius:10px; background:var(--cream-2);
+    flex-shrink:0; overflow:hidden;
+  }
+  .order-thumb img{width:100%; height:100%; object-fit:cover;}
+  .order-info{flex:1;}
+  .order-info .n{font-size:13px; font-weight:600;}
+  .order-info .m{font-size:11px; color:#8c8478; margin-top:2px;}
+
+  /* ============ CUVÉES ============ */
+  .page-head{padding:4px 22px 18px;}
+  .page-head h2{font-size:27px;}
+  .page-head p{font-size:12px; color:#8c8478; margin-top:4px; line-height:1.6;}
+
+  .filters{display:flex; gap:8px; padding:0 22px 18px;}
+  .chip{
+    font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+    padding:8px 14px; border-radius:999px; border:1px solid rgba(0,0,0,.15);
+    background:none; cursor:pointer; color:#8c8478; font-family:var(--font-sans);
+    transition:all .25s;
+  }
+  .chip.active{background:var(--dark); border-color:var(--dark); color:var(--gold-light);}
+
+  .cuvee-card{
+    margin:0 22px 18px; background:#fff; border-radius:16px; overflow:hidden;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+  }
+  .cuvee-card img{width:100%; height:150px; object-fit:cover; display:block;}
+  .cuvee-card .body{padding:16px 18px 18px;}
+  .cuvee-card h3{font-size:23px;}
+  .cuvee-card .cepage{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; margin:4px 0 8px;}
+  .cuvee-card p{font-size:12px; color:#6f685e; line-height:1.7;}
+  .cuvee-card .row{display:flex; align-items:center; justify-content:space-between; margin-top:14px;}
+  .price{font-family:var(--font-serif); font-size:21px;}
+  .price small{font-family:var(--font-sans); font-size:10px; color:#8c8478; letter-spacing:1px;}
+  .btn-add{
+    font-family:var(--font-sans); font-size:10px; font-weight:600; letter-spacing:2px;
+    text-transform:uppercase; padding:11px 18px; border:1px solid var(--gold);
+    background:none; color:var(--ink); cursor:pointer; transition:all .3s;
+  }
+  .btn-add:hover, .btn-add.added{background:var(--gold); color:var(--dark);}
+
+  .cart-pill{
+    position:absolute; bottom:92px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--dark); color:#fff; font-size:11px; letter-spacing:1.5px;
+    padding:12px 22px; border-radius:999px; opacity:0; pointer-events:none;
+    transition:all .35s; z-index:15; white-space:nowrap;
+  }
+  .cart-pill.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .cart-pill b{color:var(--gold-light); font-weight:600;}
+
+  /* ============ RÉSERVATION ============ */
+  .visit-hero{height:150px; position:relative; flex-shrink:0;}
+  .visit-hero img{width:100%; height:100%; object-fit:cover; display:block;}
+  .visit-hero::after{content:""; position:absolute; inset:0; background:linear-gradient(rgba(0,0,0,.15), rgba(248,245,239,0) 60%);}
+
+  .form-block{padding:18px 22px 0;}
+  .form-block .q{font-size:11px; letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:10px;}
+
+  .opt-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .opt{
+    background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:12px;
+    padding:13px 12px; cursor:pointer; text-align:left; font-family:var(--font-sans);
+    transition:all .25s;
+  }
+  .opt .on{font-size:12px; font-weight:600; color:var(--ink);}
+  .opt .od{font-size:10.5px; color:#8c8478; margin-top:3px;}
+  .opt.selected{border-color:var(--gold); background:#fbf6ea; box-shadow:0 0 0 1px var(--gold);}
+
+  .date-strip{display:flex; gap:8px; overflow-x:auto; padding:0 22px; scrollbar-width:none;}
+  .date-strip::-webkit-scrollbar{display:none;}
+  .day{
+    flex-shrink:0; width:56px; padding:10px 0; border-radius:12px; text-align:center;
+    background:#fff; border:1px solid rgba(0,0,0,.08); cursor:pointer;
+    font-family:var(--font-sans); transition:all .25s;
+  }
+  .day .dw{font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8c8478;}
+  .day .dn{font-family:var(--font-serif); font-size:20px; margin-top:2px;}
+  .day.selected{background:var(--dark); border-color:var(--dark); color:var(--gold-light);}
+  .day.selected .dw{color:#aaa;}
+
+  .slots{display:flex; flex-wrap:wrap; gap:8px;}
+  .slot{
+    font-family:var(--font-sans); font-size:11px; font-weight:500; padding:9px 15px;
+    border-radius:999px; border:1px solid rgba(0,0,0,.12); background:#fff;
+    cursor:pointer; transition:all .25s; color:var(--ink);
+  }
+  .slot.selected{background:var(--gold); border-color:var(--gold); color:var(--dark); font-weight:600;}
+  .slot.full{opacity:.35; text-decoration:line-through; pointer-events:none;}
+
+  .btn-main{
+    margin:22px 22px 26px; padding:16px; border:none; background:var(--dark);
+    color:#fff; font-family:var(--font-sans); font-size:11px; font-weight:600;
+    letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:all .3s;
+  }
+  .btn-main:hover{background:var(--gold); color:var(--dark);}
+  .confirm-note{
+    margin:0 22px 24px; padding:14px 16px; background:#e2ead9; border-radius:12px;
+    font-size:11.5px; color:var(--ok); line-height:1.6; display:none;
+  }
+  .confirm-note.show{display:block;}
+
+  /* ============ SUIVI COMMANDE ============ */
+  .back-row{padding:10px 22px 6px; display:flex; align-items:center; gap:12px;}
+  .back-btn{
+    width:34px; height:34px; border-radius:50%; background:#fff; border:1px solid rgba(0,0,0,.08);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px;
+    color:var(--ink);
+  }
+  .back-row h2{font-size:22px;}
+
+  .order-summary{
+    margin:12px 22px 20px; background:#fff; border-radius:16px; padding:18px;
+    box-shadow:0 2px 12px rgba(0,0,0,.05);
+  }
+  .order-summary .ref{font-size:10px; letter-spacing:2px; color:#8c8478; text-transform:uppercase;}
+  .order-summary .items{margin-top:10px; display:flex; flex-direction:column; gap:8px;}
+  .order-summary .it{display:flex; justify-content:space-between; font-size:12.5px;}
+  .order-summary .it span:last-child{font-weight:600;}
+  .order-summary .total{
+    display:flex; justify-content:space-between; border-top:1px solid rgba(0,0,0,.08);
+    margin-top:12px; padding-top:12px; font-size:13px; font-weight:600;
+  }
+  .order-summary .total span:last-child{font-family:var(--font-serif); font-size:19px;}
+
+  .track{padding:0 22px 20px;}
+  .track h3{font-size:19px; margin-bottom:14px;}
+  .step{display:flex; gap:14px;}
+  .step .rail{display:flex; flex-direction:column; align-items:center;}
+  .step .dot{
+    width:12px; height:12px; border-radius:50%; border:2px solid var(--gold);
+    background:var(--cream); flex-shrink:0; margin-top:3px;
+  }
+  .step.done .dot{background:var(--gold);}
+  .step .line{width:1px; flex:1; background:rgba(0,0,0,.15); min-height:26px;}
+  .step.done .line{background:var(--gold);}
+  .step:last-child .line{display:none;}
+  .step .txt{padding-bottom:18px;}
+  .step .st{font-size:13px; font-weight:600;}
+  .step.pending .st{color:#a09889;}
+  .step .sd{font-size:11px; color:#8c8478; margin-top:2px;}
+
+  /* ============ PROFIL / FIDÉLITÉ ============ */
+  .profile-head{padding:22px; display:flex; flex-direction:column; align-items:center; text-align:center;}
+  .profile-avatar{
+    width:72px; height:72px; border-radius:50%; background:var(--dark); color:var(--gold-light);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-serif); font-size:26px; letter-spacing:1px; margin-bottom:12px;
+  }
+  .profile-head h2{font-size:22px;}
+  .profile-head p{font-size:12px; color:#8c8478; margin-top:3px;}
+
+  .tier-strip{display:flex; gap:8px; padding:6px 22px 20px;}
+  .tier-box{
+    flex:1; text-align:center; padding:12px 6px; border-radius:12px;
+    border:1px solid rgba(0,0,0,.08); background:#fff;
+  }
+  .tier-box.current{border-color:var(--gold); background:#fbf6ea;}
+  .tier-box .tn{font-family:var(--font-serif); font-size:15px;}
+  .tier-box .tp{font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8c8478; margin-top:3px;}
+
+  .perk{
+    margin:0 22px 10px; background:#fff; border-radius:14px; padding:14px 16px;
+    display:flex; align-items:center; gap:14px; box-shadow:0 2px 10px rgba(0,0,0,.04);
+  }
+  .perk .ico{
+    width:38px; height:38px; border-radius:50%; background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+  }
+  .perk .pt{font-size:12.5px; font-weight:600;}
+  .perk .pd{font-size:11px; color:#8c8478; margin-top:2px;}
+  .perk.locked{opacity:.45;}
+
+  /* ============ BOTTOM NAV ============ */
+  .bottom-nav{
+    height:72px; flex-shrink:0; background:#fff; border-top:1px solid rgba(0,0,0,.06);
+    display:flex; align-items:center; justify-content:space-around; padding-bottom:8px;
+  }
+  .nav-item{
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    font-family:var(--font-sans); font-size:9px; font-weight:600; letter-spacing:1.5px;
+    text-transform:uppercase; color:#b3ab9d; cursor:pointer; background:none; border:none;
+  }
+  .nav-item svg{stroke:#b3ab9d; transition:stroke .25s;}
+  .nav-item.active{color:var(--ink);}
+  .nav-item.active svg{stroke:var(--gold);}
+
+  .legal{font-size:10px; color:#a39a8c; letter-spacing:.5px; text-align:center; max-width:420px;}
+
+  @media (max-height:900px){
+    .phone{transform:scale(.88); margin:-40px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="caption">Prototype cliquable — app espace client <b>CHAMPAGNE · MAISON D'EXCEPTION</b> (démo UI/UX, projet de démonstration)</div>
+
+<div class="switcher" role="tablist" aria-label="Écrans du prototype">
+  <button class="tab-btn active" data-tab="home">Accueil</button>
+  <button class="tab-btn" data-tab="cuvees">Cuvées</button>
+  <button class="tab-btn" data-tab="visite">Réservation</button>
+  <button class="tab-btn" data-tab="commande">Suivi commande</button>
+  <button class="tab-btn" data-tab="profil">Fidélité</button>
+</div>
+
+<div class="phone">
+  <div class="screen">
+    <div class="notch"></div>
+    <div class="status-bar"><span>9:41</span><span>●●●&nbsp; ᯤ&nbsp; ▮</span></div>
+
+    <!-- ================= ACCUEIL ================= -->
+    <div class="view active" id="view-home">
+      <div class="topbar">
+        <div class="brand">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
+        <div class="avatar">R</div>
+      </div>
+
+      <div class="greeting">
+        <p class="label">Espace client</p>
+        <h2>Bonsoir, Raphaël</h2>
+        <p>Heureux de vous retrouver au domaine.</p>
+      </div>
+
+      <div class="member-card">
+        <span class="tier">Membre Or</span>
+        <span class="label">Vos points fidélité</span>
+        <div class="points">1 280 <small>pts</small></div>
+        <div class="bar"><i></i></div>
+        <div class="next">720 pts avant le statut Grande Réserve</div>
+      </div>
+
+      <div class="section-title">
+        <h3>Prochaine visite</h3>
+        <button data-goto="visite">Réserver</button>
+      </div>
+      <div class="visit-card" data-goto="visite">
+        <img src="assets/images/cave.jpg" alt="Cave du domaine">
+        <div class="body">
+          <div>
+            <div class="t">Visite des caves &amp; dégustation</div>
+            <div class="d">Samedi 8 août · 15h00 · 2 personnes</div>
+          </div>
+          <span class="badge ok">Confirmée</span>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>Vos commandes</h3>
+        <button data-goto="commande">Tout voir</button>
+      </div>
+      <div class="order-item" data-goto="commande">
+        <div class="order-thumb"><img src="assets/images/brut-reserve.jpg" alt="Brut Réserve"></div>
+        <div class="order-info">
+          <div class="n">Commande n° 2318</div>
+          <div class="m">6 bouteilles · expédiée le 20 juillet</div>
+        </div>
+        <span class="badge">En transit</span>
+      </div>
+      <div class="order-item" data-goto="commande">
+        <div class="order-thumb"><img src="assets/images/rose.jpg" alt="Rosé de Saignée"></div>
+        <div class="order-info">
+          <div class="n">Commande n° 2296</div>
+          <div class="m">3 bouteilles · livrée le 2 juillet</div>
+        </div>
+        <span class="badge ok">Livrée</span>
+      </div>
+      <div style="height:20px; flex-shrink:0;"></div>
+    </div>
+
+    <!-- ================= CUVÉES ================= -->
+    <div class="view" id="view-cuvees">
+      <div class="page-head">
+        <p class="label">Notre catalogue</p>
+        <h2>Les cuvées</h2>
+        <p>Trois expressions d'un même terroir, entre puissance, équilibre et élégance.</p>
+      </div>
+
+      <div class="filters">
+        <button class="chip active">Toutes</button>
+        <button class="chip">Pinot Noir</button>
+        <button class="chip">Assemblage</button>
+      </div>
+
+      <div class="cuvee-card">
+        <img src="assets/images/blanc-noirs.jpg" alt="Champagne Blanc de Noirs">
+        <div class="body">
+          <h3>Blanc de Noirs</h3>
+          <div class="cepage">100% Pinot Noir</div>
+          <p>La pure expression du Pinot Noir : structure, puissance et profondeur.</p>
+          <div class="row">
+            <div class="price">32 € <small>/ btl</small></div>
+            <button class="btn-add">Ajouter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cuvee-card">
+        <img src="assets/images/brut-reserve.jpg" alt="Champagne Brut Réserve">
+        <div class="body">
+          <h3>Brut Réserve</h3>
+          <div class="cepage">Assemblage Pinot Noir · Chardonnay</div>
+          <p>L'équilibre entre finesse et caractère, une cuvée vive et enveloppante.</p>
+          <div class="row">
+            <div class="price">27 € <small>/ btl</small></div>
+            <button class="btn-add">Ajouter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cuvee-card">
+        <img src="assets/images/rose.jpg" alt="Champagne Rosé de Saignée">
+        <div class="body">
+          <h3>Rosé de Saignée</h3>
+          <div class="cepage">100% Pinot Noir</div>
+          <p>Élégante et délicate, aux notes de fruits rouges, obtenue par saignée.</p>
+          <div class="row">
+            <div class="price">36 € <small>/ btl</small></div>
+            <button class="btn-add">Ajouter</button>
+          </div>
+        </div>
+      </div>
+      <div style="height:20px; flex-shrink:0;"></div>
+    </div>
+
+    <!-- ================= RÉSERVATION ================= -->
+    <div class="view" id="view-visite">
+      <div class="visit-hero">
+        <img src="assets/images/vignoble.jpg" alt="Vignoble du domaine">
+      </div>
+
+      <div class="page-head" style="padding-top:16px;">
+        <p class="label">Visite du domaine</p>
+        <h2>Réserver une visite</h2>
+      </div>
+
+      <div class="form-block">
+        <div class="q">Type de visite</div>
+        <div class="opt-grid">
+          <button class="opt selected">
+            <div class="on">Caves &amp; dégustation</div>
+            <div class="od">1h30 · 3 cuvées · 25 €/pers</div>
+          </button>
+          <button class="opt">
+            <div class="on">Vignoble &amp; terroir</div>
+            <div class="od">2h · balade guidée · 18 €/pers</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-block" style="padding-left:0; padding-right:0;">
+        <div class="q" style="padding:0 22px;">Date</div>
+        <div class="date-strip">
+          <button class="day"><div class="dw">Jeu</div><div class="dn">6</div></button>
+          <button class="day"><div class="dw">Ven</div><div class="dn">7</div></button>
+          <button class="day selected"><div class="dw">Sam</div><div class="dn">8</div></button>
+          <button class="day"><div class="dw">Dim</div><div class="dn">9</div></button>
+          <button class="day"><div class="dw">Mar</div><div class="dn">11</div></button>
+          <button class="day"><div class="dw">Mer</div><div class="dn">12</div></button>
+        </div>
+      </div>
+
+      <div class="form-block">
+        <div class="q">Créneau</div>
+        <div class="slots">
+          <button class="slot">10h00</button>
+          <button class="slot full">11h30</button>
+          <button class="slot">14h00</button>
+          <button class="slot selected">15h00</button>
+          <button class="slot">16h30</button>
+        </div>
+      </div>
+
+      <button class="btn-main" id="bookBtn">Confirmer la réservation</button>
+      <div class="confirm-note" id="bookNote">
+        ✓ Votre visite est confirmée. Un e-mail de confirmation vient de vous être envoyé — nous avons hâte de vous accueillir au domaine.
+      </div>
+    </div>
+
+    <!-- ================= SUIVI COMMANDE ================= -->
+    <div class="view" id="view-commande">
+      <div class="back-row">
+        <button class="back-btn" data-goto="home" aria-label="Retour">←</button>
+        <h2>Commande n° 2318</h2>
+      </div>
+
+      <div class="order-summary">
+        <div class="ref">Passée le 18 juillet 2026</div>
+        <div class="items">
+          <div class="it"><span>Brut Réserve × 3</span><span>81 €</span></div>
+          <div class="it"><span>Blanc de Noirs × 2</span><span>64 €</span></div>
+          <div class="it"><span>Rosé de Saignée × 1</span><span>36 €</span></div>
+        </div>
+        <div class="total"><span>Total</span><span>181 €</span></div>
+      </div>
+
+      <div class="track">
+        <h3>Suivi de livraison</h3>
+
+        <div class="step done">
+          <div class="rail"><div class="dot"></div><div class="line"></div></div>
+          <div class="txt">
+            <div class="st">Commande confirmée</div>
+            <div class="sd">18 juillet · 14h22</div>
+          </div>
+        </div>
+
+        <div class="step done">
+          <div class="rail"><div class="dot"></div><div class="line"></div></div>
+          <div class="txt">
+            <div class="st">Préparée au domaine</div>
+            <div class="sd">19 juillet · 09h45</div>
+          </div>
+        </div>
+
+        <div class="step done">
+          <div class="rail"><div class="dot"></div><div class="line"></div></div>
+          <div class="txt">
+            <div class="st">Expédiée</div>
+            <div class="sd">20 juillet · 16h10 · transporteur réfrigéré</div>
+          </div>
+        </div>
+
+        <div class="step pending">
+          <div class="rail"><div class="dot"></div><div class="line"></div></div>
+          <div class="txt">
+            <div class="st">En cours de livraison</div>
+            <div class="sd">Estimée le 23 juillet</div>
+          </div>
+        </div>
+
+        <div class="step pending">
+          <div class="rail"><div class="dot"></div></div>
+          <div class="txt">
+            <div class="st">Livrée</div>
+            <div class="sd">Signature requise à la réception</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= PROFIL / FIDÉLITÉ ================= -->
+    <div class="view" id="view-profil">
+      <div class="profile-head">
+        <div class="profile-avatar">R</div>
+        <h2>Raphaël P.</h2>
+        <p>Membre depuis mars 2025 · 1 280 points</p>
+      </div>
+
+      <div class="tier-strip">
+        <div class="tier-box"><div class="tn">Découverte</div><div class="tp">0 pt</div></div>
+        <div class="tier-box current"><div class="tn">Or</div><div class="tp">1 000 pts</div></div>
+        <div class="tier-box"><div class="tn">Gde Réserve</div><div class="tp">2 000 pts</div></div>
+      </div>
+
+      <div class="section-title"><h3>Vos avantages</h3></div>
+
+      <div class="perk">
+        <div class="ico">🥂</div>
+        <div>
+          <div class="pt">Dégustation offerte</div>
+          <div class="pd">Une dégustation 3 cuvées par an, pour deux</div>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="ico">🚚</div>
+        <div>
+          <div class="pt">Livraison offerte</div>
+          <div class="pd">Dès 6 bouteilles commandées</div>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="ico">🍾</div>
+        <div>
+          <div class="pt">Accès aux cuvées limitées</div>
+          <div class="pd">Millésimes réservés aux membres Or</div>
+        </div>
+      </div>
+      <div class="perk locked">
+        <div class="ico">🔒</div>
+        <div>
+          <div class="pt">Soirée vendanges — Grande Réserve</div>
+          <div class="pd">Débloqué à 2 000 points</div>
+        </div>
+      </div>
+      <div style="height:20px; flex-shrink:0;"></div>
+    </div>
+
+    <!-- Toast panier -->
+    <div class="cart-pill" id="cartPill">Panier · <b id="cartCount">0</b> bouteille(s)</div>
+
+    <!-- ================= BOTTOM NAV ================= -->
+    <nav class="bottom-nav" aria-label="Navigation de l'app">
+      <button class="nav-item active" data-tab="home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>
+        Accueil
+      </button>
+      <button class="nav-item" data-tab="cuvees">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M9 3h6v5c0 2.5-1.2 4-3 4s-3-1.5-3-4V3zM12 12v6M9 21h6"/></svg>
+        Cuvées
+      </button>
+      <button class="nav-item" data-tab="visite">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        Visites
+      </button>
+      <button class="nav-item" data-tab="profil">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+        Profil
+      </button>
+    </nav>
+
+  </div>
+</div>
+
+<p class="legal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. — Prototype non commercial réalisé à des fins de démonstration UI/UX.</p>
+
+<script>
+(function(){
+  var views = document.querySelectorAll('.view');
+  var tabBtns = document.querySelectorAll('.switcher .tab-btn');
+  var navItems = document.querySelectorAll('.bottom-nav .nav-item');
+
+  function show(tab){
+    views.forEach(function(v){ v.classList.toggle('active', v.id === 'view-' + tab); });
+    tabBtns.forEach(function(b){ b.classList.toggle('active', b.dataset.tab === tab); });
+    navItems.forEach(function(b){ b.classList.toggle('active', b.dataset.tab === tab); });
+    var active = document.getElementById('view-' + tab);
+    if (active) active.scrollTop = 0;
+  }
+
+  tabBtns.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); }); });
+  navItems.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); }); });
+  document.querySelectorAll('[data-goto]').forEach(function(el){
+    el.addEventListener('click', function(){ show(el.dataset.goto); });
+  });
+
+  /* Sélections (options, dates, créneaux, filtres) */
+  function exclusive(selector, cls){
+    var els = document.querySelectorAll(selector);
+    els.forEach(function(el){
+      el.addEventListener('click', function(){
+        els.forEach(function(e){ e.classList.remove(cls); });
+        el.classList.add(cls);
+      });
+    });
+  }
+  exclusive('.opt', 'selected');
+  exclusive('.day', 'selected');
+  exclusive('.slot:not(.full)', 'selected');
+  exclusive('.chip', 'active');
+
+  /* Confirmation réservation */
+  var bookBtn = document.getElementById('bookBtn');
+  var bookNote = document.getElementById('bookNote');
+  bookBtn.addEventListener('click', function(){
+    bookNote.classList.add('show');
+    bookBtn.textContent = 'Réservation confirmée ✓';
+  });
+
+  /* Panier */
+  var count = 0;
+  var pill = document.getElementById('cartPill');
+  var countEl = document.getElementById('cartCount');
+  var pillTimer;
+  document.querySelectorAll('.btn-add').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      count++;
+      countEl.textContent = count;
+      btn.classList.add('added');
+      btn.textContent = 'Ajouté ✓';
+      setTimeout(function(){ btn.classList.remove('added'); btn.textContent = 'Ajouter'; }, 1400);
+      pill.classList.add('show');
+      clearTimeout(pillTimer);
+      pillTimer = setTimeout(function(){ pill.classList.remove('show'); }, 2200);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

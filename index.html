@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raphaël — Développeur &amp; Designer UI/UX | Portfolio</title>
+<meta name="description" content="Développeur full stack et designer UI/UX freelance : sites sur-mesure, identités visuelles et prototypes d'app. Découvrez mes projets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ee;
+    --surface:#ffffff;
+    --ink:#16150f;
+    --muted:#6e695f;
+    --accent:#d96f32;
+    --line:rgba(22,21,15,.1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--bg); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.1;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ============ NAV ============ */
+  nav.top{
+    position:sticky; top:0; z-index:50; background:rgba(244,242,238,.85);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none;}
+  .wordmark span{color:var(--accent);}
+  nav.top ul{display:flex; gap:28px; list-style:none;}
+  nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
+  nav.top ul a:hover{color:var(--ink);}
+  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;}}
+
+  /* ============ HERO ============ */
+  .hero{padding:clamp(70px,11vw,140px) 0 clamp(50px,8vw,90px);}
+  .hero .tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:500; color:var(--muted);
+    border:1px solid var(--line); border-radius:999px; padding:7px 14px; margin-bottom:28px;
+    background:var(--surface);
+  }
+  .hero .tag i{width:8px; height:8px; border-radius:50%; background:#4a9d6b; display:inline-block;}
+  .hero h1{font-size:clamp(38px,7vw,76px); letter-spacing:-.02em; max-width:900px;}
+  .hero h1 em{font-style:normal; color:var(--accent);}
+  .hero p.lead{margin-top:26px; max-width:600px; font-size:clamp(15px,2vw,17px); color:var(--muted);}
+  .hero .cta-row{margin-top:38px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:14px 28px; border-radius:10px; font-size:14px;
+    font-weight:600; text-decoration:none; font-family:'Space Grotesk', sans-serif;
+    transition:transform .2s, box-shadow .2s, background .2s;
+  }
+  .btn.primary{background:var(--ink); color:#fff;}
+  .btn.primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(22,21,15,.18);}
+  .btn.ghost{border:1px solid var(--line); background:var(--surface);}
+  .btn.ghost:hover{border-color:var(--ink);}
+
+  /* ============ SECTIONS ============ */
+  section{padding:clamp(50px,8vw,90px) 0;}
+  .sec-head{margin-bottom:44px;}
+  .sec-head .k{
+    font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .sec-head h2{font-size:clamp(28px,4.5vw,44px); letter-spacing:-.01em;}
+  .sec-head p{margin-top:12px; max-width:560px; font-size:15px; color:var(--muted);}
+
+  /* ============ COMPÉTENCES ============ */
+  .skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
+  .skill-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:30px;
+  }
+  .skill-card .ico{
+    width:44px; height:44px; border-radius:12px; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
+  }
+  .skill-card h3{font-size:19px; margin-bottom:10px;}
+  .skill-card p{font-size:13.5px; color:var(--muted);}
+  .skill-card .tags{margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;}
+  .skill-card .tags span{
+    font-size:11.5px; font-weight:500; padding:5px 11px; border-radius:999px;
+    background:var(--bg); color:var(--ink);
+  }
+
+  /* ============ PROJETS ============ */
+  .project{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    overflow:hidden; margin-bottom:34px;
+  }
+  .project .cover{position:relative; height:clamp(200px,32vw,340px); overflow:hidden;}
+  .project .cover img{width:100%; height:100%; object-fit:cover; transition:transform .8s ease;}
+  .project:hover .cover img{transform:scale(1.04);}
+  .project .cover .chip{
+    position:absolute; top:18px; left:18px; z-index:2;
+    font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    background:rgba(22,21,15,.82); color:#fff; padding:8px 14px; border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .project .cover.solid{display:flex; align-items:center; justify-content:center;}
+  .project .body{padding:clamp(24px,4vw,40px);}
+  .project .body .row{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:baseline;}
+  .project h3{font-size:clamp(22px,3vw,30px); letter-spacing:-.01em;}
+  .project .stack{font-size:12px; color:var(--muted); font-weight:500;}
+  .project p.desc{margin-top:12px; max-width:640px; font-size:14.5px; color:var(--muted);}
+  .project .links{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px;}
+  .project .links a{
+    font-size:12.5px; font-weight:600; text-decoration:none; padding:10px 16px;
+    border:1px solid var(--line); border-radius:999px; transition:all .2s;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .project .links a:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .project .links a.main{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .project .links a.main:hover{background:var(--ink); border-color:var(--ink);}
+  .project .note{margin-top:14px; font-size:11.5px; color:#a09a8e;}
+
+  /* ============ DÉMARCHE ============ */
+  .method{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;}
+  .method .m-card{border-left:2px solid var(--accent); padding:4px 0 4px 20px;}
+  .method .m-card .n{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:13px; color:var(--accent); margin-bottom:6px;}
+  .method .m-card h3{font-size:17px; margin-bottom:6px;}
+  .method .m-card p{font-size:13px; color:var(--muted);}
+
+  /* ============ CONTACT ============ */
+  .contact-band{
+    background:var(--ink); color:#fff; border-radius:24px;
+    padding:clamp(40px,7vw,70px); text-align:center; margin-bottom:40px;
+  }
+  .contact-band h2{font-size:clamp(28px,4.5vw,44px); letter-spacing:-.01em;}
+  .contact-band p{margin-top:14px; color:#b5b1a6; max-width:520px; margin-left:auto; margin-right:auto; font-size:15px;}
+  .contact-band .btn.primary{background:var(--accent); margin-top:30px;}
+  .contact-band .mail{margin-top:18px; font-size:13px; color:#b5b1a6;}
+  .contact-band .mail a{color:#fff; text-decoration:underline; text-underline-offset:3px;}
+
+  footer{padding:0 0 50px; text-align:center; font-size:12.5px; color:var(--muted);}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="wrap">
+    <a class="wordmark" href="#">raphael<span>.</span>dev</a>
+    <ul>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <span class="tag"><i></i>Disponible pour de nouvelles missions</span>
+    <h1>Je conçois <em>et</em> je code des sites qui ont de l'allure.</h1>
+    <p class="lead">
+      Développeur full stack et designer UI/UX freelance, je prends les projets web
+      de A à Z : identité visuelle, interface, intégration front et back.
+      Un seul interlocuteur, un produit cohérent.
+    </p>
+    <div class="cta-row">
+      <a class="btn primary" href="#projets">Voir mes projets</a>
+      <a class="btn ghost" href="#contact">Me contacter</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROJETS ============ -->
+<section id="projets">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="k">Projets</div>
+      <h2>Trois projets, trois univers</h2>
+      <p>Chaque projet couvre le design et le code — du logo à la mise en ligne.</p>
+    </div>
+
+    <!-- CHAMPAGNE -->
+    <article class="project">
+      <div class="cover">
+        <span class="chip">Site vitrine · 5 pages</span>
+        <img src="site-champagne/assets/images/vignoble.jpg" alt="Site Champagne Maison d'Exception — vignoble" loading="lazy">
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Champagne Maison d'Exception</h3>
+          <span class="stack">HTML · CSS · JavaScript</span>
+        </div>
+        <p class="desc">
+          Site vitrine haut de gamme pour un domaine champenois : identité or et crème,
+          typographie de maison, vérification d'âge, performance et accessibilité soignées.
+          Décliné en charte graphique, UI kit et prototype d'app « espace client ».
+        </p>
+        <div class="links">
+          <a class="main" href="site-champagne/etude-de-cas.html">Étude de cas</a>
+          <a href="site-champagne/index.html">Site</a>
+          <a href="site-champagne/charte-graphique.html">Charte graphique</a>
+          <a href="site-champagne/ui-kit.html">UI kit</a>
+          <a href="site-champagne/prototype-app.html">Prototype app</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- RACINES -->
+    <article class="project">
+      <div class="cover solid" style="background:#2f4f3e;">
+        <span class="chip">Marque complète</span>
+        <svg width="300" height="88" viewBox="0 0 480 140" role="img" aria-label="Logo Racines">
+          <path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#f7f3ec" transform="translate(10,20)"/>
+          <path d="M50 100V40" stroke="#2f4f3e" stroke-width="3" transform="translate(10,20)"/>
+          <text x="120" y="102" font-family="Georgia, serif" font-weight="600" font-size="52" fill="#f7f3ec">Racines</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Racines — abonnement plantes</h3>
+          <span class="stack">Branding · HTML · CSS · JS · SVG</span>
+        </div>
+        <p class="desc">
+          Cas d'école mené comme une vraie mission : création complète d'une marque
+          fictive — logo SVG, charte graphique, site vitrine de conversion et
+          prototype d'app mobile cliquable.
+        </p>
+        <div class="links">
+          <a class="main" href="racines/etude-de-cas.html">Étude de cas</a>
+          <a href="racines/index.html">Site</a>
+          <a href="racines/charte-graphique.html">Charte graphique</a>
+          <a href="racines/prototype-app.html">Prototype app</a>
+        </div>
+        <p class="note">Marque fictive créée intégralement à des fins de démonstration.</p>
+      </div>
+    </article>
+
+    <!-- LAINE & LIN -->
+    <article class="project">
+      <div class="cover solid" style="background:
+        repeating-linear-gradient(0deg, rgba(244,239,230,.05) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, rgba(244,239,230,.05) 0 1px, transparent 1px 5px),
+        #26241f;">
+        <span class="chip">One-page e-commerce</span>
+        <svg width="340" height="80" viewBox="0 0 480 110" role="img" aria-label="Logo Laine et Lin">
+          <text x="240" y="62" text-anchor="middle" font-family="Georgia, serif" font-size="46" letter-spacing="6" fill="#f4efe6">LAINE <tspan fill="#7d95ad">&amp;</tspan> LIN</text>
+          <text x="240" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" letter-spacing="5" fill="#a39d90">FIBRES NATURELLES · ATELIER FRANÇAIS</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Laine &amp; Lin — vêtements naturels</h3>
+          <span class="stack">HTML · CSS · JS · SVG</span>
+        </div>
+        <p class="desc">
+          Boutique fictive de vêtements en fibres naturelles, avec une contrainte radicale :
+          zéro photo. Identité entièrement dessinée en CSS et SVG — textures tissées,
+          illustrations au trait, site ultra-léger.
+        </p>
+        <div class="links">
+          <a class="main" href="laine-et-lin/etude-de-cas.html">Étude de cas</a>
+          <a href="laine-et-lin/index.html">Site</a>
+          <a href="laine-et-lin/ui-kit.html">UI kit</a>
+        </div>
+        <p class="note">Marque fictive créée intégralement à des fins de démonstration.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ COMPÉTENCES ============ -->
+<section id="competences">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="k">Compétences</div>
+      <h2>Une double casquette, un seul interlocuteur</h2>
+      <p>Je pense l'interface et je la code : pas d'allers-retours entre prestataires, pas de perte entre la maquette et l'écran.</p>
+    </div>
+
+    <div class="skills">
+      <div class="skill-card">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d96f32" stroke-width="1.8"><path d="m8 6-5 6 5 6M16 6l5 6-5 6"/></svg>
+        </div>
+        <h3>Développement front-end</h3>
+        <p>Des interfaces rapides, accessibles et fidèles au design, du site vitrine à l'application.</p>
+        <div class="tags"><span>React</span><span>Vue.js</span><span>TypeScript</span><span>JavaScript</span><span>HTML/CSS</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d96f32" stroke-width="1.8"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>
+        </div>
+        <h3>Développement back-end</h3>
+        <p>API, bases de données et logique métier — la partie invisible qui fait tenir le tout.</p>
+        <div class="tags"><span>Node.js</span><span>Python</span><span>PHP</span></div>
+      </div>
+      <div class="skill-card">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d96f32" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18M3.5 9h17M3.5 15h17" opacity=".5"/><circle cx="12" cy="12" r="3.5"/></svg>
+        </div>
+        <h3>Design UI/UX &amp; branding</h3>
+        <p>Identités visuelles, design systems, prototypes et parcours utilisateurs qui convertissent.</p>
+        <div class="tags"><span>UI Design</span><span>UX</span><span>Figma</span><span>Branding</span><span>Identité visuelle</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DÉMARCHE ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="k">Méthode</div>
+      <h2>Comment je travaille</h2>
+    </div>
+    <div class="method">
+      <div class="m-card">
+        <div class="n">01</div>
+        <h3>Cadrage</h3>
+        <p>Objectifs, budget, délais : tout est posé avant la première ligne de code.</p>
+      </div>
+      <div class="m-card">
+        <div class="n">02</div>
+        <h3>Design</h3>
+        <p>Identité, maquettes et prototypes validés ensemble, étape par étape.</p>
+      </div>
+      <div class="m-card">
+        <div class="n">03</div>
+        <h3>Développement</h3>
+        <p>Un code propre, performant et accessible, fidèle au pixel près.</p>
+      </div>
+      <div class="m-card">
+        <div class="n">04</div>
+        <h3>Livraison</h3>
+        <p>Mise en ligne, documentation et accompagnement à la prise en main.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-band">
+      <h2>Un projet en tête ?</h2>
+      <p>
+        Site vitrine, application, identité visuelle ou les trois à la fois :
+        parlons-en. Réponse rapide, devis clair, zéro jargon.
+      </p>
+      <a class="btn primary" href="mailto:raph.proudhon@gmail.com">Écrivez-moi</a>
+      <p class="mail">ou directement : <a href="mailto:raph.proudhon@gmail.com">raph.proudhon@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Raphaël — Développeur &amp; Designer UI/UX freelance
+</footer>
+
+</body>
+</html>
