@@ -114,6 +114,44 @@ Quand tu signes un projet :
 
 ---
 
+---
+
+## Configuration en place (23/07/2026)
+
+| Élément | Valeur |
+|---|---|
+| Projet Supabase | `oxxkfrbornlernvvpbjh` — région AWS eu-west-3 (Paris) |
+| Inscriptions publiques | **désactivées** (`disable_signup: true`) — vérifié |
+| Envoi d'emails | **Brevo** en SMTP personnalisé (300 emails/jour gratuits) |
+| Host / Port | `smtp-relay.brevo.com` / `587` |
+| Username SMTP | `b315fd001@smtp-brevo.com` (⚠️ pas l'adresse Gmail) |
+| Expéditeur affiché | Raphaël Proudhon &lt;raph.proudhon@gmail.com&gt; |
+
+## Dépannage — « mon client ne reçoit pas le lien »
+
+À vérifier dans cet ordre :
+
+1. **La clé SMTP Brevo a expiré ?** Elle meurt après **90 jours consécutifs sans aucun envoi**. En période creuse, c'est le suspect n°1 → régénérer la clé dans Brevo et la recoller dans Supabase.
+2. **Le projet Supabase est en pause ?** Le plan gratuit met le projet en pause après **7 jours sans activité**. Le réveiller depuis le tableau de bord Supabase (voir la parade ci-dessous).
+3. **Quota Brevo dépassé ?** 300 emails/jour — improbable à cette échelle.
+4. **Vérifier les logs** : Brevo → Transactionnel → Logs (l'email est-il parti ?), puis Supabase → Logs → Auth.
+
+## Parade contre la mise en pause automatique
+
+Le plan gratuit Supabase met le projet en pause après 7 jours d'inactivité — un client tomberait alors sur un espace mort.
+
+**Solution gratuite** : inscrire l'URL ci-dessous sur un service de surveillance type UptimeRobot (gratuit), avec une vérification toutes les 12 h. Chaque appel compte comme une activité et empêche la mise en pause.
+
+```
+https://oxxkfrbornlernvvpbjh.supabase.co/rest/v1/
+```
+
+## Limites acceptées (chemin « sans nom de domaine »)
+
+- L'expéditeur est réécrit par Brevo (domaine Gmail non authentifiable) → les mails arrivent, mais l'adresse affichée n'est pas la tienne.
+- DKIM « par défaut », DMARC non conforme : sans conséquence à ce volume.
+- **Le jour où tu prends un nom de domaine** (~10 €/an) : ajouter le domaine dans Brevo, valider DKIM/SPF, changer le « Sender email » dans Supabase. Les deux voyants passent au vert et les emails partent de ta propre adresse.
+
 ## Règles de sécurité à ne jamais oublier
 
 1. **Ne jamais commiter la clé `service_role`** — si elle fuite, régénère-la immédiatement dans Supabase.
