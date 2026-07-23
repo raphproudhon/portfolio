@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espace client — Suivi de votre projet</title>
+<meta name="description" content="Suivez l'avancement de votre projet web : étapes, mises à jour et prochaines actions.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ee; --surface:#fff; --ink:#16150f; --muted:#6e695f;
+    --accent:#d96f32; --line:rgba(22,21,15,.1); --ok:#4a7d5f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-weight:300;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; font-weight:600; line-height:1.15;}
+  a{color:inherit;}
+  .wrap{max-width:820px; margin:0 auto; padding:0 24px;}
+
+  nav.top{background:rgba(244,242,238,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .wordmark{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; text-decoration:none;}
+  .wordmark span{color:var(--accent);}
+  .btn-out{background:none; border:1px solid var(--line); border-radius:9px; padding:8px 14px;
+    font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink);}
+  .btn-out:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+  main{padding:clamp(40px,7vw,80px) 0 80px;}
+  .k{font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
+
+  /* ---- Connexion ---- */
+  .login{max-width:430px; margin:0 auto; background:var(--surface); border:1px solid var(--line);
+    border-radius:18px; padding:36px 32px;}
+  .login h1{font-size:26px; margin-bottom:8px;}
+  .login p.intro{font-size:14px; color:var(--muted); margin-bottom:24px;}
+  label{display:block; font-size:12.5px; font-weight:600; margin-bottom:7px; font-family:'Space Grotesk',sans-serif;}
+  input[type=email]{width:100%; padding:13px 15px; border:1px solid var(--line); border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:15px; background:var(--bg); color:var(--ink);}
+  input[type=email]:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent;}
+  .btn{width:100%; margin-top:16px; padding:14px; border:none; border-radius:10px; background:var(--ink);
+    color:#fff; font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; cursor:pointer;}
+  .btn:hover{background:var(--accent);}
+  .btn:disabled{opacity:.55; cursor:not-allowed;}
+  .msg{margin-top:16px; font-size:13.5px; padding:12px 14px; border-radius:10px; display:none;}
+  .msg.show{display:block;}
+  .msg.ok{background:#e2ead9; color:var(--ok);}
+  .msg.err{background:#f4ddd8; color:#a8563f;}
+  .login .help{margin-top:20px; font-size:12.5px; color:var(--muted); text-align:center;}
+
+  /* ---- Tableau de bord ---- */
+  .head{margin-bottom:32px;}
+  .head h1{font-size:clamp(26px,4.5vw,36px); letter-spacing:-.01em;}
+  .head p{color:var(--muted); font-size:14.5px; margin-top:6px;}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:28px 26px; margin-bottom:20px;}
+  .card h2{font-size:18px; margin-bottom:18px;}
+
+  .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:18px;}
+  .fact .l{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:500;}
+  .fact .v{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-top:3px;}
+
+  /* étapes */
+  .steps{display:flex; flex-direction:column; gap:0;}
+  .step{display:grid; grid-template-columns:auto 1fr; gap:16px;}
+  .step .rail{display:flex; flex-direction:column; align-items:center;}
+  .step .dot{width:24px; height:24px; border-radius:50%; border:2px solid var(--line); background:var(--surface);
+    display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+    font-family:'Space Grotesk',sans-serif; color:var(--muted); flex-shrink:0;}
+  .step .bar{width:2px; flex:1; background:var(--line); min-height:26px;}
+  .step:last-child .bar{display:none;}
+  .step .txt{padding-bottom:22px;}
+  .step .t{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;}
+  .step .d{font-size:13px; color:var(--muted);}
+  .step.done .dot{background:var(--ok); border-color:var(--ok); color:#fff;}
+  .step.done .bar{background:var(--ok);}
+  .step.current .dot{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .step.current .t{color:var(--accent);}
+  .step.todo .t{color:var(--muted);}
+
+  /* avancées */
+  .upd{border-top:1px solid var(--line); padding:18px 0;}
+  .upd:first-of-type{border-top:none; padding-top:0;}
+  .upd .when{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+  .upd .t{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; margin:3px 0 5px;}
+  .upd .d{font-size:14px; color:var(--muted);}
+  .upd a.lien{display:inline-block; margin-top:9px; font-size:13px; font-weight:600; color:var(--accent);
+    text-decoration:none; border-bottom:1px solid currentColor;}
+  .todo-client{margin-top:11px; background:#fdf0e6; border-left:3px solid var(--accent);
+    padding:11px 14px; border-radius:0 8px 8px 0; font-size:13.5px;}
+  .todo-client b{font-family:'Space Grotesk',sans-serif;}
+
+  .empty{color:var(--muted); font-size:14px;}
+  .center{text-align:center; padding:60px 20px; color:var(--muted);}
+  #dash{display:none;} #auth{display:none;}
+  footer{border-top:1px solid var(--line); padding:24px 0 50px; font-size:12.5px; color:var(--muted); text-align:center;}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">raphael<span>.</span>dev</a>
+    <button class="btn-out" id="logout" style="display:none">Se déconnecter</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="center" id="loading">Chargement…</div>
+
+  <!-- CONNEXION -->
+  <section id="auth">
+    <div class="login">
+      <div class="k">Espace client</div>
+      <h1>Suivez votre projet</h1>
+      <p class="intro">Saisissez l'adresse e-mail que vous m'avez communiquée. Vous recevrez un lien de connexion — aucun mot de passe à retenir.</p>
+      <form id="form-login">
+        <label for="email">Votre adresse e-mail</label>
+        <input type="email" id="email" required autocomplete="email" placeholder="vous@exemple.fr">
+        <button class="btn" type="submit" id="send">Recevoir mon lien de connexion</button>
+      </form>
+      <div class="msg" id="msg"></div>
+      <p class="help">Un souci pour vous connecter ? Écrivez-moi à <a href="mailto:raph.proudhon@gmail.com">raph.proudhon@gmail.com</a></p>
+    </div>
+  </section>
+
+  <!-- TABLEAU DE BORD -->
+  <section id="dash">
+    <div class="head">
+      <div class="k">Espace client</div>
+      <h1 id="titre">—</h1>
+      <p id="sous-titre">—</p>
+    </div>
+
+    <div class="card">
+      <h2>Votre projet</h2>
+      <div class="facts" id="facts"></div>
+    </div>
+
+    <div class="card">
+      <h2>Où en est-on ?</h2>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <div class="card">
+      <h2>Dernières avancées</h2>
+      <div id="updates"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">Espace client — Raphaël Proudhon · Développeur &amp; designer web</footer>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const $ = id => document.getElementById(id);
+const ETAPES = [
+  ['Cadrage',        'On définit ensemble le contenu, les objectifs et le calendrier.'],
+  ['Design',         'Création de l\'identité et des maquettes, validées avec vous.'],
+  ['Développement',  'Intégration du site, page par page.'],
+  ['Relecture',      'Vous testez, on ajuste ensemble les derniers détails.'],
+  ['Livraison',      'Mise en ligne et prise en main.'],
+];
+
+function showMsg(texte, type){
+  const m = $('msg');
+  m.textContent = texte;
+  m.className = 'msg show ' + type;
+}
+
+// ---------- Connexion par lien magique ----------
+$('form-login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('send');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+  const { error } = await sb.auth.signInWithOtp({
+    email: $('email').value.trim(),
+    options: { emailRedirectTo: window.location.href.split('#')[0] }
+  });
+  btn.disabled = false;
+  btn.textContent = 'Recevoir mon lien de connexion';
+  if (error) {
+    showMsg("Impossible d'envoyer le lien. Vérifiez l'adresse, ou écrivez-moi directement.", 'err');
+    return;
+  }
+  showMsg('Lien envoyé ! Ouvrez votre boîte mail et cliquez dessus pour accéder à votre espace.', 'ok');
+});
+
+$('logout').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  window.location.reload();
+});
+
+// ---------- Affichage ----------
+function fmtDate(d){
+  if(!d) return '—';
+  return new Date(d + 'T00:00:00').toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+}
+function fmtMontant(m){
+  if(m === null || m === undefined) return '—';
+  return new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(m);
+}
+
+async function afficherProjet(){
+  const { data: projets, error } = await sb.from('projets').select('*').limit(1);
+  if (error || !projets || !projets.length) {
+    $('loading').textContent = "Aucun projet n'est encore associé à votre compte. Écrivez-moi si c'est une erreur.";
+    return;
+  }
+  const p = projets[0];
+
+  $('titre').textContent = p.titre;
+  $('sous-titre').textContent = 'Bonjour ' + p.nom_client + ", voici où en est votre projet.";
+
+  $('facts').innerHTML = [
+    ['Formule', p.forfait || '—'],
+    ['Montant convenu', fmtMontant(p.montant)],
+    ['Démarré le', fmtDate(p.date_debut)],
+    ['Livraison prévue', fmtDate(p.date_livraison_prevue)],
+  ].map(([l,v]) => `<div class="fact"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+
+  $('steps').innerHTML = ETAPES.map(([nom, desc], i) => {
+    const n = i + 1;
+    const cls = n < p.etape ? 'done' : (n === p.etape ? 'current' : 'todo');
+    const marque = n < p.etape ? '✓' : n;
+    return `<div class="step ${cls}">
+      <div class="rail"><div class="dot">${marque}</div><div class="bar"></div></div>
+      <div class="txt"><div class="t">${nom}</div><div class="d">${desc}</div></div>
+    </div>`;
+  }).join('');
+
+  const { data: maj } = await sb.from('avancees')
+    .select('*').eq('projet_id', p.id).order('created_at', {ascending:false});
+
+  $('updates').innerHTML = (maj && maj.length)
+    ? maj.map(u => `<div class="upd">
+        <div class="when">${new Date(u.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+        <div class="t">${u.titre}</div>
+        ${u.detail ? `<div class="d">${u.detail}</div>` : ''}
+        ${u.lien ? `<a class="lien" href="${u.lien}" target="_blank" rel="noopener">Voir →</a>` : ''}
+        ${u.action_client ? `<div class="todo-client"><b>De votre côté :</b> ${u.action_client}</div>` : ''}
+      </div>`).join('')
+    : '<p class="empty">Pas encore de mise à jour — le projet vient de démarrer.</p>';
+
+  $('loading').style.display = 'none';
+  $('dash').style.display = 'block';
+  $('logout').style.display = 'inline-block';
+}
+
+// ---------- Aiguillage ----------
+// Garde-fou : Supabase pas encore configuré (voir SETUP.md)
+if (SUPABASE_URL.includes('VOTRE-PROJET') || SUPABASE_ANON_KEY.includes('VOTRE_CLE')) {
+  $('loading').innerHTML =
+    "<b>Espace client non configuré.</b><br>Renseignez l'URL et la clé <i>anon</i> du projet Supabase dans <code>config.js</code> (voir <code>SETUP.md</code>).";
+} else {
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      await afficherProjet();
+    } else {
+      $('loading').style.display = 'none';
+      $('auth').style.display = 'block';
+    }
+  } catch (e) {
+    $('loading').textContent =
+      "Connexion au service impossible pour le moment. Réessayez dans un instant, ou écrivez-moi à raph.proudhon@gmail.com.";
+  }
+}
+sb.auth.onAuthStateChange((event) => {
+  if (event === 'SIGNED_IN') window.location.reload();
+});
+</script>
+
+</body>
+</html>
