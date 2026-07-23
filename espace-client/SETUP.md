@@ -140,11 +140,17 @@ Quand tu signes un projet :
 
 Le plan gratuit Supabase met le projet en pause après 7 jours d'inactivité — un client tomberait alors sur un espace mort.
 
-**Solution gratuite** : inscrire l'URL ci-dessous sur un service de surveillance type UptimeRobot (gratuit), avec une vérification toutes les 12 h. Chaque appel compte comme une activité et empêche la mise en pause.
+**Solution gratuite** : surveiller l'URL ci-dessous avec UptimeRobot (gratuit), vérification toutes les 12 h. Chaque appel interroge la base et compte comme une activité, ce qui empêche la mise en pause.
 
 ```
-https://oxxkfrbornlernvvpbjh.supabase.co/rest/v1/
+https://oxxkfrbornlernvvpbjh.supabase.co/rest/v1/projets?apikey=<CLE_ANON>&select=id&limit=1
 ```
+
+(remplacer `<CLE_ANON>` par la clé publique qui est dans `config.js`)
+
+⚠️ **Ne pas utiliser** `…/rest/v1/` seul ni `/auth/v1/health` : les deux renvoient **401**, donc UptimeRobot les signale en panne — et ils n'interrogent pas la base, donc ils n'empêchent pas la mise en pause. Testé le 23/07/2026.
+
+La clé dans l'URL ne pose pas de problème : c'est la clé publique, déjà présente dans le code du site, et le RLS renvoie `[]` (aucune donnée client exposée).
 
 ## Limites acceptées (chemin « sans nom de domaine »)
 
