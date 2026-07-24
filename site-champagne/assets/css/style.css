@@ -475,6 +475,13 @@ VERIFICATION AGE PREMIUM
 }
 
 
+body.age-lock {
+
+    overflow:hidden;
+
+}
+
+
 body.age-lock #site-content {
 
     filter:blur(8px);
