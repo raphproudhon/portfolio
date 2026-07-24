@@ -142,6 +142,34 @@ nav a:hover::after {
 
 
 /* =====================
+   MENU MOBILE (hamburger)
+===================== */
+
+.nav-toggle {
+    display: none;
+    position: relative;
+    z-index: 120;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+
+/* =====================
    HERO
 ===================== */
 
@@ -359,8 +387,58 @@ footer {
         padding: 0 30px;
     }
 
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Panneau de navigation coulissant depuis la droite */
     nav {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(78%, 320px);
+        background: rgba(12, 12, 12, .97);
+        backdrop-filter: blur(10px);
+        padding: 130px 42px 42px;
+        z-index: 99;
+        transform: translateX(100%);
+        transition: transform .45s ease;
+        color: #fff;
+    }
+
+    body.nav-open nav {
+        transform: translateX(0);
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 34px;
+    }
+
+    nav a {
+        color: #fff;
+        font-size: 16px;
+    }
+
+    nav a::after {
+        bottom: -8px;
+    }
+
+    /* Empêche le fond de défiler quand le menu est ouvert */
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    /* Hamburger qui se transforme en croix */
+    body.nav-open .nav-toggle span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    body.nav-open .nav-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+    body.nav-open .nav-toggle span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
     }
 
     .intro {

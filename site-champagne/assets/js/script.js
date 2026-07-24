@@ -172,4 +172,36 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.transitionDelay = `${index * 150}ms`;
     });
 
+
+    /* =========================
+       MENU MOBILE (hamburger)
+    ========================= */
+
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    if (navToggle && mainNav) {
+        function closeNav() {
+            document.body.classList.remove("nav-open");
+            navToggle.setAttribute("aria-expanded", "false");
+            navToggle.setAttribute("aria-label", "Ouvrir le menu");
+        }
+
+        navToggle.addEventListener("click", () => {
+            const open = document.body.classList.toggle("nav-open");
+            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+            navToggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+        });
+
+        // Fermer le menu quand on clique un lien
+        mainNav.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", closeNav);
+        });
+
+        // Fermer avec la touche Échap
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeNav();
+        });
+    }
+
 });
