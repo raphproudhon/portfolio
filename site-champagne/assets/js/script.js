@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loader = document.querySelector(".loader");
     const header = document.querySelector(".header");
-    const hero = document.querySelector(".hero");
+    const hero = document.querySelector(".hero, .page-hero");
 
 
     /* =========================
