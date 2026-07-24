@@ -151,12 +151,17 @@ nav a:hover::after {
     z-index: 120;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 6px;
     width: 34px;
     height: 34px;
     padding: 0;
     background: none;
     border: none;
+    color: #fff;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
     cursor: pointer;
 }
 
@@ -164,7 +169,8 @@ nav a:hover::after {
     display: block;
     width: 26px;
     height: 2px;
-    background: currentColor;
+    background: #fff;
+    border-radius: 2px;
     transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
