@@ -6,6 +6,8 @@
 <title>Espace client — Suivi de votre projet</title>
 <meta name="description" content="Suivez l'avancement de votre projet web : étapes, mises à jour et prochaines actions.">
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="../assets/brand/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,7 +24,14 @@
 
   nav.top{background:rgba(244,242,238,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
   nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
-  .wordmark{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; text-decoration:none;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
   .wordmark span{color:var(--accent);}
   .btn-out{background:none; border:1px solid var(--line); border-radius:9px; padding:8px 14px;
     font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink);}
@@ -102,7 +111,10 @@
 
 <nav class="top">
   <div class="wrap">
-    <a class="wordmark" href="../index.html">Raphael<span>.</span>dev</a>
+    <a class="brand" href="../index.html" aria-label="Raphael.dev — accueil">
+      <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
+      <span class="wordmark">Raphael<span>.</span>dev</span>
+    </a>
     <button class="btn-out" id="logout" style="display:none">Se déconnecter</button>
   </div>
 </nav>

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raphaël — Développeur &amp; Designer UI/UX | Portfolio</title>
 <meta name="description" content="Développeur full stack et designer UI/UX freelance : sites sur-mesure, identités visuelles et prototypes d'app. Découvrez mes projets.">
+<link rel="icon" type="image/png" href="assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -35,7 +37,14 @@
     backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
   }
   nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
-  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
   .wordmark span{color:var(--accent);}
   nav.top ul{display:flex; gap:28px; list-style:none;}
   nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
@@ -217,7 +226,10 @@
 <!-- ============ NAV ============ -->
 <nav class="top">
   <div class="wrap">
-    <a class="wordmark" href="#">Raphael<span>.</span>dev</a>
+    <a class="brand" href="#" aria-label="Raphael.dev — accueil">
+      <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
+      <span class="wordmark">Raphael<span>.</span>dev</span>
+    </a>
     <ul>
       <li><a href="#projets">Projets</a></li>
       <li><a href="#competences">Compétences</a></li>
