@@ -101,9 +101,33 @@
     padding:11px 14px; border-radius:0 8px 8px 0; font-size:13.5px;}
   .todo-client b{font-family:'Space Grotesk',sans-serif;}
 
+  /* ---- Vue privée : tous les projets ---- */
+  .projet-head{display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap;}
+  .projet-client{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-weight:500;}
+  .projet-head h2{font-size:19px; margin:4px 0 0;}
+  .badge{font-family:'Space Grotesk',sans-serif; font-size:11.5px; font-weight:600;
+    padding:5px 11px; border-radius:999px; white-space:nowrap; background:#efece5; color:var(--muted);}
+  .badge.en-cours{background:#f6e3d6; color:#a8563f;}
+  .badge.livre{background:#e2ead9; color:var(--ok);}
+  .badge.retard{background:#f4ddd8; color:#a8563f;}
+  .jauge{display:flex; gap:5px; margin:18px 0 16px;}
+  .jauge i{height:5px; flex:1; border-radius:3px; background:var(--line);}
+  .jauge i.on{background:var(--accent);}
+  .jauge i.fini{background:var(--ok);}
+  .btn-detail{margin-top:18px; background:none; border:1px solid var(--line); border-radius:9px;
+    padding:9px 14px; font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600;
+    cursor:pointer; color:var(--ink);}
+  .btn-detail:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .projet-detail{margin-top:22px; padding-top:22px; border-top:1px solid var(--line);}
+  .projet-detail h3{font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:600;
+    letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;}
+  .projet-detail .steps{margin-bottom:26px;}
+  .groupe{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--muted); margin:38px 0 16px;}
+
   .empty{color:var(--muted); font-size:14px;}
   .center{text-align:center; padding:60px 20px; color:var(--muted);}
-  #dash{display:none;} #auth{display:none;}
+  #dash{display:none;} #auth{display:none;} #admin{display:none;}
   footer{border-top:1px solid var(--line); padding:24px 0 50px; font-size:12.5px; color:var(--muted); text-align:center;}
 </style>
 </head>
@@ -161,13 +185,29 @@
       <div id="updates"></div>
     </div>
   </section>
+
+  <!-- VUE PRIVÉE — TOUS LES PROJETS -->
+  <section id="admin">
+    <div class="head">
+      <div class="k">Espace privé</div>
+      <h1>Vos projets</h1>
+      <p id="admin-sous-titre">—</p>
+    </div>
+
+    <div class="card">
+      <h2>En un coup d'œil</h2>
+      <div class="facts" id="admin-facts"></div>
+    </div>
+
+    <div id="admin-liste"></div>
+  </section>
 </main>
 
 <footer class="wrap">Espace client — Raphaël Proudhon · Développeur &amp; designer web</footer>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY, ADMIN_EMAIL } from './config.js';
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -219,6 +259,32 @@ function fmtMontant(m){
   if(m === null || m === undefined) return '—';
   return new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(m);
 }
+// les libellés viennent de la base : on les échappe avant de les injecter
+function esc(s){
+  return String(s ?? '').replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function blocAvancees(liste){
+  if (!liste || !liste.length) return '<p class="empty">Pas encore de mise à jour.</p>';
+  return liste.map(u => `<div class="upd">
+    <div class="when">${new Date(u.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="t">${esc(u.titre)}</div>
+    ${u.detail ? `<div class="d">${esc(u.detail)}</div>` : ''}
+    ${u.lien ? `<a class="lien" href="${esc(u.lien)}" target="_blank" rel="noopener">Voir →</a>` : ''}
+    ${u.action_client ? `<div class="todo-client"><b>De votre côté :</b> ${esc(u.action_client)}</div>` : ''}
+  </div>`).join('');
+}
+function blocEtapes(etape){
+  return ETAPES.map(([nom, desc], i) => {
+    const n = i + 1;
+    const cls = n < etape ? 'done' : (n === etape ? 'current' : 'todo');
+    const marque = n < etape ? '✓' : n;
+    return `<div class="step ${cls}">
+      <div class="rail"><div class="dot">${marque}</div><div class="bar"></div></div>
+      <div class="txt"><div class="t">${nom}</div><div class="d">${desc}</div></div>
+    </div>`;
+  }).join('');
+}
 
 async function afficherProjet(){
   const { data: projets, error } = await sb.from('projets').select('*').limit(1);
@@ -238,31 +304,118 @@ async function afficherProjet(){
     ['Livraison prévue', fmtDate(p.date_livraison_prevue)],
   ].map(([l,v]) => `<div class="fact"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
 
-  $('steps').innerHTML = ETAPES.map(([nom, desc], i) => {
-    const n = i + 1;
-    const cls = n < p.etape ? 'done' : (n === p.etape ? 'current' : 'todo');
-    const marque = n < p.etape ? '✓' : n;
-    return `<div class="step ${cls}">
-      <div class="rail"><div class="dot">${marque}</div><div class="bar"></div></div>
-      <div class="txt"><div class="t">${nom}</div><div class="d">${desc}</div></div>
-    </div>`;
-  }).join('');
+  $('steps').innerHTML = blocEtapes(p.etape);
 
   const { data: maj } = await sb.from('avancees')
     .select('*').eq('projet_id', p.id).order('created_at', {ascending:false});
 
   $('updates').innerHTML = (maj && maj.length)
-    ? maj.map(u => `<div class="upd">
-        <div class="when">${new Date(u.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
-        <div class="t">${u.titre}</div>
-        ${u.detail ? `<div class="d">${u.detail}</div>` : ''}
-        ${u.lien ? `<a class="lien" href="${u.lien}" target="_blank" rel="noopener">Voir →</a>` : ''}
-        ${u.action_client ? `<div class="todo-client"><b>De votre côté :</b> ${u.action_client}</div>` : ''}
-      </div>`).join('')
+    ? blocAvancees(maj)
     : '<p class="empty">Pas encore de mise à jour — le projet vient de démarrer.</p>';
 
   $('loading').style.display = 'none';
   $('dash').style.display = 'block';
+  $('logout').style.display = 'inline-block';
+}
+
+// ---------- Vue privée : tous les projets ----------
+function etatProjet(p){
+  if (p.etape >= 5) return { cls:'livre', txt:'Livré' };
+  const d = p.date_livraison_prevue;
+  if (d && new Date(d + 'T23:59:59') < new Date()) return { cls:'retard', txt:'Échéance dépassée' };
+  return { cls:'en-cours', txt:'Étape ' + p.etape + '/5 · ' + ETAPES[p.etape - 1][0] };
+}
+
+function carteProjet(p, avancees){
+  const etat = etatProjet(p);
+  const jauge = ETAPES.map((_, i) => {
+    const n = i + 1;
+    const cls = p.etape >= 5 ? 'fini' : (n <= p.etape ? 'on' : '');
+    return `<i class="${cls}"></i>`;
+  }).join('');
+
+  const meta = [
+    ['Client', esc(p.nom_client)],
+    ['Formule', esc(p.forfait || '—')],
+    ['Montant', fmtMontant(p.montant)],
+    ['Livraison prévue', fmtDate(p.date_livraison_prevue)],
+  ].map(([l, v]) => `<div class="fact"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+
+  return `<div class="card">
+    <div class="projet-head">
+      <div>
+        <div class="projet-client">${esc(p.client_email)}</div>
+        <h2>${esc(p.titre)}</h2>
+      </div>
+      <span class="badge ${etat.cls}">${etat.txt}</span>
+    </div>
+    <div class="jauge">${jauge}</div>
+    <div class="facts">${meta}</div>
+    <button class="btn-detail" type="button" aria-expanded="false">Voir le détail</button>
+    <div class="projet-detail" hidden>
+      <h3>Avancement</h3>
+      <div class="steps">${blocEtapes(p.etape)}</div>
+      <h3>Avancées publiées${avancees.length ? ' (' + avancees.length + ')' : ''}</h3>
+      ${blocAvancees(avancees)}
+    </div>
+  </div>`;
+}
+
+async function afficherAdmin(email){
+  const { data: projets, error } = await sb.from('projets').select('*');
+  if (error) {
+    $('loading').innerHTML = "Lecture des projets impossible. La policy « responsable voit tout » "
+      + "est-elle bien créée dans Supabase ? (voir <code>SETUP.md</code>, étape 3 bis)";
+    return;
+  }
+  if (!projets || !projets.length) {
+    $('loading').textContent = "Aucun projet enregistré pour le moment.";
+    return;
+  }
+
+  const { data: toutes } = await sb.from('avancees')
+    .select('*').order('created_at', { ascending:false });
+  const parProjet = new Map();
+  (toutes || []).forEach(a => {
+    if (!parProjet.has(a.projet_id)) parProjet.set(a.projet_id, []);
+    parProjet.get(a.projet_id).push(a);
+  });
+
+  // les projets en cours d'abord, échéance la plus proche en tête
+  const rang = p => (p.date_livraison_prevue ? new Date(p.date_livraison_prevue).getTime() : Infinity);
+  const enCours = projets.filter(p => p.etape < 5).sort((a, b) => rang(a) - rang(b));
+  const livres  = projets.filter(p => p.etape >= 5).sort((a, b) => rang(b) - rang(a));
+
+  const enRetard = enCours.filter(p => etatProjet(p).cls === 'retard').length;
+  const total = enCours.reduce((s, p) => s + (Number(p.montant) || 0), 0);
+  const prochaine = enCours.find(p => p.date_livraison_prevue);
+
+  $('admin-sous-titre').textContent = 'Connecté en tant que ' + email + '.';
+  $('admin-facts').innerHTML = [
+    ['En cours', String(enCours.length)],
+    ['Livrés', String(livres.length)],
+    ['Montant en cours', fmtMontant(total)],
+    ['Prochaine échéance', prochaine ? fmtDate(prochaine.date_livraison_prevue) : '—'],
+  ].map(([l, v]) => `<div class="fact"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('')
+    + (enRetard ? `<div class="fact"><div class="l">Échéance dépassée</div>
+        <div class="v" style="color:#a8563f">${enRetard}</div></div>` : '');
+
+  $('admin-liste').innerHTML =
+      (enCours.length ? `<div class="groupe">En cours</div>` + enCours.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('') : '')
+    + (livres.length  ? `<div class="groupe">Livrés</div>`  + livres.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('')  : '');
+
+  $('admin-liste').addEventListener('click', e => {
+    const btn = e.target.closest('.btn-detail');
+    if (!btn) return;
+    const detail = btn.nextElementSibling;
+    const ouvert = !detail.hidden;
+    detail.hidden = ouvert;
+    btn.setAttribute('aria-expanded', String(!ouvert));
+    btn.textContent = ouvert ? 'Voir le détail' : 'Masquer le détail';
+  });
+
+  $('loading').style.display = 'none';
+  $('admin').style.display = 'block';
   $('logout').style.display = 'inline-block';
 }
 
@@ -275,7 +428,11 @@ if (SUPABASE_URL.includes('VOTRE-PROJET') || SUPABASE_ANON_KEY.includes('VOTRE_C
   try {
     const { data: { session } } = await sb.auth.getSession();
     if (session) {
-      await afficherProjet();
+      const email = (session.user && session.user.email || '').toLowerCase();
+      const estResponsable = ADMIN_EMAIL && email === ADMIN_EMAIL.trim().toLowerCase();
+      // le RLS décide de ce qui remonte ; ici on choisit seulement quoi afficher
+      if (estResponsable) await afficherAdmin(email);
+      else await afficherProjet();
     } else {
       $('loading').style.display = 'none';
       $('auth').style.display = 'block';

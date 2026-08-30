@@ -87,6 +87,36 @@ create policy "client voit ses avancees"
 create index on avancees (projet_id, created_at desc);
 ```
 
+## Étape 3 bis — Te donner accès à tous tes projets
+
+Sans ça, tu vois la même chose qu'un client : un seul projet. Ces deux policies
+t'autorisent, **toi seul**, à lire toute la table. À coller dans le **SQL Editor** :
+
+```sql
+create policy "responsable voit tout"
+  on projets for select
+  to authenticated
+  using (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+
+create policy "responsable voit toutes les avancees"
+  on avancees for select
+  to authenticated
+  using (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+```
+
+Les policies `select` se cumulent : un client garde son projet, toi tu as tout.
+Toujours aucune policy d'écriture — les modifications passent par le Table Editor.
+
+Il faut ensuite que **ton adresse existe comme utilisateur**. Comme les inscriptions
+libres sont désactivées (étape 4), ajoute-toi à la main : **Authentication → Users →
+Add user → Send invitation**, avec `raph.proudhon@gmail.com`.
+
+Ensuite, sur `/espace-client/`, tu te connectes avec ton adresse comme un client :
+le tableau de bord bascule automatiquement sur la vue « tous les projets ».
+Le repérage se fait sur `ADMIN_EMAIL` dans `config.js`, mais c'est bien le RLS
+ci-dessus qui autorise la lecture — modifier le fichier côté navigateur ne donne
+accès à rien de plus.
+
 ## Étape 4 — Autoriser le site à se connecter
 
 Dans **Authentication → URL Configuration** :
