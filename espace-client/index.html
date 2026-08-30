@@ -125,6 +125,22 @@
   .groupe{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.09em;
     text-transform:uppercase; color:var(--muted); margin:38px 0 16px;}
 
+  /* ---- Dépôts GitHub ---- */
+  .depot{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+    border-top:1px solid var(--line); padding:13px 0;}
+  .depot:first-of-type{border-top:none;}
+  .depot a.nom{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
+    text-decoration:none; color:var(--ink);}
+  .depot a.nom:hover{color:var(--accent);}
+  .depot .desc{flex:1 1 200px; font-size:13.5px; color:var(--muted);}
+  .depot .quand{font-size:12px; color:var(--muted); white-space:nowrap;}
+  .tag{font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.04em;
+    padding:3px 8px; border-radius:999px; background:#efece5; color:var(--muted); white-space:nowrap;}
+  .tag.prive{background:#f6e3d6; color:#a8563f;}
+  .tag.langage{background:#e6e9ef; color:#4a5568;}
+  .aide{font-size:13px; color:var(--muted); line-height:1.65;}
+  .aide code{background:#efece5; padding:1px 5px; border-radius:4px; font-size:12px;}
+
   .empty{color:var(--muted); font-size:14px;}
   .center{text-align:center; padding:60px 20px; color:var(--muted);}
   #dash{display:none;} #auth{display:none;} #admin{display:none;}
@@ -197,6 +213,11 @@
     <div class="card">
       <h2>En un coup d'œil</h2>
       <div class="facts" id="admin-facts"></div>
+    </div>
+
+    <div class="card">
+      <h2>Mes dépôts GitHub</h2>
+      <div id="depots"><p class="empty">Chargement…</p></div>
     </div>
 
     <div id="admin-liste"></div>
@@ -361,6 +382,50 @@ function carteProjet(p, avancees){
   </div>`;
 }
 
+// Dépôts GitHub — servis par la fonction Edge « depots-github », qui garde le
+// jeton côté serveur. Voir fonction-supabase/ et GITHUB.md.
+function depuis(iso){
+  if (!iso) return '—';
+  const j = Math.floor((Date.now() - new Date(iso)) / 86400000);
+  if (j <= 0) return "aujourd'hui";
+  if (j === 1) return 'hier';
+  if (j < 30) return 'il y a ' + j + ' jours';
+  if (j < 365) return 'il y a ' + Math.floor(j / 30) + ' mois';
+  return 'il y a ' + Math.floor(j / 365) + ' an' + (j >= 730 ? 's' : '');
+}
+
+async function afficherDepots(){
+  const zone = $('depots');
+  let data, error;
+  try {
+    ({ data, error } = await sb.functions.invoke('depots-github'));
+  } catch (e) { error = e; }
+
+  if (error || !Array.isArray(data)) {
+    zone.innerHTML = `<p class="aide"><b>Liste indisponible.</b><br>
+      La fonction <code>depots-github</code> est-elle déployée, et le secret
+      <code>GITHUB_TOKEN</code> renseigné dans Supabase ? Voir <code>GITHUB.md</code>.</p>`;
+    return;
+  }
+  if (!data.length) {
+    zone.innerHTML = '<p class="empty">Aucun dépôt trouvé.</p>';
+    return;
+  }
+
+  const actifs = data.filter(d => !d.archive);
+  const archives = data.filter(d => d.archive);
+  const ligne = d => `<div class="depot">
+    <a class="nom" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.nom)}</a>
+    ${d.prive ? '<span class="tag prive">privé</span>' : '<span class="tag">public</span>'}
+    ${d.langage ? `<span class="tag langage">${esc(d.langage)}</span>` : ''}
+    <span class="desc">${esc(d.description || '')}</span>
+    <span class="quand">${depuis(d.maj)}</span>
+  </div>`;
+
+  zone.innerHTML = actifs.map(ligne).join('')
+    + (archives.length ? `<div class="groupe">Archivés</div>` + archives.map(ligne).join('') : '');
+}
+
 async function afficherAdmin(email){
   const { data: projets, error } = await sb.from('projets').select('*');
   if (error) {
@@ -417,6 +482,9 @@ async function afficherAdmin(email){
   $('loading').style.display = 'none';
   $('admin').style.display = 'block';
   $('logout').style.display = 'inline-block';
+
+  // chargé après coup : les dépôts ne doivent pas retarder l'affichage
+  afficherDepots();
 }
 
 // ---------- Aiguillage ----------
