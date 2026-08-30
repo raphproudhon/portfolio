@@ -46,9 +46,11 @@
   .login h1{font-size:26px; margin-bottom:8px;}
   .login p.intro{font-size:14px; color:var(--muted); margin-bottom:24px;}
   label{display:block; font-size:12.5px; font-weight:600; margin-bottom:7px; font-family:'Space Grotesk',sans-serif;}
-  input[type=email]{width:100%; padding:13px 15px; border:1px solid var(--line); border-radius:10px;
+  input[type=email],input[type=text],input[type=url],input[type=number],input[type=date],select,textarea{
+    width:100%; padding:13px 15px; border:1px solid var(--line); border-radius:10px;
     font-family:'Inter',sans-serif; font-size:15px; background:var(--bg); color:var(--ink);}
-  input[type=email]:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent;}
+  textarea{min-height:80px; resize:vertical; line-height:1.6;}
   .btn{width:100%; margin-top:16px; padding:14px; border:none; border-radius:10px; background:var(--ink);
     color:#fff; font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; cursor:pointer;}
   .btn:hover{background:var(--accent);}
@@ -141,6 +143,29 @@
   .aide{font-size:13px; color:var(--muted); line-height:1.65;}
   .aide code{background:#efece5; padding:1px 5px; border-radius:4px; font-size:12px;}
 
+  /* ---- Saisie ---- */
+  .grille{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px 16px;}
+  .grille .large{grid-column:1/-1;}
+  .champ{display:flex; flex-direction:column;}
+  .champ label{margin-bottom:6px;}
+  .barre{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:16px;}
+  .barre h2{margin:0;}
+  .btn-sm{background:var(--ink); color:#fff; border:1px solid var(--ink); border-radius:9px;
+    padding:9px 15px; font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600; cursor:pointer;}
+  .btn-sm:hover{background:var(--accent); border-color:var(--accent);}
+  .btn-sm.fantome{background:none; color:var(--ink); border-color:var(--line);}
+  .btn-sm.fantome:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .btn-sm:disabled{opacity:.5; cursor:not-allowed;}
+  .pilote{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:22px;}
+  .pilote label{margin:0; white-space:nowrap;}
+  .pilote select{width:auto; min-width:190px; padding:9px 12px; font-size:14px;}
+  .suppr{background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer;
+    padding:0; text-decoration:underline; margin-top:8px;}
+  .suppr:hover{color:#a8563f;}
+  .retour{font-size:13px; margin-top:12px; min-height:19px;}
+  .retour.ok{color:var(--ok);} .retour.err{color:#a8563f;}
+  #form-projet-bloc{display:none;}
+
   .empty{color:var(--muted); font-size:14px;}
   .center{text-align:center; padding:60px 20px; color:var(--muted);}
   #dash{display:none;} #auth{display:none;} #admin{display:none;}
@@ -218,6 +243,36 @@
     <div class="card">
       <h2>Mes dépôts GitHub</h2>
       <div id="depots"><p class="empty">Chargement…</p></div>
+    </div>
+
+    <div class="card">
+      <div class="barre">
+        <h2>Projets</h2>
+        <button class="btn-sm" type="button" id="btn-nouveau">+ Nouveau projet</button>
+      </div>
+      <div id="form-projet-bloc">
+        <form id="form-projet" class="grille">
+          <div class="champ"><label for="np-email">E-mail du client *</label>
+            <input type="email" id="np-email" required placeholder="contact@domaine.fr"></div>
+          <div class="champ"><label for="np-nom">Nom du client *</label>
+            <input type="text" id="np-nom" required placeholder="Domaine X"></div>
+          <div class="champ large"><label for="np-titre">Intitulé du projet *</label>
+            <input type="text" id="np-titre" required placeholder="Site vitrine — Domaine X"></div>
+          <div class="champ"><label for="np-forfait">Formule</label>
+            <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
+          <div class="champ"><label for="np-montant">Montant (€)</label>
+            <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
+          <div class="champ"><label for="np-debut">Démarré le</label>
+            <input type="date" id="np-debut"></div>
+          <div class="champ"><label for="np-livraison">Livraison prévue</label>
+            <input type="date" id="np-livraison"></div>
+          <div class="champ large">
+            <button class="btn-sm" type="submit" id="np-envoi">Créer le projet</button>
+            <div class="retour" id="np-retour"></div>
+          </div>
+        </form>
+      </div>
+      <p class="aide" id="admin-vide" style="display:none">Aucun projet enregistré pour le moment.</p>
     </div>
 
     <div id="admin-liste"></div>
@@ -362,7 +417,19 @@ function carteProjet(p, avancees){
     ['Livraison prévue', fmtDate(p.date_livraison_prevue)],
   ].map(([l, v]) => `<div class="fact"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
 
-  return `<div class="card">
+  const options = ETAPES.map(([nom], i) =>
+    `<option value="${i + 1}"${p.etape === i + 1 ? ' selected' : ''}>${i + 1}. ${nom}</option>`).join('');
+
+  const listeAvancees = avancees.map(a => `<div class="upd">
+    <div class="when">${new Date(a.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="t">${esc(a.titre)}</div>
+    ${a.detail ? `<div class="d">${esc(a.detail)}</div>` : ''}
+    ${a.lien ? `<a class="lien" href="${esc(a.lien)}" target="_blank" rel="noopener">Voir →</a>` : ''}
+    ${a.action_client ? `<div class="todo-client"><b>De votre côté :</b> ${esc(a.action_client)}</div>` : ''}
+    <button class="suppr" type="button" data-suppr="${esc(a.id)}">Supprimer</button>
+  </div>`).join('') || '<p class="empty">Pas encore de mise à jour.</p>';
+
+  return `<div class="card" data-projet="${esc(p.id)}">
     <div class="projet-head">
       <div>
         <div class="projet-client">${esc(p.client_email)}</div>
@@ -374,10 +441,33 @@ function carteProjet(p, avancees){
     <div class="facts">${meta}</div>
     <button class="btn-detail" type="button" aria-expanded="false">Voir le détail</button>
     <div class="projet-detail" hidden>
+      <div class="pilote">
+        <label for="etape-${esc(p.id)}">Étape en cours</label>
+        <select id="etape-${esc(p.id)}" data-etape="${esc(p.id)}">${options}</select>
+        <span class="retour" data-retour-etape="${esc(p.id)}"></span>
+      </div>
+
       <h3>Avancement</h3>
       <div class="steps">${blocEtapes(p.etape)}</div>
+
+      <h3>Publier une avancée</h3>
+      <form class="grille form-avancee" data-avancee="${esc(p.id)}">
+        <div class="champ large"><label>Titre *</label>
+          <input type="text" name="titre" required placeholder="Maquettes de l'accueil validées"></div>
+        <div class="champ large"><label>Détail</label>
+          <textarea name="detail" placeholder="Ce que le client doit savoir."></textarea></div>
+        <div class="champ"><label>Lien</label>
+          <input type="url" name="lien" placeholder="https://…"></div>
+        <div class="champ"><label>Action attendue de sa part</label>
+          <input type="text" name="action_client" placeholder="Envoyer les photos"></div>
+        <div class="champ large">
+          <button class="btn-sm fantome" type="submit">Publier</button>
+          <div class="retour" data-retour-avancee="${esc(p.id)}"></div>
+        </div>
+      </form>
+
       <h3>Avancées publiées${avancees.length ? ' (' + avancees.length + ')' : ''}</h3>
-      ${blocAvancees(avancees)}
+      ${listeAvancees}
     </div>
   </div>`;
 }
@@ -426,17 +516,22 @@ async function afficherDepots(){
     + (archives.length ? `<div class="groupe">Archivés</div>` + archives.map(ligne).join('') : '');
 }
 
-async function afficherAdmin(email){
+function retour(el, texte, type){
+  if (!el) return;
+  el.textContent = texte;
+  el.className = 'retour ' + (type || '');
+  if (type === 'ok') setTimeout(() => { el.textContent = ''; el.className = 'retour'; }, 4000);
+}
+
+async function chargerProjets(){
   const { data: projets, error } = await sb.from('projets').select('*');
   if (error) {
-    $('loading').innerHTML = "Lecture des projets impossible. La policy « responsable voit tout » "
-      + "est-elle bien créée dans Supabase ? (voir <code>SETUP.md</code>, étape 3 bis)";
+    $('admin-liste').innerHTML = `<div class="card"><p class="aide">
+      <b>Lecture des projets impossible.</b><br>La policy « responsable voit tout » est-elle bien
+      créée dans Supabase ? Voir <code>SETUP.md</code>, étape 3 bis.</p></div>`;
     return;
   }
-  if (!projets || !projets.length) {
-    $('loading').textContent = "Aucun projet enregistré pour le moment.";
-    return;
-  }
+  $('admin-vide').style.display = (projets && projets.length) ? 'none' : 'block';
 
   const { data: toutes } = await sb.from('avancees')
     .select('*').order('created_at', { ascending:false });
@@ -455,7 +550,6 @@ async function afficherAdmin(email){
   const total = enCours.reduce((s, p) => s + (Number(p.montant) || 0), 0);
   const prochaine = enCours.find(p => p.date_livraison_prevue);
 
-  $('admin-sous-titre').textContent = 'Connecté en tant que ' + email + '.';
   $('admin-facts').innerHTML = [
     ['En cours', String(enCours.length)],
     ['Livrés', String(livres.length)],
@@ -469,20 +563,117 @@ async function afficherAdmin(email){
       (enCours.length ? `<div class="groupe">En cours</div>` + enCours.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('') : '')
     + (livres.length  ? `<div class="groupe">Livrés</div>`  + livres.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('')  : '');
 
-  $('admin-liste').addEventListener('click', e => {
-    const btn = e.target.closest('.btn-detail');
-    if (!btn) return;
-    const detail = btn.nextElementSibling;
-    const ouvert = !detail.hidden;
-    detail.hidden = ouvert;
-    btn.setAttribute('aria-expanded', String(!ouvert));
-    btn.textContent = ouvert ? 'Voir le détail' : 'Masquer le détail';
+}
+
+// ---------- Écriture (réservée au responsable par les policies RLS) ----------
+function poserListenersAdmin(){
+  const zone = $('admin');
+
+  zone.addEventListener('click', async e => {
+    const detailBtn = e.target.closest('.btn-detail');
+    if (detailBtn) {
+      const detail = detailBtn.nextElementSibling;
+      const ouvert = !detail.hidden;
+      detail.hidden = ouvert;
+      detailBtn.setAttribute('aria-expanded', String(!ouvert));
+      detailBtn.textContent = ouvert ? 'Voir le détail' : 'Masquer le détail';
+      return;
+    }
+
+    if (e.target.id === 'btn-nouveau') {
+      const bloc = $('form-projet-bloc');
+      const ouvert = bloc.style.display === 'block';
+      bloc.style.display = ouvert ? 'none' : 'block';
+      e.target.textContent = ouvert ? '+ Nouveau projet' : 'Annuler';
+      if (!ouvert) $('np-email').focus();
+      return;
+    }
+
+    const suppr = e.target.closest('[data-suppr]');
+    if (suppr) {
+      if (!confirm('Supprimer cette avancée ? Le client ne la verra plus.')) return;
+      const { error } = await sb.from('avancees').delete().eq('id', suppr.dataset.suppr);
+      if (error) { alert("Suppression impossible : " + error.message); return; }
+      await chargerProjets();
+    }
   });
+
+  zone.addEventListener('change', async e => {
+    const sel = e.target.closest('[data-etape]');
+    if (!sel) return;
+    const id = sel.dataset.etape;
+    const cible = zone.querySelector(`[data-retour-etape="${CSS.escape(id)}"]`);
+    retour(cible, 'Enregistrement…');
+    const { error } = await sb.from('projets')
+      .update({ etape: Number(sel.value) }).eq('id', id);
+    if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
+    retour(cible, 'Enregistré.', 'ok');
+    await chargerProjets();
+  });
+
+  zone.addEventListener('submit', async e => {
+    // --- nouvelle avancée ---
+    const formA = e.target.closest('.form-avancee');
+    if (formA) {
+      e.preventDefault();
+      const id = formA.dataset.avancee;
+      const cible = zone.querySelector(`[data-retour-avancee="${CSS.escape(id)}"]`);
+      const f = new FormData(formA);
+      const vide = v => { const s = (v || '').toString().trim(); return s === '' ? null : s; };
+      retour(cible, 'Publication…');
+      const { error } = await sb.from('avancees').insert({
+        projet_id: id,
+        titre: f.get('titre').trim(),
+        detail: vide(f.get('detail')),
+        lien: vide(f.get('lien')),
+        action_client: vide(f.get('action_client')),
+      });
+      if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
+      formA.reset();
+      await chargerProjets();
+      return;
+    }
+
+    // --- nouveau projet ---
+    if (e.target.id === 'form-projet') {
+      e.preventDefault();
+      const btn = $('np-envoi');
+      const cible = $('np-retour');
+      const vide = v => { const s = (v || '').trim(); return s === '' ? null : s; };
+      btn.disabled = true;
+      retour(cible, 'Création…');
+      const { error } = await sb.from('projets').insert({
+        client_email: $('np-email').value.trim().toLowerCase(),
+        nom_client: $('np-nom').value.trim(),
+        titre: $('np-titre').value.trim(),
+        forfait: vide($('np-forfait').value),
+        montant: $('np-montant').value === '' ? null : Number($('np-montant').value),
+        etape: 1,
+        date_debut: vide($('np-debut').value),
+        date_livraison_prevue: vide($('np-livraison').value),
+      });
+      btn.disabled = false;
+      if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
+      retour(cible, 'Projet créé.', 'ok');
+      $('form-projet').reset();
+      $('form-projet-bloc').style.display = 'none';
+      $('btn-nouveau').textContent = '+ Nouveau projet';
+      await chargerProjets();
+    }
+  });
+}
+
+let listenersAdminPoses = false;
+
+async function afficherAdmin(email){
+  $('admin-sous-titre').textContent = 'Connecté en tant que ' + email + '.';
+  if (!listenersAdminPoses) { poserListenersAdmin(); listenersAdminPoses = true; }
 
   $('loading').style.display = 'none';
   $('admin').style.display = 'block';
   $('logout').style.display = 'inline-block';
 
+  await chargerProjets();
   // chargé après coup : les dépôts ne doivent pas retarder l'affichage
   afficherDepots();
 }

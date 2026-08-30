@@ -117,6 +117,39 @@ Le repérage se fait sur `ADMIN_EMAIL` dans `config.js`, mais c'est bien le RLS
 ci-dessus qui autorise la lecture — modifier le fichier côté navigateur ne donne
 accès à rien de plus.
 
+## Étape 3 ter — Saisir depuis la page plutôt que depuis Supabase
+
+Avec les policies ci-dessus tu ne fais que **lire**. Ces quatre-là te permettent
+de créer un projet, changer son étape, publier et supprimer une avancée
+directement depuis l'espace privé. À coller dans le **SQL Editor** :
+
+```sql
+create policy "responsable cree des projets"
+  on projets for insert
+  to authenticated
+  with check (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+
+create policy "responsable modifie les projets"
+  on projets for update
+  to authenticated
+  using      (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com')
+  with check (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+
+create policy "responsable cree des avancees"
+  on avancees for insert
+  to authenticated
+  with check (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+
+create policy "responsable supprime des avancees"
+  on avancees for delete
+  to authenticated
+  using (auth.jwt() ->> 'email' = 'raph.proudhon@gmail.com');
+```
+
+Les clients restent en lecture seule : aucune policy d'écriture ne les vise.
+Volontairement, il n'y a **pas** de suppression de projet depuis la page — c'est
+trop définitif pour un bouton. Ça reste dans le Table Editor.
+
 ## Étape 4 — Autoriser le site à se connecter
 
 Dans **Authentication → URL Configuration** :
