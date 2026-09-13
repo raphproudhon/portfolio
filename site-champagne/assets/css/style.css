@@ -181,7 +181,7 @@ nav a:hover::after {
 
 .hero {
     height: 100vh;
-    background: url("../images/vignoble.jpg") center/cover no-repeat;
+    background: url("../images/vignoble.webp") center/cover no-repeat;
     position: relative;
     display: flex;
     align-items: center;
@@ -276,7 +276,7 @@ nav a:hover::after {
     padding: 60px 20px;
     background:
         linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
-        url("../images/terroir.jpg") center/cover;
+        url("../images/terroir.webp") center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -345,7 +345,7 @@ nav a:hover::after {
     padding: 60px 20px;
     background:
         linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("../images/cave.jpg") center/cover;
+        url("../images/cave.webp") center/cover;
     color: white;
     display: flex;
     align-items: center;
@@ -777,7 +777,7 @@ color:white;
 
 .domaine-hero {
 
-background-image:url("../images/domaine.jpg");
+background-image:url("../images/domaine.webp");
 
 }
 
@@ -866,7 +866,7 @@ rgba(0,0,0,.55),
 rgba(0,0,0,.55)
 ),
 
-url("../images/vigne-travail.jpg")
+url("../images/vigne-travail.webp")
 
 center/cover;
 
@@ -950,7 +950,7 @@ rgba(0,0,0,.5),
 rgba(0,0,0,.5)
 ),
 
-url("../images/cave.jpg")
+url("../images/cave.webp")
 
 center/cover;
 
@@ -1007,7 +1007,7 @@ PAGE TERROIR
 
 .terroir-hero {
 
-background-image:url("../images/terroir-hero.jpg");
+background-image:url("../images/terroir-hero.webp");
 
 }
 
@@ -1069,7 +1069,7 @@ rgba(0,0,0,.55),
 rgba(0,0,0,.55)
 ),
 
-url("../images/sol.jpg")
+url("../images/sol.webp")
 
 center/cover;
 
@@ -1179,7 +1179,7 @@ rgba(0,0,0,.55)
 ),
 
 
-url("../images/parcelle.jpg")
+url("../images/parcelle.webp")
 
 
 center/cover;
@@ -1264,7 +1264,7 @@ font-size:40px;
 ========================= */
 
 .champagnes-hero {
-    background-image: url("../images/cave.jpg");
+    background-image: url("../images/cave.webp");
 }
 
 .champagnes-intro {
@@ -1315,7 +1315,7 @@ font-size:40px;
 ========================= */
 
 .contact-hero {
-    background-image: url("../images/contact-hero.jpg");
+    background-image: url("../images/contact-hero.webp");
 }
 
 .contact-section {
