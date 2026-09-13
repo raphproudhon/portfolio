@@ -153,7 +153,7 @@ trop définitif pour un bouton. Ça reste dans le Table Editor.
 ## Étape 4 — Autoriser le site à se connecter
 
 Dans **Authentication → URL Configuration** :
-- **Site URL** : `https://raphproudhon.github.io/portfolio/espace-client/`
+- **Site URL** : `https://raphproudhon.fr/espace-client/`
 - **Redirect URLs** : ajouter la même URL
 
 Dans **Authentication → Providers** :

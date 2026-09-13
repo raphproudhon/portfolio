@@ -68,7 +68,7 @@ supabase functions deploy depots-github
 
 ## Étape 4 — Vérifier
 
-Recharge https://raphproudhon.github.io/portfolio/espace-client/
+Recharge https://raphproudhon.fr/espace-client/
 
 La carte **« Mes dépôts GitHub »** doit se remplir en une seconde ou deux.
 
