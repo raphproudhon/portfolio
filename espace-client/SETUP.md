@@ -179,7 +179,7 @@ Quand tu signes un projet :
 
 ---
 
-## Configuration en place (23/07/2026)
+## Configuration en place (23/07/2026, mise à jour 13/09/2026)
 
 | Élément | Valeur |
 |---|---|
@@ -188,7 +188,7 @@ Quand tu signes un projet :
 | Envoi d'emails | **Brevo** en SMTP personnalisé (300 emails/jour gratuits) |
 | Host / Port | `smtp-relay.brevo.com` / `587` |
 | Username SMTP | `b315fd001@smtp-brevo.com` (⚠️ pas l'adresse Gmail) |
-| Expéditeur affiché | Raphaël Proudhon &lt;raph.proudhon@gmail.com&gt; |
+| Expéditeur affiché | Raphaël Proudhon &lt;contact@raphproudhon.fr&gt; — domaine authentifié dans Brevo (DKIM ✓, DMARC ✓) |
 
 ## Dépannage — « mon client ne reçoit pas le lien »
 
@@ -215,11 +215,24 @@ https://oxxkfrbornlernvvpbjh.supabase.co/rest/v1/projets?apikey=<CLE_ANON>&selec
 
 La clé dans l'URL ne pose pas de problème : c'est la clé publique, déjà présente dans le code du site, et le RLS renvoie `[]` (aucune donnée client exposée).
 
-## Limites acceptées (chemin « sans nom de domaine »)
+## Domaine authentifié dans Brevo (fait le 13/09/2026)
 
-- L'expéditeur est réécrit par Brevo (domaine Gmail non authentifiable) → les mails arrivent, mais l'adresse affichée n'est pas la tienne.
-- DKIM « par défaut », DMARC non conforme : sans conséquence à ce volume.
-- **Le jour où tu prends un nom de domaine** (~10 €/an) : ajouter le domaine dans Brevo, valider DKIM/SPF, changer le « Sender email » dans Supabase. Les deux voyants passent au vert et les emails partent de ta propre adresse.
+`raphproudhon.fr` est authentifié dans Brevo → les liens magiques partent de `contact@raphproudhon.fr`, signés DKIM au nom du domaine, DMARC `p=reject` respecté. Testé : le mail arrive de `contact@` sans « via ».
+
+Enregistrements DNS posés chez Infomaniak (zone de `raphproudhon.fr`) — **ne pas supprimer** :
+
+| Type | Nom | Cible |
+|---|---|---|
+| TXT | `@` | `brevo-code:…` (code de vérification) |
+| CNAME | `brevo1._domainkey` | `b1.raphproudhon-fr.dkim.brevo.com` |
+| CNAME | `brevo2._domainkey` | `b2.raphproudhon-fr.dkim.brevo.com` |
+| CNAME | `em` | `em-raphproudhon-fr.brand.brevosend.com` |
+| CNAME | `r.em` | `em-raphproudhon-fr.r.brand.brevosend.com` |
+| CNAME | `img.em` | `em-raphproudhon-fr.img.brand.brevosend.com` |
+
+Le SPF (`v=spf1 include:spf.infomaniak.ch -all`) et le DMARC (`p=reject`) d'Infomaniak sont **inchangés** — Brevo n'en a pas besoin (retour géré sur le sous-domaine `em`). Un seul SPF et un seul DMARC par domaine : ne jamais en ajouter un second.
+
+Ancien expéditeur `raph.proudhon@gmail.com` dans Brevo : peut être supprimé, il ne sert plus.
 
 ## Règles de sécurité à ne jamais oublier
 
