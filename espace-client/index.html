@@ -374,7 +374,7 @@ async function afficherProjet(){
   $('sous-titre').textContent = 'Bonjour ' + p.nom_client + ", voici où en est votre projet.";
 
   $('facts').innerHTML = [
-    ['Formule', p.forfait || '—'],
+    ['Formule', esc(p.forfait || '—')],
     ['Montant convenu', fmtMontant(p.montant)],
     ['Démarré le', fmtDate(p.date_debut)],
     ['Livraison prévue', fmtDate(p.date_livraison_prevue)],
