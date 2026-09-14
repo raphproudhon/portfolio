@@ -1,6 +1,6 @@
-# Identité — raphproudhon.fr
+# Identité — raphproudhon.dev
 
-Logo de la marque freelance. Concept : le point terracotta de « .fr » devient la
+Logo de la marque freelance. Concept : le point terracotta de « .dev » devient la
 signature, il ponctue le « R » dans le monogramme.
 
 ## Couleurs
