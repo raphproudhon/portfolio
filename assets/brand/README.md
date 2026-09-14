@@ -1,4 +1,4 @@
-# Identité — Raphael.dev
+# Identité — raphproudhon.dev
 
 Logo de la marque freelance. Concept : le point terracotta de « .dev » devient la
 signature, il ponctue le « R » dans le monogramme.
