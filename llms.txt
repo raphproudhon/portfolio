@@ -20,6 +20,8 @@ professionnels (B2B) et sont chiffrées sur devis : aucun prix n'est publié.
 - **Développement front-end** — sites et interfaces écrits à la main en HTML, CSS
   et JavaScript, sans page builder ni gestionnaire de contenu.
 - **Développement back-end** — authentification, base de données, espaces clients.
+- **Boutique en ligne** — catalogue, panier et paiement sécurisé par Stripe.
+  Les prix sont calculés côté serveur, jamais dans le navigateur.
 - **Design UI/UX et identité visuelle** — logo, charte graphique, maquettes,
   prototypes cliquables, UI kits.
 
@@ -37,6 +39,10 @@ projet client à la fois. Rien ne démarre sans devis signé.
 
 ## Projets présentés
 
+- [Brûlerie du Cher](https://raphproudhon.fr/brulerie/) — boutique en ligne
+  complète : catalogue, choix de mouture, panier persistant et tunnel de commande
+  jusqu'au paiement. **Marque fictive ; le paiement fonctionne en mode test
+  Stripe, aucune somme réelle n'est encaissée et rien n'est expédié.**
 - [Champagne Maison d'Exception](https://raphproudhon.fr/site-champagne/etude-de-cas.html)
   — site vitrine de cinq pages pour un domaine champenois. Décliné en charte
   graphique, UI kit et prototype d'application.

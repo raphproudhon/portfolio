@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commande confirmée — Brûlerie du Cher</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="stylesheet" href="../assets/fonts/fraunces-work-sans.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu" class="wrap">
+  <header class="hero">
+    <div class="sur">Paiement accepté</div>
+    <h1>Merci, votre commande est enregistrée.</h1>
+    <p>
+      Vous recevriez ici un courriel de confirmation, puis un suivi d'expédition.
+      Comme il s'agit d'une démonstration, <strong>rien ne sera expédié et aucune
+      somme réelle n'a été débitée</strong> : le paiement s'est fait en mode test
+      Stripe, avec une carte fictive.
+    </p>
+    <p style="margin-top:26px">
+      <a class="bouton pale" href="./">Revenir à la boutique</a>
+      <a class="bouton" href="../" style="margin-left:8px">Voir le portfolio</a>
+    </p>
+  </header>
+</main>
+
+<script type="module">
+import { poserGabarit } from './assets/gabarit.js';
+poserGabarit();
+// le paiement a abouti : on vide le panier
+try { localStorage.removeItem('brulerie-panier'); } catch {}
+</script>
+</body>
+</html>

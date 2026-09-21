@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brûlerie du Cher — cafés de spécialité torréfiés à Loches</title>
+<meta name="description" content="Boutique de démonstration : cafés de spécialité, panier et paiement en mode test. Marque fictive créée par Raphaël Proudhon.">
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="stylesheet" href="../assets/fonts/fraunces-work-sans.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu" class="wrap">
+
+  <header class="hero">
+    <div class="sur">Torréfaction artisanale · Loches</div>
+    <h1>Le café a un terroir, comme le vin.</h1>
+    <p>
+      Nous torréfions chaque semaine, en petites quantités, des cafés de
+      spécialité achetés directement aux producteurs. Moulu à la demande,
+      expédié sous 48 heures.
+    </p>
+    <span class="demo">Boutique de démonstration — panier réel, paiement Stripe en mode test</span>
+  </header>
+
+  <section id="cafes">
+    <h2 class="titre-sec">Nos cafés du moment</h2>
+    <p class="sous-sec">Six références, torréfiées la semaine de votre commande.</p>
+    <div class="grille" id="grille"></div>
+  </section>
+
+  <section id="abonnement">
+    <h2 class="titre-sec">L'abonnement</h2>
+    <p class="sous-sec">
+      Deux sachets par mois, choisis par le torréfacteur, sans engagement.
+      <em>(Non implémenté dans cette démonstration.)</em>
+    </p>
+  </section>
+
+</main>
+
+<script type="module">
+import { CATALOGUE, euros } from './assets/boutique.js';
+import { poserGabarit } from './assets/gabarit.js';
+
+poserGabarit();
+
+document.getElementById('grille').innerHTML = CATALOGUE.map(p => `
+  <article class="carte">
+    <div class="sachet" style="background:${p.fond}"><span>${p.torre}</span></div>
+    <div class="corps">
+      <h3>${p.nom}</h3>
+      <p class="notes">${p.notes}</p>
+      <div class="bas">
+        <span class="prix">${euros(p.prix)}</span>
+        <span class="poids">${p.poids}</span>
+      </div>
+      <a class="voir" href="produit.html?ref=${p.ref}">Choisir la mouture</a>
+    </div>
+  </article>`).join('');
+</script>
+</body>
+</html>
