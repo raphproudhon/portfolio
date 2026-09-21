@@ -305,11 +305,16 @@
   </div>
 </footer>
 
+<!-- Bibliothèque Supabase servie par le site, et non par un CDN : aucune requête
+     vers un tiers. Mise à jour : npm pack @supabase/supabase-js, puis on remplace
+     vendor/supabase.js par package/dist/umd/supabase.js. -->
+<script src="vendor/supabase.js"></script>
+
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { SUPABASE_URL, SUPABASE_ANON_KEY, ADMIN_EMAIL } from './config.js';
 
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const createClient = window.supabase && window.supabase.createClient;
+const sb = createClient ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 const $ = id => document.getElementById(id);
 const ETAPES = [
@@ -703,8 +708,13 @@ async function afficherAdmin(email){
 }
 
 // ---------- Aiguillage ----------
+// Garde-fou : bibliothèque absente (vendor/supabase.js non déposé)
+if (!sb) {
+  $('loading').innerHTML =
+    "<b>Bibliothèque manquante.</b><br>Déposez <code>package/dist/umd/supabase.js</code> " +
+    "dans <code>espace-client/vendor/supabase.js</code> (voir <code>SETUP.md</code>).";
 // Garde-fou : Supabase pas encore configuré (voir SETUP.md)
-if (SUPABASE_URL.includes('VOTRE-PROJET') || SUPABASE_ANON_KEY.includes('VOTRE_CLE')) {
+} else if (SUPABASE_URL.includes('VOTRE-PROJET') || SUPABASE_ANON_KEY.includes('VOTRE_CLE')) {
   $('loading').innerHTML =
     "<b>Espace client non configuré.</b><br>Renseignez l'URL et la clé <i>anon</i> du projet Supabase dans <code>config.js</code> (voir <code>SETUP.md</code>).";
 } else {
