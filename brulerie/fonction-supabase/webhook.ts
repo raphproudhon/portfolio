@@ -22,10 +22,14 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const TOLERANCE_SECONDES = 300;   // 5 minutes, la valeur conseillée par Stripe
 
-// Expéditeur par défaut : le domaine d'essai de Resend, qui ne délivre qu'à
-// l'adresse du titulaire du compte. Pour écrire à de vrais clients, il faut
-// un domaine vérifié et le secret COURRIEL_EXPEDITEUR (voir SETUP.md).
-const EXPEDITEUR_DEFAUT = 'Brûlerie du Cher <onboarding@resend.dev>';
+// Expéditeurs par défaut, selon le service configuré.
+//   Brevo  : le domaine raphproudhon.fr y est déjà authentifié (DKIM, DMARC),
+//            donc le courriel part vers n'importe quelle adresse.
+//   Resend : le domaine d'essai ne délivre qu'au titulaire du compte, tant
+//            qu'aucun domaine n'est vérifié — cf. SETUP.md.
+// Le secret COURRIEL_EXPEDITEUR passe devant, au format « Nom <adresse> ».
+const EXPEDITEUR_BREVO  = 'Brûlerie du Cher (démonstration) <contact@raphproudhon.fr>';
+const EXPEDITEUR_RESEND = 'Brûlerie du Cher <onboarding@resend.dev>';
 
 /** Compare deux chaînes en temps constant : la durée ne révèle pas où elles diffèrent. */
 function memeSignature(a: string, b: string): boolean {
@@ -187,30 +191,67 @@ function versionHtml(c: Commande): string {
 </body></html>`;
 }
 
+/** « Nom <adresse> » → ses deux moitiés. Brevo les veut séparées, Resend non. */
+function expediteur(defaut: string): { nom: string; adresse: string } {
+  const brut = Deno.env.get('COURRIEL_EXPEDITEUR') ?? defaut;
+  const m = brut.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  return m ? { nom: m[1], adresse: m[2] } : { nom: '', adresse: brut.trim() };
+}
+
 /**
- * Envoie la confirmation via Resend.
- * « ignoré » quand l'envoi n'est pas configuré ou qu'aucune adresse n'est connue :
- * la commande reste enregistrée, le webhook n'a pas à échouer pour autant.
+ * Envoie la confirmation, par Brevo ou par Resend selon la clé présente dans
+ * les secrets. Brevo passe devant : le domaine y est déjà authentifié, donc le
+ * courriel arrive chez n'importe qui, sans configuration supplémentaire.
+ *
+ * « ignoré » quand aucun service n'est configuré ou qu'aucune adresse n'est
+ * connue : la commande reste enregistrée, le webhook n'a pas à échouer pour
+ * autant. C'est ce qui rend l'envoi facultatif.
  */
 async function envoyerConfirmation(c: Commande): Promise<'envoyé' | 'ignoré' | 'échec'> {
-  const cle = Deno.env.get('RESEND_API_KEY');
-  if (!cle) return 'ignoré';
   if (!c.courriel) return 'ignoré';
 
+  const cleBrevo = Deno.env.get('BREVO_API_KEY');
+  const cleResend = Deno.env.get('RESEND_API_KEY');
+  if (!cleBrevo && !cleResend) return 'ignoré';
+
+  const sujet = `Commande confirmée — ${argent(c.montant_centimes, c.devise)} (démonstration)`;
+  const texte = versionTexte(c);      // pour les lecteurs qui n'affichent pas le HTML
+  const html = versionHtml(c);
+
   try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${cle}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: Deno.env.get('COURRIEL_EXPEDITEUR') ?? EXPEDITEUR_DEFAUT,
-        to: [c.courriel],
-        subject: `Commande confirmée — ${argent(c.montant_centimes, c.devise)} (démonstration)`,
-        text: versionTexte(c),       // pour les lecteurs qui n'affichent pas le HTML
-        html: versionHtml(c),
-      }),
-    });
+    const r = cleBrevo
+      ? await (() => {
+          const de = expediteur(EXPEDITEUR_BREVO);
+          return fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+              'api-key': cleBrevo,
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({
+              sender: { name: de.nom || undefined, email: de.adresse },
+              to: [{ email: c.courriel, name: c.nom || undefined }],
+              subject: sujet,
+              htmlContent: html,
+              textContent: texte,
+            }),
+          });
+        })()
+      : await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${cleResend}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: Deno.env.get('COURRIEL_EXPEDITEUR') ?? EXPEDITEUR_RESEND,
+            to: [c.courriel],
+            subject: sujet,
+            text: texte,
+            html,
+          }),
+        });
+
     if (!r.ok) {
-      console.error("Resend a refusé l'envoi", r.status, await r.text());
+      console.error(`${cleBrevo ? 'Brevo' : 'Resend'} a refusé l'envoi`, r.status, await r.text());
       return 'échec';
     }
     return 'envoyé';

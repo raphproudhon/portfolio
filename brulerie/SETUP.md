@@ -143,30 +143,55 @@ Sans cette étape, tout continue de fonctionner : la commande est enregistrée,
 simplement personne n'écrit au client. Le webhook constate l'absence de clé
 d'envoi et passe son chemin.
 
-L'envoi passe par [Resend](https://resend.com) : une adresse HTTP, pas de
-serveur de courrier à tenir. Le webhook y confie le message juste après avoir
-écrit la commande.
+L'envoi passe par une adresse HTTP, pas par un serveur de courrier à tenir.
+**Deux services au choix** — la fonction prend celui dont la clé est présente,
+et Brevo passe devant si les deux le sont.
+
+| | Brevo | Resend |
+|---|---|---|
+| Compte | **déjà ouvert** (il sert aux liens de l'espace client) | à créer |
+| Domaine | `raphproudhon.fr` **déjà authentifié** (DKIM, DMARC) | à vérifier, 3 enregistrements DNS |
+| Écrit à | n'importe qui, tout de suite | au seul titulaire du compte, tant qu'aucun domaine n'est vérifié |
+| Gratuit | 300 courriels/jour | 100 courriels/jour |
+
+Commencer par la colonne de gauche est plus court, et le message part d'une
+adresse du domaine — donc moins de risque qu'il finisse en indésirable.
 
 1. **La colonne.** SQL Editor → coller `sql/migration-courriel.sql` → Run.
    (Sur une base créée après ce changement, `commandes.sql` la contient déjà.)
 
-2. **Le compte.** Créer un compte Resend, puis API Keys → *Create API key* →
-   copier la clé, qui commence par `re_`.
+2. **La clé.**
+   - *Brevo* : SMTP & API → **API Keys** → *Generate a new API key*. Attention,
+     ce n'est pas la clé SMTP de l'espace client : celle-ci commence par
+     `xkeysib-`. Secret à ajouter : `BREVO_API_KEY`.
+   - *Resend* : créer un compte, API Keys → *Create API key* (elle commence par
+     `re_`). Secret à ajouter : `RESEND_API_KEY`.
 
-3. **Le secret.** Project Settings → Edge Functions → Secrets → ajouter
-   `RESEND_API_KEY`.
+3. **Le secret.** Project Settings → Edge Functions → Secrets → ajouter celui
+   qui correspond.
 
-4. **L'expéditeur.** Sans réglage, les messages partent de
-   `onboarding@resend.dev`, le domaine d'essai de Resend — qui ne délivre
-   **qu'à l'adresse du titulaire du compte**. C'est suffisant pour voir le
-   courriel arriver. Pour écrire à n'importe qui, il faut vérifier un domaine
-   dans Resend (Domains → *Add domain*, puis les trois enregistrements DNS
-   qu'il indique) et ajouter le secret `COURRIEL_EXPEDITEUR`, par exemple
-   `Brûlerie du Cher <boutique@raphproudhon.fr>`.
+4. **L'expéditeur.** Par défaut, Brevo écrit depuis
+   `Brûlerie du Cher (démonstration) <contact@raphproudhon.fr>` — une adresse
+   du domaine authentifié, à laquelle on peut répondre. Resend, lui, écrit
+   depuis son domaine d'essai `onboarding@resend.dev`, qui ne délivre qu'au
+   titulaire du compte tant qu'aucun domaine n'est vérifié. Pour changer
+   l'adresse dans les deux cas, ajouter le secret `COURRIEL_EXPEDITEUR` au
+   format `Nom <adresse>`.
 
 5. **Redéployer** `webhook-brulerie`, puis refaire un paiement de test. Le
    courriel arrive, et la colonne `courriel_envoye_le` de la commande porte
    l'heure de l'envoi.
+
+**Pourquoi horodater l'envoi ?** Parce que Stripe réessaie un webhook qui a
+échoué. Sans cette colonne, une seconde tentative renverrait la même
+confirmation ; avec elle, le courriel n'est retenté que s'il n'était jamais
+parti. Et si le service d'envoi refuse le message, la fonction répond en erreur
+**après** avoir enregistré la commande : Stripe réessaie, la commande n'est pas
+dupliquée, le courriel finit par partir.
+
+Le message annonce en clair qu'il s'agit d'une démonstration, que rien ne sera
+expédié et qu'aucune somme n'a été débitée — écrire à quelqu'un au nom d'une
+marque fictive sans le dire serait malhonnête.
 
 > La page `merci.html` annonce au client que sa confirmation est partie : si
 > cette étape est laissée de côté, cette phrase promet un courriel que personne
