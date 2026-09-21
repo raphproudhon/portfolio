@@ -1,11 +1,4 @@
-# Documents internes — ne pas publier
-CONTEXTE-PROJET.md
-profil-malt.md
-message-prospection.md
-
-# Système
-Thumbs.db
-desktop.ini
-
-# Editeur
-.vscode/
+# harnais de test éphémères, créés pour piloter un navigateur en local
+_t*.html
+_audit.html
+_test-*.html
