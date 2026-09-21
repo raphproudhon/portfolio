@@ -9,11 +9,16 @@ create table if not exists commandes_brulerie (
   session_id    text not null unique,          -- identifiant Stripe : garantit l'unicité
   courriel      text,
   nom           text,
-  montant_total integer not null,              -- en centimes, comme Stripe les compte
+  montant_centimes integer not null,           -- Stripe compte en centimes : on garde l'entier,
+                                               -- jamais un nombre à virgule pour de l'argent
   devise        text not null default 'eur',
   lignes        jsonb not null default '[]'::jsonb,
   mode_test     boolean not null default true,
-  created_at    timestamptz not null default now()
+  created_at    timestamptz not null default now(),
+
+  -- colonne calculée, pour lire le montant sans faire la division de tête.
+  -- Elle dérive de l'entier : impossible qu'elle diverge.
+  montant_euros numeric(10,2) generated always as (montant_centimes / 100.0) stored
 );
 
 -- Recherche par date, l'usage courant d'un carnet de commandes
