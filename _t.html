@@ -1,5 +1,509 @@
-<!doctype html><html style="overflow:hidden"><body style="margin:0;background:#999">
-<iframe id="f" src="/racines/prototype-app.html" style="width:900px;height:560px;border:0"></iframe>
-<script>document.getElementById('f').addEventListener('load',e=>{
-  const d=e.target.contentDocument; d.defaultView.goTo && d.defaultView.goTo('detail');
-});</script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raphaël Proudhon — Développeur web &amp; designer indépendant</title>
+<meta name="description" content="Raphaël Proudhon, développeur web et designer UI/UX indépendant à Tours : sites sur-mesure, identités visuelles et prototypes d'app. Découvrez mes projets.">
+
+<link rel="canonical" href="https://raphproudhon.fr/">
+
+<!-- Données structurées : qui est derrière ce site (aide Google à relier la page à la personne) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://raphproudhon.fr/#personne",
+      "name": "Raphaël Proudhon",
+      "alternateName": "Raph Proudhon",
+      "jobTitle": "Développeur web & designer UI/UX indépendant",
+      "description": "Conception et développement de sites web sur-mesure, identités visuelles et prototypes d'application pour artisans, commerces et domaines viticoles.",
+      "url": "https://raphproudhon.fr/",
+      "image": "https://raphproudhon.fr/assets/og/portfolio.jpg",
+      "email": "mailto:contact@raphproudhon.fr",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Loches",
+        "postalCode": "37600",
+        "addressRegion": "Indre-et-Loire",
+        "addressCountry": "FR"
+      },
+      "knowsLanguage": "fr",
+      "knowsAbout": [
+        "Développement web",
+        "UI/UX design",
+        "Identité visuelle",
+        "Accessibilité web",
+        "Viticulture",
+        "E-commerce"
+      ],
+      "sameAs": [
+        "https://github.com/raphproudhon",
+        "https://www.malt.fr/profile/raphaelproudhon1"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://raphproudhon.fr/#activite",
+      "name": "Raphaël Proudhon — développeur & designer indépendant",
+      "founder": {
+        "@id": "https://raphproudhon.fr/#personne"
+      },
+      "url": "https://raphproudhon.fr/",
+      "email": "mailto:contact@raphproudhon.fr",
+      "priceRange": "Sur devis",
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Indre-et-Loire"
+        },
+        {
+          "@type": "Country",
+          "name": "France"
+        }
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Artisans, commerces, domaines viticoles, PME et associations"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Prestations",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Développement front-end",
+              "description": "Sites et interfaces écrits à la main en HTML, CSS et JavaScript, sans page builder."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Développement back-end",
+              "description": "Authentification, base de données et espaces clients."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Design UI/UX & identité visuelle",
+              "description": "Logo, charte graphique, maquettes et prototypes cliquables."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Boutique en ligne",
+              "description": "Catalogue, panier et paiement sécurisé, avec calcul des prix côté serveur."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://raphproudhon.fr/#site",
+      "url": "https://raphproudhon.fr/",
+      "name": "raphproudhon.fr",
+      "inLanguage": "fr-FR",
+      "publisher": {
+        "@id": "https://raphproudhon.fr/#personne"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Projets présentés",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Brûlerie du Cher — boutique en ligne",
+            "description": "Boutique de démonstration : catalogue, panier persistant et paiement Stripe en mode test, avec prix fixés côté serveur.",
+            "url": "https://raphproudhon.fr/brulerie/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Brûlerie du Cher n'existe pas et aucun paiement réel n'est encaissé.",
+            "keywords": "e-commerce, panier, Stripe, tunnel de commande"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Champagne Maison d'Exception",
+            "description": "Site vitrine de cinq pages pour un domaine champenois : identité, vérification d'âge, performance et accessibilité.",
+            "url": "https://raphproudhon.fr/site-champagne/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "keywords": "site vitrine, HTML, CSS, JavaScript, viticulture"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Racines — abonnement plantes",
+            "description": "Marque fictive créée de A à Z : logo SVG, charte graphique, site de conversion et prototype d'application mobile.",
+            "url": "https://raphproudhon.fr/racines/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Racines n'existe pas.",
+            "keywords": "identité visuelle, branding, prototype d'application"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Laine & Lin — vêtements en fibres naturelles",
+            "description": "Boutique fictive sans aucune photographie : textures et illustrations entièrement dessinées en CSS et SVG.",
+            "url": "https://raphproudhon.fr/laine-et-lin/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Laine & Lin n'existe pas.",
+            "keywords": "one-page, CSS, SVG, design sans photo"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- Open Graph / partage sur les réseaux -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="raphproudhon.fr">
+<meta property="og:title" content="Raphaël Proudhon — Développeur web &amp; designer indépendant">
+<meta property="og:description" content="Raphaël Proudhon, développeur web et designer UI/UX indépendant à Tours : sites sur-mesure, identités visuelles et prototypes d'app. Découvrez mes projets.">
+<meta property="og:url" content="https://raphproudhon.fr/">
+<meta property="og:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="raphproudhon.fr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Raphaël Proudhon — Développeur web &amp; designer indépendant">
+<meta name="twitter:description" content="Raphaël Proudhon, développeur web et designer UI/UX indépendant à Tours : sites sur-mesure, identités visuelles et prototypes d'app. Découvrez mes projets.">
+<meta name="twitter:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+<link rel="icon" type="image/png" href="assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon.png">
+<link rel="stylesheet" href="assets/fonts/space-grotesk-inter.css">
+<style>
+  :root{
+    --bg:#f4f2ee;
+    --surface:#ffffff;
+    --ink:#16150f;
+    --muted:#6e695f;
+    --accent:#d96f32;
+    --line:rgba(22,21,15,.1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--bg); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.1;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ============ NAV ============ */
+  nav.top{
+    position:sticky; top:0; z-index:50; background:rgba(244,242,238,.85);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
+  .wordmark span{color:var(--accent);}
+  nav.top ul{display:flex; gap:28px; list-style:none;}
+  nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
+  nav.top ul a:hover{color:var(--ink);}
+  nav.top a.nav-cta{
+    color:var(--ink); text-decoration:none; font-size:13px; font-weight:500;
+    border:1px solid var(--line); background:var(--surface);
+    padding:7px 14px; border-radius:999px; white-space:nowrap;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  nav.top a.nav-cta:hover{color:var(--accent); border-color:var(--accent);}
+  .nav-right{display:flex; align-items:center; gap:28px;}
+  .burger{
+    display:none; width:38px; height:38px; padding:0; border-radius:10px;
+    border:1px solid var(--line); background:var(--surface); cursor:pointer;
+    align-items:center; justify-content:center; flex-direction:column; gap:4px;
+    transition:border-color .2s;
+  }
+  .burger:hover{border-color:var(--ink);}
+  .burger span{
+    display:block; width:17px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition:transform .25s ease, opacity .2s ease;
+  }
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+  @media (max-width:760px){
+    .nav-right{gap:12px;}
+    .burger{display:flex;}
+    .wordmark{font-size:15px;}
+    .brand{gap:9px;}
+    nav.top a.nav-cta{padding:6px 12px; font-size:12.5px;}
+    /* le menu passe en panneau déroulant sous la barre */
+    nav.top ul{
+      display:none; position:absolute; top:64px; left:0; right:0;
+      flex-direction:column; gap:0; padding:6px 24px 16px;
+      background:var(--bg); border-bottom:1px solid var(--line);
+      box-shadow:0 14px 26px rgba(22,21,15,.07);
+    }
+    nav.top ul.open{display:flex;}
+    nav.top ul li + li{border-top:1px solid var(--line);}
+    nav.top ul a{display:block; padding:14px 2px; font-size:15px; color:var(--ink);}
+  }
+
+  /* ============ HERO ============ */
+  .hero{padding:clamp(70px,11vw,140px) 0 clamp(50px,8vw,90px);}
+  .hero .tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:500; color:var(--muted);
+    border:1px solid var(--line); border-radius:999px; padding:7px 14px; margin-bottom:28px;
+    background:var(--surface);
+  }
+  .hero .tag i{width:8px; height:8px; border-radius:50%; background:#4a9d6b; display:inline-block;}
+  .hero h1{font-size:clamp(38px,7vw,76px); letter-spacing:-.02em; max-width:900px;}
+  .hero h1 em{font-style:normal; color:var(--accent);}
+  .hero p.lead{margin-top:26px; max-width:600px; font-size:clamp(15px,2vw,17px); color:var(--muted);}
+  .hero .cta-row{margin-top:38px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:14px 28px; border-radius:10px; font-size:14px;
+    font-weight:600; text-decoration:none; font-family:'Space Grotesk', sans-serif;
+    transition:transform .2s, box-shadow .2s, background .2s;
+  }
+  .btn.primary{background:var(--ink); color:#fff;}
+  .btn.primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(22,21,15,.18);}
+  .btn.ghost{border:1px solid var(--line); background:var(--surface);}
+  .btn.ghost:hover{border-color:var(--ink);}
+
+  /* ============ SECTIONS ============ */
+  section{padding:clamp(50px,8vw,90px) 0; scroll-margin-top:84px;}
+  .sec-head{margin-bottom:44px;}
+  .sec-head .k{
+    font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .sec-head h2{font-size:clamp(28px,4.5vw,44px); letter-spacing:-.01em;}
+  .sec-head p{margin-top:12px; max-width:560px; font-size:15px; color:var(--muted);}
+
+  /* ============ COMPÉTENCES ============ */
+  .skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
+  .skill-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:30px;
+  }
+  .skill-card .ico{
+    width:44px; height:44px; border-radius:12px; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
+  }
+  .skill-card h3{font-size:19px; margin-bottom:10px;}
+  .skill-card p{font-size:13.5px; color:var(--muted);}
+  .skill-card .tags{margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;}
+  .skill-card .tags span{
+    font-size:11.5px; font-weight:500; padding:5px 11px; border-radius:999px;
+    background:var(--bg); color:var(--ink);
+  }
+
+  /* ============ PROJETS ============ */
+  .project{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    overflow:hidden; margin-bottom:34px;
+  }
+  .project .cover{position:relative; height:clamp(200px,32vw,340px); overflow:hidden;}
+  .project .cover img{width:100%; height:100%; object-fit:cover; transition:transform .8s ease;}
+  .project:hover .cover img{transform:scale(1.04);}
+  .project .cover .chip{
+    position:absolute; top:18px; left:18px; z-index:2;
+    font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    background:rgba(22,21,15,.82); color:#fff; padding:8px 14px; border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .project .cover.solid{display:flex; align-items:center; justify-content:center;}
+  .project .body{padding:clamp(24px,4vw,40px);}
+  .project .body .row{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:baseline;}
+  .project h3{font-size:clamp(22px,3vw,30px); letter-spacing:-.01em;}
+  .project .stack{font-size:12px; color:var(--muted); font-weight:500;}
+  .project p.desc{margin-top:12px; max-width:640px; font-size:14.5px; color:var(--muted);}
+  .project .links{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px;}
+  .project .links a{
+    font-size:12.5px; font-weight:600; text-decoration:none; padding:10px 16px;
+    border:1px solid var(--line); border-radius:999px; transition:all .2s;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .project .links a:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .project .links a.main{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .project .links a.main:hover{background:var(--ink); border-color:var(--ink);}
+  .project .note{margin-top:14px; font-size:11.5px; color:#a09a8e;}
+
+  /* ============ DÉMARCHE ============ */
+  .method{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:20px;}
+  .method .m-card{border-left:2px solid var(--accent); padding:4px 0 4px 20px;}
+  .method .m-card .n{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:13px; color:var(--accent); margin-bottom:6px;}
+  .method .m-card h3{font-size:17px; margin-bottom:6px;}
+  .method .m-card p{font-size:13px; color:var(--muted);}
+
+  /* ============ CONTACT ============ */
+  .contact-band{
+    background:var(--ink); color:#fff; border-radius:24px;
+    padding:clamp(40px,7vw,70px); text-align:center; margin-bottom:40px;
+  }
+  .contact-band h2{font-size:clamp(28px,4.5vw,44px); letter-spacing:-.01em;}
+  .contact-band p{margin-top:14px; color:#b5b1a6; max-width:520px; margin-left:auto; margin-right:auto; font-size:15px;}
+  .contact-band .btn.primary{background:var(--accent); margin-top:30px;}
+  .contact-band .mail{margin-top:18px; font-size:13px; color:#b5b1a6;}
+  .contact-band .mail a{color:#fff; text-decoration:underline; text-underline-offset:3px;}
+
+  /* ============ PIED DE PAGE ============ */
+  .site-footer{border-top:1px solid var(--line); padding:clamp(44px,6vw,64px) 0 40px; margin-top:10px;}
+
+  /* rangée haute : marque + navigation + pratique */
+  .f-top{display:grid; gap:36px 40px; grid-template-columns:1.6fr 1fr 1fr;}
+  @media (max-width:760px){.f-top{grid-template-columns:1fr 1fr;} .f-brand{grid-column:1 / -1;}}
+  @media (max-width:460px){.f-top{grid-template-columns:1fr;}}
+
+  .f-brand .brand{margin-bottom:14px;}
+  .f-brand p{font-size:13px; color:var(--muted); max-width:36ch; margin-bottom:16px;}
+  .f-brand .mail{
+    font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:600;
+    text-decoration:underline; text-underline-offset:3px; color:var(--ink);
+  }
+  .f-brand .mail:hover{color:var(--accent);}
+  .f-social{display:flex; gap:10px; margin-top:18px;}
+  .f-social a{
+    width:36px; height:36px; border-radius:10px; border:1px solid var(--line);
+    background:var(--surface); display:flex; align-items:center; justify-content:center;
+    color:var(--muted); transition:color .2s, border-color .2s, transform .2s;
+  }
+  .f-social a:hover{color:var(--ink); border-color:var(--ink); transform:translateY(-2px);}
+
+  .f-h{
+    font-size:11.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink); margin-bottom:14px; font-family:'Space Grotesk', sans-serif;
+  }
+  .f-col ul{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .f-col a{font-size:13px; color:var(--muted); text-decoration:none; transition:color .2s;}
+  .f-col a:hover{color:var(--accent);}
+
+  /* barre basse */
+  .f-bottom{
+    margin-top:clamp(30px,4vw,42px); padding-top:22px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; gap:12px 26px; flex-wrap:wrap;
+    font-size:12.5px; color:var(--muted);
+  }
+  .f-bottom .legal{display:flex; gap:20px; flex-wrap:wrap;}
+  .f-bottom a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+  .f-bottom a:hover{color:var(--ink);}
+
+  /* ============ ACCESSIBILITÉ ============ */
+  /* lien d'évitement : invisible jusqu'au premier Tab */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:100;
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* anneau de focus visible au clavier, sans gêner la souris */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;
+  }
+
+  /* respecte le réglage système « réduire les animations » */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+    .project:hover .cover img{transform:none;}
+  }
+</style>
+</head>
+<body style="padding:20px">
+<div class="wrap">
+    <!-- BRÛLERIE -->
+    <article class="project">
+      <div class="cover solid" style="background:linear-gradient(135deg,#2b1d16 0%,#7a4a32 55%,#b06b3a 100%);">
+        <span class="chip">Boutique en ligne · paiement Stripe</span>
+        <svg width="330" height="86" viewBox="0 0 520 130" role="img" aria-label="Logo Brûlerie du Cher">
+          <text x="260" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="46" fill="#f7f1e8">Brûlerie du <tspan fill="#e0a06a">Cher</tspan></text>
+          <text x="260" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#c9a98f">CAFÉS DE SPÉCIALITÉ · LOCHES</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Brûlerie du Cher — vente en ligne</h3>
+          <span class="stack">HTML · CSS · JS · Stripe · Supabase</span>
+        </div>
+        <p class="desc">
+          Boutique complète et fonctionnelle : catalogue, choix de mouture, panier
+          persistant et tunnel de commande jusqu'au paiement. Les prix sont fixés par
+          une fonction serveur, jamais par le navigateur — un panier trafiqué ne peut
+          pas changer le montant.
+        </p>
+        <div class="links">
+          <a class="main" href="brulerie/">Essayer la boutique</a>
+          <a href="brulerie/etude-de-cas.html">Étude de cas</a>
+        </div>
+        <p class="note">Marque fictive. Le paiement fonctionne en mode test Stripe : aucune somme réelle n'est débitée.</p>
+      </div>
+    </article>
+
+    <!-- CHAMPAGNE -->
+    <article class="project">
+      <div class="cover">
+        <span class="chip">Site vitrine · 5 pages</span>
+        <img src="site-champagne/assets/images/vignoble.webp" alt="Site Champagne Maison d'Exception — vignoble" loading="lazy">
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Champagne Maison d'Exception</h3>
+          <span class="stack">HTML · CSS · JavaScript</span>
+        </div>
+        <p class="desc">
+          Site vitrine haut de gamme pour un domaine champenois : identité or et crème,
+          typographie de maison, vérification d'âge, performance et accessibilité soignées.
+          Décliné en charte graphique, UI kit et prototype d'app « espace client ».
+        </p>
+        <div class="links">
+          <a class="main" href="site-champagne/">Voir le site</a>
+          <a href="site-champagne/etude-de-cas.html">Étude de cas</a>
+          <a href="site-champagne/charte-graphique.html">Charte graphique</a>
+          <a href="site-champagne/ui-kit.html">UI kit</a>
+          <a href="site-champagne/prototype-app.html">Prototype app</a>
+        </div>
+      </div>
+    </article>
+
+</div></body></html>
