@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conditions d'utilisation — raphproudhon.fr</title>
+<meta name="description" content="Conditions d'utilisation de raphproudhon.fr : ce que vous pouvez faire sur le site et dans l'espace client, ce qui est interdit, et ce qui est garanti.">
+
+<link rel="canonical" href="https://raphproudhon.fr/conditions-utilisation.html">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="raphproudhon.fr">
+<meta property="og:title" content="Conditions d'utilisation — raphproudhon.fr">
+<meta property="og:description" content="Conditions d'utilisation de raphproudhon.fr : ce que vous pouvez faire sur le site et dans l'espace client, ce qui est interdit, et ce qui est garanti.">
+<meta property="og:url" content="https://raphproudhon.fr/conditions-utilisation.html">
+<meta property="og:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+
+<link rel="icon" type="image/png" href="assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ee;
+    --surface:#ffffff;
+    --ink:#16150f;
+    --muted:#6e695f;
+    --accent:#d96f32;
+    --line:rgba(22,21,15,.1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--bg); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.2;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ============ NAV ============ */
+  nav.top{
+    position:sticky; top:0; z-index:50; background:rgba(244,242,238,.85);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
+  .wordmark span{color:var(--accent);}
+  nav.top ul{display:flex; gap:28px; list-style:none;}
+  nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
+  nav.top ul a:hover{color:var(--ink);}
+  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;} .wordmark{font-size:15px;} .brand{gap:9px;}}
+
+  /* ============ EN-TÊTE ============ */
+  .head{padding:clamp(50px,8vw,90px) 0 clamp(26px,4vw,40px);}
+  .head .k{
+    font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .head h1{font-size:clamp(32px,5.5vw,52px); letter-spacing:-.02em; max-width:800px;}
+  .head p.lead{margin-top:20px; max-width:640px; font-size:clamp(15px,2vw,17px); color:var(--muted);}
+  .head .maj{margin-top:22px; font-size:12.5px; color:var(--muted);}
+
+  /* ============ CONTENU ============ */
+  .doc{padding-bottom:clamp(50px,8vw,90px);}
+  .doc .inner{max-width:760px;}
+  .doc section{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:clamp(24px,4vw,34px); margin-bottom:18px; scroll-margin-top:84px;
+  }
+  .doc h2{font-size:clamp(20px,3vw,25px); letter-spacing:-.01em; margin-bottom:14px;}
+  .doc h3{font-size:16px; margin:22px 0 8px;}
+  .doc p{font-size:14.5px; color:var(--muted); margin-bottom:12px;}
+  .doc p:last-child{margin-bottom:0;}
+  .doc strong{color:var(--ink); font-weight:600;}
+  .doc a{color:var(--accent); text-decoration:underline; text-underline-offset:3px;}
+  .doc ul{list-style:none; margin:4px 0 14px; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .doc li{font-size:14.5px; color:var(--muted); padding-left:20px; position:relative; line-height:1.6;}
+  .doc li::before{
+    content:""; position:absolute; left:2px; top:10px; width:7px; height:7px;
+    border-radius:50%; background:var(--accent); opacity:.55;
+  }
+  /* liste « interdit » : puces en croix plutôt qu'en pastille */
+  .doc ul.no li::before{
+    content:"×"; width:auto; height:auto; top:0; left:3px; font-size:15px;
+    font-weight:600; color:var(--accent); opacity:.85; border-radius:0; background:none;
+  }
+
+  /* encart de synthèse */
+  .callout{
+    display:flex; gap:16px; align-items:flex-start;
+    background:#fdf1e8; border:1px solid rgba(217,111,50,.28); border-radius:16px;
+    padding:22px 26px; margin-bottom:18px;
+  }
+  .callout .ico{
+    width:40px; height:40px; border-radius:11px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .callout .lab{
+    font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:4px;
+  }
+  .callout p{font-size:14px; color:var(--muted); margin:0;}
+  .callout strong{color:var(--ink); font-weight:600;}
+
+  /* ============ CONTACT ============ */
+  .contact-band{
+    background:var(--ink); color:#fff; border-radius:24px;
+    padding:clamp(34px,6vw,56px); text-align:center; margin-bottom:40px;
+  }
+  .contact-band h2{font-size:clamp(24px,4vw,36px); letter-spacing:-.01em;}
+  .contact-band p{margin-top:14px; color:#b5b1a6; max-width:520px; margin-left:auto; margin-right:auto; font-size:15px;}
+  .contact-band .btn{
+    display:inline-block; padding:14px 28px; border-radius:10px; font-size:14px;
+    font-weight:600; text-decoration:none; font-family:'Space Grotesk', sans-serif;
+    background:var(--accent); color:#fff; margin-top:28px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .contact-band .btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.25);}
+
+  footer{padding:0 0 50px; text-align:center; font-size:12.5px; color:var(--muted);}
+  footer a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="raphproudhon.fr — accueil">
+      <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
+      <span class="wordmark">raphproudhon<span>.</span>fr</span>
+    </a>
+    <ul>
+      <li><a href="./#projets">Projets</a></li>
+      <li><a href="./#competences">Compétences</a></li>
+      <li><a href="./#tarifs">Tarifs</a></li>
+      <li><a href="./#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ EN-TÊTE ============ -->
+<header class="head">
+  <div class="wrap">
+    <div class="k">Conditions générales</div>
+    <h1>Conditions d'utilisation</h1>
+    <p class="lead">
+      Les règles qui s'appliquent quand vous consultez ce site ou que vous vous connectez
+      à votre espace client. Elles portent sur l'usage du site — pas sur les prestations
+      elles-mêmes, qui relèvent du devis signé.
+    </p>
+    <p class="maj">Dernière mise à jour : 21 septembre 2026</p>
+  </div>
+</header>
+
+<!-- ============ CONTENU ============ -->
+<div class="doc">
+  <div class="wrap">
+    <div class="inner">
+
+      <div class="callout">
+        <div class="ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="lab">En deux lignes</div>
+          <p>
+            Le site est <strong>consultable librement et gratuitement</strong>. Vous pouvez
+            le lire, le citer et le partager&nbsp;; vous ne pouvez pas en copier les contenus
+            pour votre propre usage commercial, ni tenter d'accéder à l'espace d'un autre client.
+          </p>
+        </div>
+      </div>
+
+      <!-- 1 — Objet -->
+      <section id="objet">
+        <h2>1. Objet et acceptation</h2>
+        <p>
+          Les présentes conditions régissent l'utilisation du site <strong>raphproudhon.fr</strong>
+          et de son espace client, édités par Raphaël Proudhon (voir les
+          <a href="mentions-legales.html">mentions légales</a>).
+        </p>
+        <p>
+          Naviguer sur le site vaut acceptation de ces conditions. Si l'une d'elles ne vous
+          convient pas, il vous suffit de ne pas utiliser le site.
+        </p>
+      </section>
+
+      <!-- 2 — Accès -->
+      <section id="acces">
+        <h2>2. Accès au site</h2>
+        <p>
+          Le site est accessible <strong>gratuitement</strong>, sans création de compte, à toute
+          personne disposant d'un accès à internet. Les frais de connexion et le matériel
+          nécessaire restent à votre charge.
+        </p>
+        <p>
+          Je m'efforce de maintenir le site disponible en permanence, sans pouvoir le garantir&nbsp;:
+          une interruption peut survenir pour maintenance, du fait de l'hébergeur ou d'un incident
+          réseau. Ces interruptions n'ouvrent droit à aucune indemnité.
+        </p>
+      </section>
+
+      <!-- 3 — Usage -->
+      <section id="usage">
+        <h2>3. Ce que vous pouvez faire — et ce qui est interdit</h2>
+        <p>Vous êtes libre de&nbsp;:</p>
+        <ul>
+          <li>consulter, imprimer et enregistrer les pages pour votre usage personnel ou interne</li>
+          <li>citer un contenu en indiquant son auteur et en liant la page d'origine</li>
+          <li>partager un lien vers n'importe quelle page du site</li>
+        </ul>
+
+        <p>En revanche, il est interdit de&nbsp;:</p>
+        <ul class="no">
+          <li>reproduire, adapter ou exploiter commercialement tout ou partie du site sans accord écrit</li>
+          <li>reprendre les études de cas, maquettes ou visuels pour les présenter comme votre travail</li>
+          <li>extraire le contenu de manière automatisée (aspiration, moissonnage systématique)</li>
+          <li>perturber le fonctionnement du site, en sonder les failles ou contourner ses accès</li>
+          <li>utiliser les adresses de contact à des fins de prospection non sollicitée</li>
+        </ul>
+        <p>
+          Un usage manifestement abusif peut entraîner le blocage de l'accès, sans préjudice des
+          suites judiciaires envisageables.
+        </p>
+      </section>
+
+      <!-- 4 — Espace client -->
+      <section id="espace-client">
+        <h2>4. Espace client</h2>
+        <p>
+          L'espace client est un service <strong>réservé aux clients ayant un projet en cours</strong>.
+          Il donne accès au suivi de ce projet&nbsp;: étape en cours, avancées, maquettes à valider et
+          points en attente.
+        </p>
+
+        <h3>Connexion</h3>
+        <p>
+          L'accès se fait par un <strong>lien à usage unique</strong> envoyé à votre adresse
+          courriel&nbsp;: il n'y a pas de mot de passe à créer ni à retenir. Ce lien est
+          personnel&nbsp;: ne le transmettez pas. Vous êtes responsable des accès effectués depuis
+          votre messagerie&nbsp;; prévenez-moi sans délai si vous suspectez un accès non autorisé,
+          et je révoque la session.
+        </p>
+
+        <h3>Contenus publiés</h3>
+        <p>
+          Les documents mis à disposition dans votre espace (maquettes, prototypes, livrables
+          intermédiaires) sont destinés à votre usage interne dans le cadre du projet. Tant que le
+          solde n'est pas réglé, ils ne peuvent être exploités publiquement&nbsp;: les droits sont
+          cédés dans les conditions prévues par le devis.
+        </p>
+        <p>
+          Les informations affichées reflètent l'avancement à la date de consultation. En cas de
+          divergence entre l'espace client et le devis signé, <strong>c'est le devis qui
+          prévaut</strong>.
+        </p>
+      </section>
+
+      <!-- 5 — Démonstrations -->
+      <section id="demonstrations">
+        <h2>5. Projets de démonstration</h2>
+        <p>
+          Le site présente des maquettes de projets. <strong>Racines</strong> et
+          <strong>Laine &amp; Lin</strong> sont des marques fictives, créées pour la
+          démonstration&nbsp;: les produits, prix, disponibilités et formulaires qui y figurent
+          n'ont aucune valeur commerciale et aucune commande ne peut y être passée. Les formulaires
+          de ces pages sont inertes et n'envoient rien.
+        </p>
+      </section>
+
+      <!-- 6 — Prestations -->
+      <section id="prestations">
+        <h2>6. Prestations et devis</h2>
+        <p>
+          Les descriptions de forfaits, tarifs et délais publiés sur ce site sont des
+          <strong>informations indicatives</strong>, susceptibles d'évoluer&nbsp;: elles ne
+          constituent pas une offre ferme.
+        </p>
+        <p>
+          Une prestation ne démarre qu'après un <strong>devis détaillé, signé, accompagné de
+          l'acompte prévu</strong>. Ce devis et ses conditions forment le contrat&nbsp;: lui seul
+          fixe le périmètre, le prix, les délais et la cession des droits. Mes prestations
+          s'adressent exclusivement à des professionnels agissant dans le cadre de leur activité.
+        </p>
+      </section>
+
+      <!-- 7 — Propriété intellectuelle et données -->
+      <section id="pi-donnees">
+        <h2>7. Propriété intellectuelle et données personnelles</h2>
+        <p>
+          Les droits sur le contenu du site sont décrits dans les
+          <a href="mentions-legales.html">mentions légales</a>. Le traitement de vos données —
+          ce qui est collecté, pour combien de temps, et comment exercer vos droits — est détaillé
+          dans la <a href="confidentialite.html">politique de confidentialité</a>. Ces deux
+          documents font partie intégrante des présentes conditions.
+        </p>
+      </section>
+
+      <!-- 8 — Responsabilité -->
+      <section id="responsabilite">
+        <h2>8. Responsabilité</h2>
+        <p>
+          Le site est fourni en l'état. Je ne saurais être tenu responsable d'un dommage indirect
+          résultant de son utilisation, de son indisponibilité, ou de la présence d'une erreur dans
+          son contenu — que je corrige dès qu'elle m'est signalée.
+        </p>
+        <p>
+          Les liens vers des sites tiers sont proposés pour votre commodité&nbsp;; leur contenu
+          n'engage que leurs éditeurs.
+        </p>
+      </section>
+
+      <!-- 9 — Évolution -->
+      <section id="evolution">
+        <h2>9. Évolution de ces conditions</h2>
+        <p>
+          Ces conditions peuvent être modifiées à tout moment, notamment si les services du site
+          évoluent. La version applicable est celle publiée sur cette page au moment de votre
+          visite&nbsp;; sa date de mise à jour figure en haut. Les clients disposant d'un espace
+          actif sont informés par courriel d'un changement substantiel.
+        </p>
+      </section>
+
+      <!-- 10 — Droit applicable -->
+      <section id="droit">
+        <h2>10. Droit applicable</h2>
+        <p>
+          Les présentes conditions sont soumises au <strong>droit français</strong>. En cas de
+          difficulté, écrivez-moi d'abord&nbsp;: un échange direct règle presque toujours le
+          problème. À défaut d'accord amiable, le litige relève des juridictions françaises
+          compétentes.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section>
+  <div class="wrap">
+    <div class="contact-band">
+      <h2>Une question sur ces conditions ?</h2>
+      <p>
+        Un point qui vous semble ambigu, une autorisation à demander pour réutiliser
+        un contenu — écrivez-moi, je réponds.
+      </p>
+      <a class="btn" href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Raphaël Proudhon — Développeur &amp; Designer UI/UX freelance ·
+  <a href="./">Accueil</a> ·
+  <a href="mentions-legales.html">Mentions légales</a> ·
+  <a href="confidentialite.html">Politique de confidentialité</a>
+</footer>
+
+</body>
+</html>
