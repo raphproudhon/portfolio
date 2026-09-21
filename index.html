@@ -88,7 +88,21 @@
   nav.top ul{display:flex; gap:28px; list-style:none;}
   nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
   nav.top ul a:hover{color:var(--ink);}
-  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;} .wordmark{font-size:15px;} .brand{gap:9px;}}
+  nav.top ul a.nav-cta{
+    color:var(--ink); border:1px solid var(--line); background:var(--surface);
+    padding:7px 14px; border-radius:999px; white-space:nowrap;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  nav.top ul a.nav-cta:hover{color:var(--accent); border-color:var(--accent);}
+  @media (max-width:760px){
+    /* en petite largeur, seul le bouton « Espace client » reste dans la barre :
+       les sections de la page restent atteignables en faisant défiler */
+    nav.top ul{gap:14px;}
+    nav.top ul li:not(:last-child){display:none;}
+    nav.top ul a.nav-cta{padding:6px 12px; font-size:12.5px;}
+    .wordmark{font-size:15px;}
+    .brand{gap:9px;}
+  }
 
   /* ============ HERO ============ */
   .hero{padding:clamp(70px,11vw,140px) 0 clamp(50px,8vw,90px);}
@@ -178,74 +192,6 @@
   .method .m-card h3{font-size:17px; margin-bottom:6px;}
   .method .m-card p{font-size:13px; color:var(--muted);}
 
-  /* ============ TARIFS ============ */
-  .offers{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; align-items:stretch;}
-  .offer{
-    background:var(--surface); border:1px solid var(--line); border-radius:16px;
-    padding:28px 26px 26px; display:flex; flex-direction:column; position:relative;
-  }
-  .offer.featured{border-color:var(--accent); box-shadow:0 10px 30px rgba(217,111,50,.12);}
-  .offer .tag{
-    position:absolute; top:-11px; left:26px; background:var(--accent); color:#fff;
-    font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-    padding:4px 11px; border-radius:999px;
-  }
-  .offer h3{font-size:19px; margin-bottom:4px;}
-  .offer .for{font-size:12.5px; color:var(--muted); min-height:34px;}
-  .offer .price{margin:16px 0 4px; display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
-  .offer .price .from{font-size:11.5px; color:var(--muted); letter-spacing:.02em;}
-  .offer .price .amount{
-    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:32px;
-    letter-spacing:-.02em; font-variant-numeric:tabular-nums;
-  }
-  .offer.featured .price .amount{color:var(--accent);}
-  .offer .delay{font-size:12px; color:var(--muted); margin-bottom:18px;}
-  .offer ul{list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:9px;}
-  .offer li{font-size:13.5px; color:var(--muted); padding-left:20px; position:relative; line-height:1.55;}
-  .offer li::before{
-    content:""; position:absolute; left:2px; top:7px; width:7px; height:7px;
-    border-radius:50%; background:var(--accent); opacity:.55;
-  }
-  .offer .go{
-    margin-top:auto; display:inline-block; text-align:center; text-decoration:none;
-    font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:600;
-    padding:12px 18px; border-radius:10px; border:1px solid var(--line);
-    transition:background .2s, color .2s, border-color .2s;
-  }
-  .offer .go:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
-  .offer.featured .go{background:var(--accent); color:#fff; border-color:var(--accent);}
-  .offer.featured .go:hover{background:var(--ink); border-color:var(--ink);}
-
-  .included{
-    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
-    background:#fdf1e8; border:1px solid rgba(217,111,50,.28); border-radius:16px;
-    padding:22px 26px; margin-bottom:22px;
-  }
-  .included .ico{
-    width:46px; height:46px; border-radius:12px; background:var(--accent);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .included .txt{flex:1; min-width:240px;}
-  .included .lab{
-    font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--accent); margin-bottom:4px;
-  }
-  .included h3{font-size:18px; margin-bottom:4px;}
-  .included p{font-size:13.5px; color:var(--muted); max-width:62ch;}
-  .included .voir{
-    font-family:'Space Grotesk',sans-serif; font-size:12.5px; font-weight:600;
-    text-decoration:none; padding:11px 18px; border-radius:10px;
-    border:1px solid var(--accent); color:var(--accent); white-space:nowrap;
-    transition:background .2s, color .2s;
-  }
-  .included .voir:hover{background:var(--accent); color:#fff;}
-
-  .offers-note{
-    margin-top:26px; display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px 30px;
-  }
-  .offers-note div{font-size:13px; color:var(--muted); line-height:1.6;}
-  .offers-note strong{display:block; color:var(--ink); font-weight:600; font-size:13.5px; margin-bottom:3px;}
-
   /* ============ CONTACT ============ */
   .contact-band{
     background:var(--ink); color:#fff; border-radius:24px;
@@ -311,8 +257,8 @@
     <ul>
       <li><a href="#projets">Projets</a></li>
       <li><a href="#competences">Compétences</a></li>
-      <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a class="nav-cta" href="espace-client/">Espace client</a></li>
     </ul>
   </div>
 </nav>
@@ -502,101 +448,6 @@
   </div>
 </section>
 
-<!-- ============ TARIFS ============ -->
-<section id="tarifs">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="k">Tarifs</div>
-      <h2>Des forfaits clairs, sans mauvaise surprise</h2>
-      <p>Un prix annoncé dès le départ, un devis détaillé avant de commencer, et un délai ferme. Chaque projet est unique : ces montants sont des points de départ, ajustés ensemble après un premier échange.</p>
-    </div>
-
-    <div class="included">
-      <div class="ico">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M7 13h5"/>
-        </svg>
-      </div>
-      <div class="txt">
-        <div class="lab">Inclus dans tous les forfaits</div>
-        <h3>Votre espace de suivi en ligne</h3>
-        <p>Suivez l'avancement de votre projet 24h/24 : l'étape en cours, mes dernières avancées, les maquettes à valider et ce que j'attends de votre côté. Connexion sécurisée, sans mot de passe à retenir.</p>
-      </div>
-      <a class="voir" href="espace-client/">Voir l'espace client</a>
-    </div>
-
-    <div class="offers">
-
-      <div class="offer">
-        <h3>Identité visuelle</h3>
-        <div class="for">Pour une marque qui démarre ou qui a besoin d'un coup de neuf.</div>
-        <div class="price"><span class="from">à partir de</span><span class="amount">600 €</span></div>
-        <div class="delay">Livrée en 2 à 3 semaines</div>
-        <ul>
-          <li>Logo original et ses déclinaisons</li>
-          <li>Charte graphique : couleurs, typographies</li>
-          <li>Règles d'usage pour rester cohérent</li>
-          <li>Fichiers sources livrés, à vous pour toujours</li>
-        </ul>
-        <a class="go" href="#contact">Demander un devis</a>
-      </div>
-
-      <div class="offer">
-        <h3>Mini-site</h3>
-        <div class="for">Pour les artisans, cavistes et restaurants qui veulent simplement exister en ligne.</div>
-        <div class="price"><span class="from">à partir de</span><span class="amount">700 €</span></div>
-        <div class="delay">Livré en 2 semaines</div>
-        <ul>
-          <li>Une page complète et soignée</li>
-          <li>Présentation, horaires, accès, contact</li>
-          <li>Adapté mobile et tablette</li>
-          <li>Mise en ligne incluse</li>
-        </ul>
-        <a class="go" href="#contact">Demander un devis</a>
-      </div>
-
-      <div class="offer">
-        <h3>Site vitrine</h3>
-        <div class="for">Pour les domaines et commerces qui veulent raconter leur histoire et attirer des visiteurs.</div>
-        <div class="price"><span class="from">à partir de</span><span class="amount">1 200 €</span></div>
-        <div class="delay">Livré en 3 à 4 semaines</div>
-        <ul>
-          <li>4 à 6 pages sur-mesure</li>
-          <li>Design entièrement personnalisé</li>
-          <li>Adapté mobile, rapide à charger</li>
-          <li>Référencement Google de base</li>
-          <li>Formulaire de contact</li>
-          <li>Formation à la prise en main</li>
-        </ul>
-        <a class="go" href="#contact">Demander un devis</a>
-      </div>
-
-      <div class="offer featured">
-        <span class="tag">Le plus complet</span>
-        <h3>Pack marque complète</h3>
-        <div class="for">Tout d'un coup : votre identité et votre site pensés ensemble, par la même personne.</div>
-        <div class="price"><span class="from">à partir de</span><span class="amount">1 700 €</span></div>
-        <div class="delay">Livré en 4 à 6 semaines</div>
-        <ul>
-          <li>Tout le forfait Identité visuelle</li>
-          <li>Tout le forfait Site vitrine</li>
-          <li>Une cohérence parfaite du logo au site</li>
-          <li>Économie de 100 € par rapport aux deux séparés</li>
-        </ul>
-        <a class="go" href="#contact">Demander un devis</a>
-      </div>
-
-    </div>
-
-    <div class="offers-note">
-      <div><strong>Prix nets</strong>Pas de TVA à ajouter (article 293 B du CGI). Le montant annoncé est celui que vous payez.</div>
-      <div><strong>Devis avant tout</strong>Rien ne démarre sans un devis détaillé et validé par vos soins. Acompte de 30 % à la signature.</div>
-      <div><strong>Un projet à la fois</strong>Je ne prends qu'un client en parallèle : votre projet avance vraiment, et le délai annoncé est tenu.</div>
-      <div><strong>Sur-mesure</strong>Besoin d'une boutique en ligne, d'une refonte ou d'un prototype d'application ? Parlons-en, je vous fais une proposition adaptée.</div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="wrap">
@@ -648,7 +499,6 @@
           <li><a href="#">Accueil</a></li>
           <li><a href="#projets">Projets</a></li>
           <li><a href="#competences">Compétences</a></li>
-          <li><a href="#tarifs">Tarifs &amp; forfaits</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
