@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étude de cas — Brûlerie du Cher, une boutique en ligne sans abonnement</title>
+<meta name="description" content="Étude de cas : catalogue, panier et paiement Stripe pour une boutique de café. Pourquoi les prix ne doivent jamais venir du navigateur.">
+
+<link rel="canonical" href="https://raphproudhon.fr/brulerie/etude-de-cas.html">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="raphproudhon.fr">
+<meta property="og:title" content="Étude de cas — Brûlerie du Cher, une boutique en ligne sans abonnement">
+<meta property="og:description" content="Catalogue, panier et paiement Stripe pour une boutique de café. Pourquoi les prix ne doivent jamais venir du navigateur.">
+<meta property="og:url" content="https://raphproudhon.fr/brulerie/etude-de-cas.html">
+<meta property="og:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="stylesheet" href="../assets/fonts/fraunces-work-sans.css">
+<style>
+  :root{
+    --noir:#241812; --grain:#2b1d16; --creme:#f7f1e8; --papier:#fffdfa;
+    --cuivre:#b06b3a; --doux:#7b6a5d; --trait:rgba(36,24,18,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Work Sans',sans-serif; background:var(--creme); color:var(--noir);
+    line-height:1.7; font-weight:300;}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif; font-weight:600; line-height:1.18;}
+  a{color:inherit;}
+  .wrap{max-width:820px; margin:0 auto; padding:0 24px;}
+
+  /* accessibilité */
+  .skip{position:absolute; left:16px; top:-60px; z-index:1000; background:var(--grain); color:#fff;
+    padding:11px 18px; border-radius:0 0 10px 10px; font:600 14px/1.2 system-ui,sans-serif;
+    text-decoration:none; transition:top .15s ease;}
+  .skip:focus{top:0;}
+  a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{
+    animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important;}}
+
+  .bandeau{background:var(--grain); color:#f2e4d7; font-size:13px; text-align:center; padding:9px 18px;}
+  .bandeau b{color:#fff; font-weight:600;} .bandeau a{color:#fff;}
+
+  .hero{padding:clamp(46px,8vw,88px) 0 clamp(22px,3vw,34px);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:var(--cuivre); margin-bottom:14px;}
+  .hero h1{font-size:clamp(30px,5.2vw,50px); letter-spacing:-.01em;}
+  .hero .lead{margin-top:20px; font-size:clamp(15px,2vw,17.5px); color:var(--doux); max-width:60ch;}
+
+  .meta{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:18px 22px;
+    border-top:1px solid var(--trait); border-bottom:1px solid var(--trait);
+    padding:22px 0; margin:clamp(20px,3vw,32px) 0 0;}
+  .meta .k{font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--doux); margin-bottom:4px;}
+  .meta .v{font-size:14.5px; font-weight:500;}
+
+  section.bloc{padding:clamp(30px,5vw,52px) 0; border-bottom:1px solid var(--trait);}
+  section.bloc:last-of-type{border-bottom:none;}
+  h2{font-size:clamp(21px,3vw,29px); margin-bottom:16px;}
+  h3{font-size:17px; margin:26px 0 8px;}
+  p{margin-bottom:14px; font-size:15.5px; color:var(--doux);}
+  p.fort{color:var(--noir);}
+  strong{color:var(--noir); font-weight:600;}
+  ul{list-style:none; margin:6px 0 16px; display:flex; flex-direction:column; gap:10px;}
+  li{font-size:15px; color:var(--doux); padding-left:22px; position:relative;}
+  li::before{content:""; position:absolute; left:3px; top:10px; width:7px; height:7px;
+    border-radius:50%; background:var(--cuivre); opacity:.6;}
+  li b{color:var(--noir); font-weight:600;}
+
+  /* comparaison de code */
+  .duo{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 6px;}
+  @media (max-width:720px){ .duo{grid-template-columns:1fr;} }
+  .code{border:1px solid var(--trait); border-radius:14px; overflow:hidden; background:var(--papier);}
+  .code .tete{font-size:12px; font-weight:600; padding:10px 14px; border-bottom:1px solid var(--trait);}
+  .code.mauvais .tete{background:#fdeceb; color:#8f3a2e;}
+  .code.bon .tete{background:#eaf3ec; color:#2f5d3f;}
+  .code pre{margin:0; padding:14px; overflow-x:auto;}
+  .code code{font:13px/1.65 ui-monospace,'SF Mono',Menlo,Consolas,monospace; color:var(--noir);}
+
+  /* schéma du flux */
+  .flux{display:flex; align-items:stretch; gap:10px; flex-wrap:wrap; margin:18px 0 8px;}
+  .etape{flex:1; min-width:170px; background:var(--papier); border:1px solid var(--trait);
+    border-radius:14px; padding:16px 18px;}
+  .etape .n{font-family:'Fraunces',serif; font-size:13px; color:var(--cuivre); margin-bottom:6px;}
+  .etape h3{font-size:15px; margin:0 0 6px; font-family:'Work Sans',sans-serif; font-weight:600;}
+  .etape p{font-size:13.5px; margin:0;}
+
+  .encart{background:var(--papier); border:1px solid var(--trait); border-left:3px solid var(--cuivre);
+    border-radius:0 14px 14px 0; padding:20px 22px; margin:18px 0;}
+  .encart p:last-child{margin-bottom:0;}
+
+  .liens{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px;}
+  .btn{display:inline-block; text-decoration:none; font-weight:600; font-size:14.5px;
+    padding:14px 24px; border-radius:12px; background:var(--grain); color:#fff;
+    transition:background .2s, transform .15s;}
+  .btn:hover{background:var(--cuivre); transform:translateY(-1px);}
+  .btn.pale{background:var(--papier); color:var(--noir); border:1px solid var(--trait);}
+  .btn.pale:hover{background:var(--creme); color:var(--noir);}
+
+  footer{border-top:1px solid var(--trait); padding:26px 0 48px; font-size:13px; color:var(--doux);}
+  footer .wrap{display:flex; justify-content:space-between; gap:12px 24px; flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="bandeau">
+  <b>Projet de démonstration</b> — la Brûlerie du Cher n'existe pas. Le paiement fonctionne
+  en mode test Stripe. <a href="./">Essayer la boutique</a>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Étude de cas · Boutique en ligne</p>
+    <h1>Vendre en ligne sans abonnement mensuel — et sans se faire pirater ses prix</h1>
+    <p class="lead">
+      Une boutique complète pour un torréfacteur imaginaire : catalogue, panier,
+      tunnel de commande et paiement. Le tout en HTML, CSS et JavaScript écrits à la
+      main, avec une seule fonction serveur — celle qui compte vraiment.
+    </p>
+  </div>
+</header>
+
+<main id="contenu">
+  <div class="wrap">
+    <div class="meta">
+      <div><div class="k">Rôle</div><div class="v">Conception · Design · Développement</div></div>
+      <div><div class="k">Type</div><div class="v">Boutique en ligne, 4 pages</div></div>
+      <div><div class="k">Technique</div><div class="v">HTML · CSS · JS · Stripe · Supabase</div></div>
+      <div><div class="k">Année</div><div class="v">2026</div></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <section class="bloc">
+      <h2>Le brief</h2>
+      <p>
+        Un torréfacteur vend six références sur les marchés et veut ouvrir la vente
+        en ligne. Il a déjà regardé les plateformes du marché : entre l'abonnement
+        mensuel, la commission sur chaque vente et le thème à personnaliser, il
+        paierait plusieurs centaines d'euros par an pour vendre une centaine de sacs.
+      </p>
+      <ul>
+        <li><b>Contrainte :</b> pas d'abonnement, pas de commission au-delà de celle du paiement.</li>
+        <li><b>Besoin réel :</b> six produits, une variante (la mouture), et un paiement fiable.</li>
+        <li><b>Non-besoin :</b> comptes clients, codes promo, gestion multi-entrepôts.</li>
+      </ul>
+      <p>
+        Un site statique couvre tout ça. Reste le paiement — et c'est là que la
+        plupart des boutiques « faites main » se trompent.
+      </p>
+    </section>
+
+    <section class="bloc">
+      <h2>Le piège : un prix qui vient du navigateur</h2>
+      <p>
+        La tentation, sur un site sans serveur, est de laisser le panier calculer le
+        total et de l'envoyer au paiement. Le problème : <strong>tout ce qui vient du
+        navigateur est modifiable par le visiteur</strong>. Une console ouverte, deux
+        lignes tapées, et le sac à 19 € part à 1 €.
+      </p>
+
+      <div class="duo">
+        <div class="code mauvais">
+          <div class="tete">✕ Ce qu'il ne faut pas faire</div>
+<pre><code>// le navigateur annonce le prix
+payer({
+  article: "Éthiopie 250 g",
+  prix: panier.total,   // ← modifiable
+  quantite: 3
+});</code></pre>
+        </div>
+        <div class="code bon">
+          <div class="tete">✓ Ce que fait cette boutique</div>
+<pre><code>// le navigateur annonce
+// seulement quoi et combien
+payer({
+  lignes: [
+    { ref: "ETH-250", qte: 3 }
+  ]
+});
+// le prix est lu côté serveur</code></pre>
+        </div>
+      </div>
+
+      <div class="encart">
+        <p>
+          La fonction serveur détient sa propre table de prix. Elle ne lit jamais le
+          montant envoyé par la page : elle reçoit une référence et une quantité,
+          puis calcule elle-même. Un panier trafiqué ne change rien au montant débité.
+        </p>
+      </div>
+    </section>
+
+    <section class="bloc">
+      <h2>L'architecture, en trois temps</h2>
+      <div class="flux">
+        <div class="etape">
+          <div class="n">01</div>
+          <h3>Le navigateur</h3>
+          <p>Affiche le catalogue, tient le panier en mémoire locale. Aucune donnée n'est envoyée tant que le visiteur ne paie pas.</p>
+        </div>
+        <div class="etape">
+          <div class="n">02</div>
+          <h3>La fonction serveur</h3>
+          <p>Reçoit des références, applique ses prix, crée la session de paiement. La clé secrète n'existe que là.</p>
+        </div>
+        <div class="etape">
+          <div class="n">03</div>
+          <h3>Stripe</h3>
+          <p>Héberge la page de paiement. Aucune donnée bancaire ne transite par le site ni n'y est stockée.</p>
+        </div>
+      </div>
+      <p>
+        Une seule fonction, une centaine de lignes. Le reste du site est statique :
+        il se déploie sur n'importe quel hébergement, y compris gratuit.
+      </p>
+    </section>
+
+    <section class="bloc">
+      <h2>Les garde-fous</h2>
+      <p>Écrire la fonction ne suffisait pas : il fallait la rendre difficile à détourner.</p>
+      <ul>
+        <li><b>Refus des clés de production.</b> La fonction s'arrête si la clé Stripe n'est pas une clé de test — une démonstration publique ne doit jamais encaisser réellement.</li>
+        <li><b>Adresse de retour restreinte.</b> Après paiement, la redirection n'est acceptée que vers le site lui-même : impossible de détourner le tunnel vers un domaine tiers.</li>
+        <li><b>Références vérifiées.</b> Une référence inconnue fait échouer la demande, plutôt que de créer une ligne à prix nul.</li>
+        <li><b>Quantités bornées.</b> Douze articles par ligne, vingt lignes par commande — de quoi éviter les commandes absurdes.</li>
+      </ul>
+    </section>
+
+    <section class="bloc">
+      <h2>Les choix d'interface</h2>
+      <ul>
+        <li><b>Pas de compte à créer.</b> Un achat de café ne justifie pas un mot de passe. Le panier vit dans le navigateur, le courriel est demandé au moment du paiement.</li>
+        <li><b>La mouture choisie sur la fiche produit</b>, pas après coup : c'est la question que le client se pose devant le sac, pas devant son panier.</li>
+        <li><b>Pas de photographie.</b> Les sachets sont des aplats colorés — un vrai projet utiliserait les photos du torréfacteur, mais la démonstration porte sur la mécanique, pas sur la direction artistique.</li>
+        <li><b>Accessible au clavier</b>, comme le reste du site : lien d'évitement, anneaux de focus visibles, quantités modifiables sans souris.</li>
+      </ul>
+    </section>
+
+    <section class="bloc">
+      <h2>Ce que la démonstration ne fait pas</h2>
+      <p>
+        Autant le dire, ces limites sont assumées — elles marquent la frontière entre
+        une démonstration et une boutique en production :
+      </p>
+      <ul>
+        <li><b>Aucune commande n'est enregistrée.</b> Une vraie boutique écouterait le signal de confirmation de Stripe pour écrire la commande en base.</li>
+        <li><b>Pas de stock</b>, pas de frais de port calculés, pas de TVA paramétrée.</li>
+        <li><b>Le panier vit dans le navigateur</b> : effacer ses données de navigation le vide.</li>
+      </ul>
+      <p>
+        Chacune se lève en une à deux journées de travail. Ce sont des décisions de
+        périmètre, pas des impasses techniques.
+      </p>
+    </section>
+
+    <section class="bloc">
+      <h2>Ce que ce projet démontre</h2>
+      <ul>
+        <li><b>Le paiement en ligne n'impose pas une plateforme.</b> Six produits et une variante tiennent dans un site statique, sans abonnement mensuel.</li>
+        <li><b>La sécurité tient à un principe, pas à un outil :</b> ne jamais faire confiance à ce que le navigateur annonce.</li>
+        <li><b>Le coût se déplace au bon endroit :</b> l'hébergement est gratuit, la seule commission est celle du paiement.</li>
+      </ul>
+
+      <div class="liens">
+        <a class="btn" href="./">Essayer la boutique</a>
+        <a class="btn pale" href="panier.html">Voir le panier</a>
+        <a class="btn pale" href="../">Retour au portfolio</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Brûlerie du Cher — marque fictive créée pour la démonstration</span>
+    <span><a href="../">raphproudhon.fr</a> · <a href="../mentions-legales.html">Mentions légales</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -136,7 +136,7 @@
 
   /* Detail screen */
   .detail-hero{ height:220px; background:linear-gradient(180deg, var(--green-mid), var(--green-deep)); position:relative; flex-shrink:0; display:flex; align-items:flex-end; padding:20px; }
-  .back-btn{ position:absolute; top:16px; left:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .back-btn{ border:none; padding:0; font:inherit; color:inherit; position:absolute; top:16px; left:16px; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; }
   .detail-hero h2{ color:white; font-size:26px; }
   .detail-body{ padding:20px; flex:1; }
   .care-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
@@ -224,7 +224,7 @@
       <div class="plant-row">
         <div class="plant-item" onclick="goTo('detail')">
           <div class="plant-thumb">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V8" stroke="#4c7a5e" stroke-width="2"/><path d="M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" fill="#4c7a5e"/><path d="M12 12C18 12 19 7 19 7C13 7 12 10 12 12Z" fill="#2f4f3e"/></svg>
+            <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V8" stroke="#4c7a5e" stroke-width="2"/><path d="M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" fill="#4c7a5e"/><path d="M12 12C18 12 19 7 19 7C13 7 12 10 12 12Z" fill="#2f4f3e"/></svg>
           </div>
           <div class="plant-info">
             <div class="name">Monstera deliciosa</div>
@@ -234,7 +234,7 @@
         </div>
         <div class="plant-item" onclick="goTo('detail')">
           <div class="plant-thumb">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="10" rx="6" ry="9" fill="#4c7a5e"/></svg>
+            <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="10" rx="6" ry="9" fill="#4c7a5e"/></svg>
           </div>
           <div class="plant-info">
             <div class="name">Sansevieria</div>
@@ -248,7 +248,7 @@
       <div class="plant-row">
         <div class="plant-item" onclick="goTo('detail')">
           <div class="plant-thumb">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V10" stroke="#4c7a5e" stroke-width="2"/><circle cx="12" cy="7" r="5" fill="#2f4f3e"/></svg>
+            <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20V10" stroke="#4c7a5e" stroke-width="2"/><circle cx="12" cy="7" r="5" fill="#2f4f3e"/></svg>
           </div>
           <div class="plant-info">
             <div class="name">Pothos doré</div>
@@ -258,7 +258,7 @@
         </div>
         <div class="plant-item" onclick="goTo('detail')">
           <div class="plant-thumb">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="7" fill="#4c7a5e"/></svg>
+            <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="7" fill="#4c7a5e"/></svg>
           </div>
           <div class="plant-info">
             <div class="name">Calathea orbifolia</div>
@@ -270,9 +270,9 @@
 
       <div style="flex:1;"></div>
       <div class="bottom-nav">
-        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
-        <button class="nav-item" onclick="goTo('detail')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
-        <button class="nav-item" onclick="goTo('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+        <button class="nav-item active"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item" onclick="goTo('detail')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item" onclick="goTo('profile')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
       </div>
     </div>
 
@@ -280,9 +280,9 @@
     <div class="view" id="view-detail">
       <div class="status-bar" style="color:white;"><span>9:41</span><span>●●●●</span></div>
       <div class="detail-hero">
-        <div class="back-btn" onclick="goTo('home')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
-        </div>
+        <button type="button" class="back-btn" aria-label="Revenir à la liste des plantes" onclick="goTo('home')">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
         <h2>Monstera deliciosa</h2>
       </div>
       <div class="detail-body">
@@ -306,9 +306,9 @@
         </div>
       </div>
       <div class="bottom-nav">
-        <button class="nav-item" onclick="goTo('home')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
-        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
-        <button class="nav-item" onclick="goTo('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+        <button class="nav-item" onclick="goTo('home')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item active"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item" onclick="goTo('profile')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
       </div>
     </div>
 
@@ -330,9 +330,9 @@
       </div>
       <div style="flex:1;"></div>
       <div class="bottom-nav">
-        <button class="nav-item" onclick="goTo('home')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
-        <button class="nav-item" onclick="goTo('detail')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
-        <button class="nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
+        <button class="nav-item" onclick="goTo('home')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v10h14V10" stroke="currentColor" stroke-width="2" fill="none"/></svg>Accueil</button>
+        <button class="nav-item" onclick="goTo('detail')"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20V8M12 8C6 8 5 3 5 3C11 3 12 6 12 8Z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Mes plantes</button>
+        <button class="nav-item active"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8"/></svg>Profil</button>
       </div>
     </div>
 
