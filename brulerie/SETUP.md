@@ -91,11 +91,55 @@ Date d'expiration : n'importe quelle date future. CVC : trois chiffres au choix.
 
 ---
 
+## Étape 5 — Enregistrer les commandes
+
+Sans cette étape, le paiement fonctionne mais rien n'est conservé. Avec elle,
+chaque paiement confirmé écrit une ligne en base.
+
+**Pourquoi un webhook plutôt que la page de remerciement ?** Parce que cette
+page dépend du visiteur : il peut fermer l'onglet avant d'y arriver, perdre le
+réseau — ou au contraire l'ouvrir à la main sans avoir rien payé. Seul Stripe
+sait si l'argent est arrivé.
+
+1. **La table.** SQL Editor → coller `sql/commandes.sql` → Run.
+
+2. **La fonction.** Edge Functions → *Deploy a new function* → *Via editor* →
+   nom `webhook-brulerie`, contenu de `fonction-supabase/webhook.ts`.
+   **Vérification du jeton désactivée** : Stripe n'envoie pas de jeton Supabase,
+   il signe ses messages autrement. Copier l'URL de la fonction.
+
+3. **L'abonnement côté Stripe.** Développeurs → Webhooks → *Ajouter un
+   endpoint* → coller l'URL → choisir le seul événement
+   `checkout.session.completed` → créer. Stripe affiche alors un **secret de
+   signature** qui commence par `whsec_`.
+
+4. **Le secret.** Project Settings → Edge Functions → Secrets → ajouter
+   `STRIPE_WEBHOOK_SECRET` avec cette valeur.
+
+5. **L'essai.** Refaire un paiement de test, puis Table Editor →
+   `commandes_brulerie` : une ligne doit apparaître, avec le courriel, le
+   montant en centimes et le détail des articles.
+
+### Ce que la fonction refuse
+
+- **Une signature absente ou fausse** — sinon n'importe qui pourrait déclarer
+  une commande payée en appelant l'adresse.
+- **Un message vieux de plus de cinq minutes** — pour qu'un message intercepté
+  ne puisse pas être rejoué plus tard.
+- **Un doublon** — Stripe réessaie quand il n'obtient pas de réponse ; la
+  commande est identifiée par sa session, et une seconde écriture ne crée pas
+  de seconde ligne.
+
+Les articles ne sont pas lus dans le message reçu : la fonction les redemande à
+Stripe avec sa clé secrète. Le montant enregistré est donc celui réellement
+encaissé.
+
+---
+
 ## Limites assumées
 
-- **Pas de stock ni de commandes enregistrées.** Une vraie boutique écrirait la
-  commande en base à la réception du webhook `checkout.session.completed`.
-  Ici, la page de succès se contente de vider le panier.
+- **Pas de stock.** Les six références sont toujours disponibles.
+- **Pas de courriel de confirmation** envoyé au client, ni de suivi d'expédition.
 - **Pas de frais de port calculés**, pas de TVA paramétrée, pas de compte client.
 - Le panier vit dans le navigateur : vidé si le visiteur efface ses données.
 

@@ -1,0 +1,33 @@
+-- Brûlerie du Cher — table des commandes
+--
+-- À exécuter une fois dans le SQL Editor de Supabase, avant de déployer le
+-- webhook. Le webhook écrit ici avec la clé de service ; personne d'autre n'y
+-- accède, sauf l'administrateur en lecture.
+
+create table if not exists commandes_brulerie (
+  id            uuid primary key default gen_random_uuid(),
+  session_id    text not null unique,          -- identifiant Stripe : garantit l'unicité
+  courriel      text,
+  nom           text,
+  montant_total integer not null,              -- en centimes, comme Stripe les compte
+  devise        text not null default 'eur',
+  lignes        jsonb not null default '[]'::jsonb,
+  mode_test     boolean not null default true,
+  created_at    timestamptz not null default now()
+);
+
+-- Recherche par date, l'usage courant d'un carnet de commandes
+create index if not exists commandes_brulerie_date on commandes_brulerie (created_at desc);
+
+alter table commandes_brulerie enable row level security;
+
+-- Aucune policy pour les visiteurs : sans policy, le RLS refuse tout.
+-- La clé de service utilisée par le webhook contourne le RLS — c'est voulu,
+-- c'est le serveur qui écrit, jamais le navigateur.
+
+-- Seul l'administrateur connecté peut relire les commandes.
+drop policy if exists "lecture par l'administrateur" on commandes_brulerie;
+create policy "lecture par l'administrateur"
+  on commandes_brulerie for select
+  to authenticated
+  using ( (auth.jwt() ->> 'email') = 'raph.proudhon@gmail.com' );
