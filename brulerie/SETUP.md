@@ -48,9 +48,19 @@ quoi que ce soit — c'est le chemin conseillé sous Windows.
 4. Project Settings → **Edge Functions** → *Secrets* → ajouter
    `STRIPE_SECRET_KEY` avec la clé `sk_test_…`
 
-Laisser la vérification du jeton **activée** : la boutique envoie la clé
-`anon`, qui est un jeton valide. Inutile de rendre la fonction totalement
-ouverte.
+5. Dans les réglages de la fonction, **désactiver la vérification du jeton**
+   (*Verify JWT*)
+
+**Pourquoi la désactiver ?** Avant un appel comportant un en-tête
+`Content-Type: application/json`, le navigateur envoie une requête préalable
+`OPTIONS`. Cette requête ne porte, par conception, aucun en-tête
+d'autorisation : la passerelle Supabase la rejette alors en 401, sans en-têtes
+CORS, et le navigateur signale un échec réseau (« Failed to fetch ») sans
+jamais atteindre le code de la fonction.
+
+Ouvrir la fonction ne l'expose pas pour autant : elle ne lit aucune base, ne
+fixe les prix qu'à partir de sa propre table, refuse une clé Stripe de
+production et n'accepte qu'une adresse de retour appartenant au site.
 
 ### Ou en ligne de commande
 
@@ -58,7 +68,7 @@ ouverte.
 supabase functions new paiement-brulerie
 # remplacer le contenu par fonction-supabase/index.ts
 supabase secrets set STRIPE_SECRET_KEY=sk_test_xxx
-supabase functions deploy paiement-brulerie
+supabase functions deploy paiement-brulerie --no-verify-jwt
 ```
 
 ## Étape 3 — Vérifier `config.js`
