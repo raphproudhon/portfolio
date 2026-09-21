@@ -59,7 +59,21 @@
   nav.top ul{display:flex; gap:28px; list-style:none;}
   nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
   nav.top ul a:hover{color:var(--ink);}
-  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;} .wordmark{font-size:15px;} .brand{gap:9px;}}
+  nav.top ul a.nav-cta{
+    color:var(--ink); border:1px solid var(--line); background:var(--surface);
+    padding:7px 14px; border-radius:999px; white-space:nowrap;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  nav.top ul a.nav-cta:hover{color:var(--accent); border-color:var(--accent);}
+  @media (max-width:760px){
+    /* en petite largeur, seul le bouton « Espace client » reste dans la barre :
+       les sections de la page restent atteignables en faisant défiler */
+    nav.top ul{gap:14px;}
+    nav.top ul li:not(:last-child){display:none;}
+    nav.top ul a.nav-cta{padding:6px 12px; font-size:12.5px;}
+    .wordmark{font-size:15px;}
+    .brand{gap:9px;}
+  }
 
   /* ============ EN-TÊTE ============ */
   .head{padding:clamp(50px,8vw,90px) 0 clamp(26px,4vw,40px);}
@@ -145,6 +159,7 @@
       <li><a href="./#projets">Projets</a></li>
       <li><a href="./#competences">Compétences</a></li>
       <li><a href="./#contact">Contact</a></li>
+      <li><a class="nav-cta" href="espace-client/">Espace client</a></li>
     </ul>
   </div>
 </nav>
