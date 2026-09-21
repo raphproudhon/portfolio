@@ -117,8 +117,9 @@
     <h1>Vendre en ligne sans abonnement mensuel — et sans se faire pirater ses prix</h1>
     <p class="lead">
       Une boutique complète pour un torréfacteur imaginaire : catalogue, panier,
-      tunnel de commande et paiement. Le tout en HTML, CSS et JavaScript écrits à la
-      main, avec une seule fonction serveur — celle qui compte vraiment.
+      tunnel de commande, paiement et enregistrement des commandes. Le tout en HTML,
+      CSS et JavaScript écrits à la main, avec deux fonctions serveur — celles qui
+      décident du prix et constatent le paiement.
     </p>
   </div>
 </header>
@@ -232,6 +233,35 @@ payer({
     </section>
 
     <section class="bloc">
+      <h2>Enregistrer la commande : pourquoi pas sur la page de remerciement</h2>
+      <p>
+        Le réflexe serait d'enregistrer la commande à l'arrivée sur la page de
+        remerciement. C'est une erreur : <strong>cette page dépend du visiteur</strong>.
+        Il peut fermer l'onglet juste après avoir payé, perdre le réseau — ou à
+        l'inverse ouvrir l'adresse à la main sans avoir rien acheté.
+      </p>
+      <p class="fort">
+        Seul Stripe sait si l'argent est arrivé. Il l'annonce à une seconde fonction,
+        qui écrit la commande en base.
+      </p>
+      <h3>Ce que cette fonction refuse</h3>
+      <ul>
+        <li><b>Une signature absente ou fausse.</b> Chaque message de Stripe est signé ; la fonction recalcule la signature et compare — en temps constant, pour que la durée du calcul ne renseigne pas un attaquant.</li>
+        <li><b>Un message vieux de plus de cinq minutes</b>, afin qu'un message intercepté ne puisse pas être rejoué plus tard.</li>
+        <li><b>Un doublon.</b> Stripe réessaie tant qu'il n'a pas de réponse : la commande est identifiée par sa session, et une seconde tentative n'écrit pas une seconde ligne.</li>
+      </ul>
+      <p>
+        Dernier détail, et il compte : le détail des articles n'est pas lu dans le
+        message reçu. La fonction le <strong>redemande à Stripe</strong>. Le montant
+        enregistré est celui qui a réellement été encaissé, pas celui qu'on nous annonce.
+      </p>
+      <p>
+        Côté base, la table n'est lisible par personne : aucune règle d'accès n'est
+        ouverte aux visiteurs, et seule la clé de service — côté serveur — peut y écrire.
+      </p>
+    </section>
+
+    <section class="bloc">
       <h2>Les choix d'interface</h2>
       <ul>
         <li><b>Pas de compte à créer.</b> Un achat de café ne justifie pas un mot de passe. Le panier vit dans le navigateur, le courriel est demandé au moment du paiement.</li>
@@ -248,8 +278,8 @@ payer({
         une démonstration et une boutique en production :
       </p>
       <ul>
-        <li><b>Aucune commande n'est enregistrée.</b> Une vraie boutique écouterait le signal de confirmation de Stripe pour écrire la commande en base.</li>
         <li><b>Pas de stock</b>, pas de frais de port calculés, pas de TVA paramétrée.</li>
+        <li><b>Pas de courriel de confirmation</b> ni de suivi d'expédition — ce sont des branchements, pas des difficultés.</li>
         <li><b>Le panier vit dans le navigateur</b> : effacer ses données de navigation le vide.</li>
       </ul>
       <p>
