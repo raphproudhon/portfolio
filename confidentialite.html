@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de confidentialité — raphproudhon.fr</title>
+<meta name="description" content="Comment les données personnelles sont traitées sur raphproudhon.fr : ce qui est collecté, pourquoi, combien de temps, et comment exercer vos droits.">
+
+<link rel="canonical" href="https://raphproudhon.fr/confidentialite.html">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="raphproudhon.fr">
+<meta property="og:title" content="Politique de confidentialité — raphproudhon.fr">
+<meta property="og:description" content="Comment les données personnelles sont traitées sur raphproudhon.fr : ce qui est collecté, pourquoi, combien de temps, et comment exercer vos droits.">
+<meta property="og:url" content="https://raphproudhon.fr/confidentialite.html">
+<meta property="og:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+
+<link rel="icon" type="image/png" href="assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ee;
+    --surface:#ffffff;
+    --ink:#16150f;
+    --muted:#6e695f;
+    --accent:#d96f32;
+    --line:rgba(22,21,15,.1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--bg); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.2;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ============ NAV ============ */
+  nav.top{
+    position:sticky; top:0; z-index:50; background:rgba(244,242,238,.85);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
+  .wordmark span{color:var(--accent);}
+  nav.top ul{display:flex; gap:28px; list-style:none;}
+  nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
+  nav.top ul a:hover{color:var(--ink);}
+  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;} .wordmark{font-size:15px;} .brand{gap:9px;}}
+
+  /* ============ EN-TÊTE ============ */
+  .head{padding:clamp(50px,8vw,90px) 0 clamp(26px,4vw,40px);}
+  .head .k{
+    font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .head h1{font-size:clamp(32px,5.5vw,52px); letter-spacing:-.02em; max-width:800px;}
+  .head p.lead{margin-top:20px; max-width:640px; font-size:clamp(15px,2vw,17px); color:var(--muted);}
+  .head .maj{margin-top:22px; font-size:12.5px; color:var(--muted);}
+
+  /* ============ CONTENU ============ */
+  .doc{padding-bottom:clamp(50px,8vw,90px);}
+  .doc .inner{max-width:760px;}
+  .doc section{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:clamp(24px,4vw,34px); margin-bottom:18px; scroll-margin-top:84px;
+  }
+  .doc h2{font-size:clamp(20px,3vw,25px); letter-spacing:-.01em; margin-bottom:14px;}
+  .doc h3{font-size:16px; margin:22px 0 8px;}
+  .doc p{font-size:14.5px; color:var(--muted); margin-bottom:12px;}
+  .doc p:last-child{margin-bottom:0;}
+  .doc strong{color:var(--ink); font-weight:600;}
+  .doc a{color:var(--accent); text-decoration:underline; text-underline-offset:3px;}
+  .doc ul{list-style:none; margin:4px 0 14px; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .doc li{font-size:14.5px; color:var(--muted); padding-left:20px; position:relative; line-height:1.6;}
+  .doc li::before{
+    content:""; position:absolute; left:2px; top:10px; width:7px; height:7px;
+    border-radius:50%; background:var(--accent); opacity:.55;
+  }
+
+  /* tableau des traitements */
+  .tbl{width:100%; border-collapse:collapse; margin:6px 0 4px; font-size:13.5px;}
+  .tbl th, .tbl td{text-align:left; padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted);}
+  .tbl th{
+    font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--ink);
+  }
+  .tbl td:first-child{color:var(--ink); font-weight:500;}
+  .tbl tr:last-child td{border-bottom:none;}
+  .tbl-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+
+  /* encart de synthèse */
+  .callout{
+    display:flex; gap:16px; align-items:flex-start;
+    background:#fdf1e8; border:1px solid rgba(217,111,50,.28); border-radius:16px;
+    padding:22px 26px; margin-bottom:18px;
+  }
+  .callout .ico{
+    width:40px; height:40px; border-radius:11px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .callout .lab{
+    font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:4px;
+  }
+  .callout p{font-size:14px; color:var(--muted); margin:0;}
+  .callout strong{color:var(--ink); font-weight:600;}
+
+  /* champs à compléter avant mise en ligne */
+  .todo{
+    background:#fff6d6; border-bottom:1px solid rgba(22,21,15,.2);
+    padding:1px 5px; border-radius:3px; color:var(--ink); font-weight:500;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-band{
+    background:var(--ink); color:#fff; border-radius:24px;
+    padding:clamp(34px,6vw,56px); text-align:center; margin-bottom:40px;
+  }
+  .contact-band h2{font-size:clamp(24px,4vw,36px); letter-spacing:-.01em;}
+  .contact-band p{margin-top:14px; color:#b5b1a6; max-width:520px; margin-left:auto; margin-right:auto; font-size:15px;}
+  .contact-band .btn{
+    display:inline-block; padding:14px 28px; border-radius:10px; font-size:14px;
+    font-weight:600; text-decoration:none; font-family:'Space Grotesk', sans-serif;
+    background:var(--accent); color:#fff; margin-top:28px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .contact-band .btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.25);}
+
+  footer{padding:0 0 50px; text-align:center; font-size:12.5px; color:var(--muted);}
+  footer a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="raphproudhon.fr — accueil">
+      <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
+      <span class="wordmark">raphproudhon<span>.</span>fr</span>
+    </a>
+    <ul>
+      <li><a href="index.html#projets">Projets</a></li>
+      <li><a href="index.html#competences">Compétences</a></li>
+      <li><a href="index.html#tarifs">Tarifs</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ EN-TÊTE ============ -->
+<header class="head">
+  <div class="wrap">
+    <div class="k">Données personnelles</div>
+    <h1>Politique de confidentialité</h1>
+    <p class="lead">
+      Ce site est volontairement sobre : pas de mesure d'audience, pas de publicité,
+      pas de revente de données. Voici précisément ce qui est collecté, pourquoi,
+      combien de temps, et ce que vous pouvez exiger à tout moment.
+    </p>
+    <p class="maj">Dernière mise à jour : 21 septembre 2026</p>
+  </div>
+</header>
+
+<!-- ============ CONTENU ============ -->
+<div class="doc">
+  <div class="wrap">
+    <div class="inner">
+
+      <div class="callout">
+        <div class="ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="lab">En résumé</div>
+          <p>
+            Le simple fait de consulter ce site ne crée <strong>aucun compte, aucun cookie de suivi
+            et aucun profil publicitaire</strong>. Des données personnelles ne sont traitées que si
+            vous m'écrivez, ou si vous vous connectez à votre espace client.
+          </p>
+        </div>
+      </div>
+
+      <!-- 1 — Responsable -->
+      <section id="responsable">
+        <h2>1. Qui est responsable de vos données</h2>
+        <p>
+          Le responsable du traitement au sens du Règlement général sur la protection des données
+          (RGPD) est&nbsp;:
+        </p>
+        <ul>
+          <li><strong>Raphaël Proudhon</strong>, entrepreneur individuel — développeur web et designer UI/UX</li>
+          <li>Adresse&nbsp;: <span class="todo">[à compléter : adresse postale professionnelle]</span>, Indre-et-Loire (37), France</li>
+          <li>SIRET&nbsp;: <span class="todo">[à compléter : numéro SIRET]</span></li>
+          <li>Courriel&nbsp;: <a href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a></li>
+        </ul>
+        <p>
+          Compte tenu de la taille de l'activité, aucun délégué à la protection des données (DPO)
+          n'a été désigné&nbsp;: c'est moi qui traite directement vos demandes, à l'adresse ci-dessus.
+        </p>
+      </section>
+
+      <!-- 2 — Ce qui est collecté -->
+      <section id="donnees">
+        <h2>2. Les données collectées, et pourquoi</h2>
+        <p>
+          Aucun formulaire de collecte n'est présent sur les pages du portfolio&nbsp;: la prise de
+          contact se fait par courriel. Voici l'intégralité des traitements&nbsp;:
+        </p>
+
+        <div class="tbl-scroll">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Traitement</th>
+                <th>Données</th>
+                <th>Base légale</th>
+                <th>Conservation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Consultation du site</td>
+                <td>Adresse IP, date et heure, page demandée, navigateur (journaux techniques de l'hébergeur)</td>
+                <td>Intérêt légitime&nbsp;: faire fonctionner le site et le protéger des abus</td>
+                <td>Durée fixée par l'hébergeur (GitHub), de l'ordre de quelques semaines</td>
+              </tr>
+              <tr>
+                <td>Prise de contact par courriel</td>
+                <td>Nom, adresse courriel, et tout ce que vous choisissez d'écrire dans votre message</td>
+                <td>Mesures précontractuelles prises à votre demande</td>
+                <td>3 ans à compter du dernier échange si le contact n'aboutit pas</td>
+              </tr>
+              <tr>
+                <td>Devis, contrat et facturation</td>
+                <td>Identité, coordonnées, éléments du projet, montants</td>
+                <td>Exécution du contrat et obligation légale comptable</td>
+                <td>10 ans pour les pièces comptables (article L123-22 du code de commerce)</td>
+              </tr>
+              <tr>
+                <td>Espace client (suivi de projet)</td>
+                <td>Adresse courriel de connexion, nom, contenu du projet suivi</td>
+                <td>Exécution du contrat</td>
+                <td>Supprimé au plus tard 12 mois après la livraison du projet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Aucune donnée dite « sensible » n'est demandée, et rien n'est collecté auprès de tiers&nbsp;:
+          toutes les informations viennent de vous.
+        </p>
+      </section>
+
+      <!-- 3 — Cookies -->
+      <section id="cookies">
+        <h2>3. Cookies et traceurs</h2>
+        <p>
+          <strong>Le portfolio ne dépose aucun cookie de mesure d'audience ni de publicité.</strong>
+          Il n'y a donc pas de bandeau de consentement&nbsp;: il n'y a rien à consentir.
+        </p>
+        <p>
+          Seul l'espace client conserve, dans la mémoire locale de votre navigateur
+          (<em>localStorage</em>), un jeton de session qui vous évite de vous reconnecter à chaque
+          visite. Ce stockage est <strong>strictement nécessaire</strong> au service que vous avez
+          demandé&nbsp;: il est à ce titre dispensé de consentement. Il disparaît lorsque vous vous
+          déconnectez ou que vous videz les données du site dans votre navigateur.
+        </p>
+      </section>
+
+      <!-- 4 — Sous-traitants -->
+      <section id="sous-traitants">
+        <h2>4. Qui d'autre voit ces données</h2>
+        <p>
+          Vos données ne sont ni vendues, ni louées, ni échangées. Elles ne sont accessibles qu'à moi
+          et aux prestataires techniques strictement nécessaires au fonctionnement du site&nbsp;:
+        </p>
+
+        <h3>Hébergement — GitHub Pages</h3>
+        <p>
+          Le site est hébergé par <strong>GitHub, Inc.</strong> (88 Colin P. Kelly Jr. Street,
+          San Francisco, CA 94107, États-Unis). Comme tout serveur web, il enregistre des journaux
+          de connexion contenant votre adresse IP. Les transferts hors Union européenne sont encadrés
+          par les clauses contractuelles types de la Commission européenne.
+          <a href="https://docs.github.com/fr/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">Politique de confidentialité de GitHub</a>.
+        </p>
+
+        <h3>Polices de caractères — Google Fonts</h3>
+        <p>
+          Les typographies du site sont chargées depuis les serveurs de <strong>Google Ireland
+          Limited</strong>. Votre navigateur leur transmet donc votre adresse IP et le type de
+          navigateur au moment de l'affichage de la page. Google indique ne pas utiliser ces
+          requêtes à des fins publicitaires et ne pas y associer de cookie.
+          <a href="https://developers.google.com/fonts/faq/privacy" rel="noopener">Détail sur la confidentialité de Google Fonts</a>.
+        </p>
+
+        <h3>Espace client — Supabase</h3>
+        <p>
+          L'authentification et la base de données de l'espace client sont opérées par
+          <strong>Supabase</strong>, sur une infrastructure située dans l'Union européenne
+          <span class="todo">[à vérifier : confirmer la région du projet Supabase]</span>.
+          La connexion se fait par <strong>lien à usage unique</strong> envoyé à votre adresse
+          courriel&nbsp;: aucun mot de passe n'est créé, ni stocké. L'accès aux données est cloisonné
+          par client au niveau de la base&nbsp;: vous ne voyez que votre propre projet.
+          <a href="https://supabase.com/privacy" rel="noopener">Politique de confidentialité de Supabase</a>.
+        </p>
+
+        <h3>Messagerie</h3>
+        <p>
+          Les courriels que vous m'envoyez transitent par mon fournisseur de messagerie et y sont
+          conservés le temps indiqué au point 2.
+        </p>
+
+        <p>
+          En dehors de ces prestataires, vos données peuvent être transmises à mon comptable ou à
+          l'administration fiscale lorsque la loi l'impose, et à personne d'autre.
+        </p>
+      </section>
+
+      <!-- 5 — Sécurité -->
+      <section id="securite">
+        <h2>5. Sécurité</h2>
+        <p>
+          L'ensemble du site est servi en <strong>HTTPS</strong>&nbsp;: les échanges entre votre
+          navigateur et le serveur sont chiffrés. L'espace client repose sur une authentification
+          sans mot de passe et sur un cloisonnement des données au niveau de la base, de sorte
+          qu'un client ne peut pas accéder au dossier d'un autre. Aucune donnée bancaire n'est
+          traitée sur ce site&nbsp;: les règlements se font par virement, hors du site.
+        </p>
+      </section>
+
+      <!-- 6 — Droits -->
+      <section id="droits">
+        <h2>6. Vos droits</h2>
+        <p>
+          Conformément aux articles 15 à 22 du RGPD, vous disposez à tout moment des droits
+          suivants sur vos données&nbsp;:
+        </p>
+        <ul>
+          <li><strong>Accès</strong> — obtenir une copie des données que je détiens sur vous</li>
+          <li><strong>Rectification</strong> — faire corriger une information inexacte ou incomplète</li>
+          <li><strong>Effacement</strong> — demander leur suppression, sous réserve des pièces que la loi m'oblige à conserver</li>
+          <li><strong>Limitation</strong> — demander le gel d'un traitement le temps d'une vérification</li>
+          <li><strong>Portabilité</strong> — récupérer vos données dans un format lisible par une machine</li>
+          <li><strong>Opposition</strong> — vous opposer à un traitement fondé sur l'intérêt légitime</li>
+          <li><strong>Directives post-mortem</strong> — définir le sort de vos données après votre décès</li>
+        </ul>
+        <p>
+          Pour les exercer, écrivez à <a href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a>.
+          Je réponds sous <strong>un mois</strong> au maximum. Si votre demande laisse un doute sur
+          votre identité, je pourrai vous demander un justificatif avant d'y donner suite.
+        </p>
+        <p>
+          Si ma réponse ne vous satisfait pas, vous pouvez introduire une réclamation auprès de la
+          <strong>Commission nationale de l'informatique et des libertés</strong> (CNIL),
+          3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07 —
+          <a href="https://www.cnil.fr/fr/plaintes" rel="noopener">www.cnil.fr</a>.
+        </p>
+      </section>
+
+      <!-- 7 — Liens externes -->
+      <section id="liens">
+        <h2>7. Liens et projets de démonstration</h2>
+        <p>
+          Ce site renvoie vers des plateformes tierces (GitHub, Malt) et présente des maquettes de
+          projets. Ces pages de démonstration contiennent des contenus fictifs et ne collectent
+          aucune donnée&nbsp;: leurs formulaires éventuels sont inertes. Une fois que vous quittez
+          raphproudhon.fr, c'est la politique de confidentialité du site visité qui s'applique&nbsp;;
+          je n'ai aucun contrôle sur ce qu'il collecte.
+        </p>
+      </section>
+
+      <!-- 8 — Modifications -->
+      <section id="modifications">
+        <h2>8. Modifications de cette politique</h2>
+        <p>
+          Cette politique peut évoluer si les outils du site changent. La date de dernière mise à
+          jour figure en haut de page&nbsp;; en cas de changement substantiel touchant des clients
+          actifs, je les en informe par courriel.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section>
+  <div class="wrap">
+    <div class="contact-band">
+      <h2>Une question sur vos données ?</h2>
+      <p>
+        Une demande d'accès, de correction ou de suppression&nbsp;? Un point qui manque de clarté&nbsp;?
+        Écrivez-moi, je réponds.
+      </p>
+      <a class="btn" href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Raphaël Proudhon — Développeur &amp; Designer UI/UX freelance ·
+  <a href="index.html">Accueil</a> ·
+  <a href="espace-client/index.html">Espace client</a>
+</footer>
+
+</body>
+</html>
