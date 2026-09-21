@@ -93,8 +93,31 @@
   footer{background:var(--green-deep); color:#8fa596; text-align:center; padding:50px 8%; font-size:12px; letter-spacing:.5px;}
   footer a{color:#e9c9a8; text-decoration:none;}
 </style>
+<style>
+  /* ============ ACCESSIBILITÉ ============ */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:1000;
+    background:#16150f; color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font:600 14px/1.2 system-ui, sans-serif; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  /* currentColor : l'anneau s'adapte au fond de chaque page */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+  }
+</style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <header class="hero">
   <p class="kicker">Étude de cas · Marque complète</p>
@@ -104,6 +127,7 @@
     et le produit digital d'un service d'abonnement de plantes d'intérieur.
   </p>
 </header>
+<main id="contenu">
 <div class="meta-strip">
   <div><div class="k">Rôle</div><div class="v">Branding · UI/UX · Dev</div></div>
   <div><div class="k">Type</div><div class="v">Marque + site + app</div></div>
@@ -195,6 +219,7 @@
     <li><b>La méthode :</b> un brief cadré, des étapes claires, des livrables nommés — même sur un projet fictif.</li>
   </ul>
 </section>
+</main>
 
 <footer>
   Étude de cas — marque fictive créée intégralement à des fins de démonstration.<br><br>

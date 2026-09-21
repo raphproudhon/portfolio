@@ -154,8 +154,31 @@
 
   @media (max-width:760px){.type-row{grid-template-columns:1fr; gap:10px;}}
 </style>
+<style>
+  /* ============ ACCESSIBILITÉ ============ */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:1000;
+    background:#16150f; color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font:600 14px/1.2 system-ui, sans-serif; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  /* currentColor : l'anneau s'adapte au fond de chaque page */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+  }
+</style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <header class="kit-hero">
   <p class="kicker">Design system · v1.0 · marque fictive</p>
@@ -165,7 +188,7 @@
     typographies et éléments d'interface d'une marque de vêtements en fibres naturelles.
   </p>
 </header>
-
+<main id="contenu">
 <!-- Logo -->
 <section class="block">
   <p class="kicker">01 — Identité</p>
@@ -313,6 +336,7 @@
     <div class="rule"><span class="ko">✗ À éviter</span><p>Plus d'une couleur d'accent par écran : l'indigo travaille seul.</p></div>
   </div>
 </section>
+</main>
 
 <footer>
   UI Kit — marque fictive créée intégralement à des fins de démonstration.<br><br>

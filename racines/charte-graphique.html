@@ -84,9 +84,33 @@
 
   .footer-note{ text-align:center; font-size:13px; color:#8a9a8e; padding-top:40px; border-top:1px solid rgba(47,79,62,0.1); }
 </style>
+<style>
+  /* ============ ACCESSIBILITÉ ============ */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:1000;
+    background:#16150f; color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font:600 14px/1.2 system-ui, sans-serif; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  /* currentColor : l'anneau s'adapte au fond de chaque page */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+  }
+</style>
 </head>
 <body>
 
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu">
 <div class="cover">
   <div class="icon">
     <svg width="72" height="90" viewBox="0 0 100 130"><path d="M50 100C50 100 20 78 20 46C20 28 34 16 50 16C66 16 80 28 80 46C80 78 50 100 50 100Z" fill="#2f4f3e"/><path d="M50 100V40" stroke="#f7f3ec" stroke-width="3"/></svg>
@@ -191,6 +215,7 @@
 
   <div class="footer-note">Racines — Charte graphique v1 · projet fictif réalisé à des fins de portfolio</div>
 </div>
+</main>
 
 </body>
 </html>
