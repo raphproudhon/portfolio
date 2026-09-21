@@ -165,6 +165,39 @@
   .retour.ok{color:var(--ok);} .retour.err{color:#a8563f;}
   #form-projet-bloc{display:none;}
 
+  /* ---- Nouveau projet : client → questionnaire → chiffrage ---- */
+  .volets{display:flex; gap:6px; margin-bottom:22px; flex-wrap:wrap;}
+  .volets span{font-family:'Space Grotesk',sans-serif; font-size:11.5px; font-weight:600; letter-spacing:.04em;
+    padding:5px 11px; border-radius:999px; background:#efece5; color:var(--muted);}
+  .volets span.on{background:var(--ink); color:#fff;}
+  .volets span.fait{background:#e2ead9; color:var(--ok);}
+  .volet{display:none; border:none;}
+  .volet.on{display:block;}
+  .volet .grille{margin-bottom:8px;}
+  .q{margin-bottom:22px;}
+  .q .qt{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:9px;}
+  .q .qt small{font-weight:400; color:var(--muted); font-size:12.5px; margin-left:6px;}
+  .choix{display:flex; flex-wrap:wrap; gap:8px;}
+  .choix label{display:inline-flex; align-items:center; gap:8px; margin:0; font-weight:500; font-size:13.5px;
+    font-family:'Inter',sans-serif; border:1px solid var(--line); border-radius:10px; padding:9px 13px;
+    background:var(--bg); cursor:pointer; user-select:none;}
+  .choix label:hover{border-color:var(--ink);}
+  .choix input{accent-color:var(--accent); margin:0;}
+  .choix label:has(input:checked){border-color:var(--accent); background:#fdf0e6;}
+  .choix .prix{font-size:11.5px; color:var(--muted); font-family:'Space Grotesk',sans-serif;}
+  .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:6px;}
+  .devis{background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:20px;}
+  .devis .ligne{display:flex; justify-content:space-between; gap:12px; font-size:13.5px; padding:5px 0;
+    border-top:1px solid var(--line);}
+  .devis .ligne:first-child{border-top:none; padding-top:0;}
+  .devis .ligne .m{font-family:'Space Grotesk',sans-serif; font-weight:600; white-space:nowrap;}
+  .devis .total{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-top:12px;
+    padding-top:12px; border-top:2px solid var(--ink);}
+  .devis .total .l{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;}
+  .devis .total .v{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; color:var(--accent);}
+  .devis .fourchette{font-size:12.5px; color:var(--muted); margin-top:4px;}
+  .devis .note{font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.55;}
+
   .empty{color:var(--muted); font-size:14px;}
   .center{text-align:center; padding:60px 20px; color:var(--muted);}
   #dash{display:none;} #auth{display:none;} #admin{display:none;}
@@ -295,25 +328,131 @@
         <button class="btn-sm" type="button" id="btn-nouveau">+ Nouveau projet</button>
       </div>
       <div id="form-projet-bloc">
-        <form id="form-projet" class="grille">
-          <div class="champ"><label for="np-email">E-mail du client *</label>
-            <input type="email" id="np-email" required placeholder="contact@domaine.fr"></div>
-          <div class="champ"><label for="np-nom">Nom du client *</label>
-            <input type="text" id="np-nom" required placeholder="Domaine X"></div>
-          <div class="champ large"><label for="np-titre">Intitulé du projet *</label>
-            <input type="text" id="np-titre" required placeholder="Site vitrine — Domaine X"></div>
-          <div class="champ"><label for="np-forfait">Formule</label>
-            <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
-          <div class="champ"><label for="np-montant">Montant (€)</label>
-            <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
-          <div class="champ"><label for="np-debut">Démarré le</label>
-            <input type="date" id="np-debut"></div>
-          <div class="champ"><label for="np-livraison">Livraison prévue</label>
-            <input type="date" id="np-livraison"></div>
-          <div class="champ large">
-            <button class="btn-sm" type="submit" id="np-envoi">Créer le projet</button>
-            <div class="retour" id="np-retour"></div>
-          </div>
+        <div class="volets" id="np-volets">
+          <span class="on" data-v="1">1 · Client</span>
+          <span data-v="2">2 · Questionnaire</span>
+          <span data-v="3">3 · Chiffrage &amp; création</span>
+        </div>
+        <form id="form-projet">
+
+          <!-- Volet 1 : qui est le client -->
+          <fieldset class="volet on" data-volet="1">
+            <div class="grille">
+              <div class="champ"><label for="np-email">E-mail du client *</label>
+                <input type="email" id="np-email" required placeholder="contact@domaine.fr"></div>
+              <div class="champ"><label for="np-nom">Nom du client *</label>
+                <input type="text" id="np-nom" required placeholder="Domaine X"></div>
+              <div class="champ large"><label for="np-activite">Activité</label>
+                <select id="np-activite">
+                  <option value="domaine">Domaine viticole</option>
+                  <option value="caviste">Caviste / épicerie fine</option>
+                  <option value="restaurant">Restaurant / bar</option>
+                  <option value="artisan">Artisan / commerce</option>
+                  <option value="autre">Autre</option>
+                </select></div>
+            </div>
+            <div class="actions">
+              <button class="btn-sm" type="button" data-aller="2">Continuer vers le questionnaire →</button>
+              <button class="btn-sm fantome" type="button" data-aller="3" data-sans-devis>Passer le questionnaire</button>
+            </div>
+          </fieldset>
+
+          <!-- Volet 2 : questionnaire de chiffrage -->
+          <fieldset class="volet" data-volet="2" id="np-questionnaire">
+            <div class="q">
+              <div class="qt">Quel type de projet ?</div>
+              <div class="choix">
+                <label><input type="radio" name="q-type" value="vitrine" checked> Site vitrine (nouveau)</label>
+                <label><input type="radio" name="q-type" value="refonte"> Refonte d'un site existant</label>
+                <label><input type="radio" name="q-type" value="boutique"> Site avec boutique en ligne</label>
+                <label><input type="radio" name="q-type" value="identite"> Identité visuelle seule <span class="prix">logo + charte</span></label>
+                <label><input type="radio" name="q-type" value="correctifs"> Petite intervention <span class="prix">HTTPS, bugs, SEO…</span></label>
+              </div>
+            </div>
+
+            <div class="q" data-si-site>
+              <div class="qt">Combien de pages ? <small>accueil, domaine, vins, contact…</small></div>
+              <div class="choix">
+                <label><input type="radio" name="q-pages" value="1"> Une seule page</label>
+                <label><input type="radio" name="q-pages" value="5" checked> 2 à 5 pages</label>
+                <label><input type="radio" name="q-pages" value="10"> 6 à 10 pages</label>
+                <label><input type="radio" name="q-pages" value="15"> Plus de 10</label>
+              </div>
+            </div>
+
+            <div class="q" data-si-site>
+              <div class="qt">Options souhaitées <small>plusieurs choix possibles</small></div>
+              <div class="choix">
+                <label><input type="checkbox" name="q-opt" value="logo"> Logo / identité visuelle <span class="prix">+400 €</span></label>
+                <label><input type="checkbox" name="q-opt" value="boutique"> Boutique en ligne <span class="prix">+600 €</span></label>
+                <label><input type="checkbox" name="q-opt" value="reservation"> Réservation / formulaire avancé <span class="prix">+200 €</span></label>
+                <label><input type="checkbox" name="q-opt" value="actus"> Actualités / blog <span class="prix">+150 €</span></label>
+                <label><input type="checkbox" name="q-opt" value="langues"> Version anglaise <span class="prix">+250 €</span></label>
+                <label><input type="checkbox" name="q-opt" value="domaine"> Nom de domaine + hébergement + mails pro <span class="prix">+80 €</span></label>
+              </div>
+            </div>
+
+            <div class="q" data-si-site>
+              <div class="qt">Le contenu (textes, photos) est-il prêt ?</div>
+              <div class="choix">
+                <label><input type="radio" name="q-contenu" value="pret" checked> Oui, fourni par le client</label>
+                <label><input type="radio" name="q-contenu" value="partiel"> En partie <span class="prix">+150 € de rédaction / retouche</span></label>
+                <label><input type="radio" name="q-contenu" value="rien"> Non, tout est à créer <span class="prix">+350 €</span></label>
+              </div>
+            </div>
+
+            <div class="q" data-si-correctifs hidden>
+              <div class="qt">Temps estimé sur place ou à distance</div>
+              <div class="choix">
+                <label><input type="radio" name="q-heures" value="2" checked> Environ 2 h <span class="prix">150 €</span></label>
+                <label><input type="radio" name="q-heures" value="4"> Une demi-journée <span class="prix">250 €</span></label>
+                <label><input type="radio" name="q-heures" value="8"> Une journée <span class="prix">400 €</span></label>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qt">Délai souhaité</div>
+              <div class="choix">
+                <label><input type="radio" name="q-delai" value="normal" checked> Standard <span class="prix">3-4 semaines</span></label>
+                <label><input type="radio" name="q-delai" value="urgent"> Urgent <span class="prix">moins de 2 semaines, +20 %</span></label>
+              </div>
+            </div>
+
+            <div class="q">
+              <div class="qt">Maintenance après livraison</div>
+              <div class="choix">
+                <label><input type="radio" name="q-maint" value="non" checked> Non, livraison seule</label>
+                <label><input type="radio" name="q-maint" value="oui"> Oui <span class="prix">30 €/mois, hors forfait</span></label>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="btn-sm fantome" type="button" data-aller="1">← Retour</button>
+              <button class="btn-sm" type="button" id="np-calculer">Calculer le prix →</button>
+            </div>
+          </fieldset>
+
+          <!-- Volet 3 : chiffrage + création -->
+          <fieldset class="volet" data-volet="3">
+            <div class="devis" id="np-devis" hidden></div>
+            <div class="grille">
+              <div class="champ large"><label for="np-titre">Intitulé du projet *</label>
+                <input type="text" id="np-titre" required placeholder="Site vitrine — Domaine X"></div>
+              <div class="champ"><label for="np-forfait">Formule</label>
+                <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
+              <div class="champ"><label for="np-montant">Montant (€)</label>
+                <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
+              <div class="champ"><label for="np-debut">Démarré le</label>
+                <input type="date" id="np-debut"></div>
+              <div class="champ"><label for="np-livraison">Livraison prévue</label>
+                <input type="date" id="np-livraison"></div>
+            </div>
+            <div class="actions">
+              <button class="btn-sm fantome" type="button" data-aller="2">← Modifier le questionnaire</button>
+              <button class="btn-sm" type="submit" id="np-envoi">Créer le projet</button>
+              <div class="retour" id="np-retour"></div>
+            </div>
+          </fieldset>
         </form>
       </div>
       <p class="aide" id="admin-vide" style="display:none">Aucun projet enregistré pour le moment.</p>
@@ -453,6 +592,19 @@ function etatProjet(p){
   return { cls:'en-cours', txt:'Étape ' + p.etape + '/5 · ' + ETAPES[p.etape - 1][0] };
 }
 
+// Rappel du questionnaire de chiffrage, s'il a été enregistré avec le projet
+function blocDevis(d){
+  if (!d || !Array.isArray(d.lignes)) return '';
+  const r = d.reponses || {};
+  const opts = (r.options || []).map(o => (TARIFS.options[o] || [o])[0]).join(', ');
+  return `<h3>Chiffrage initial</h3>
+    <div class="devis">
+      ${d.lignes.map(([l, m]) => `<div class="ligne"><span>${esc(l)}</span><span class="m">${fmtMontant(m)}</span></div>`).join('')}
+      <div class="total"><span class="l">Total calculé</span><span class="v">${fmtMontant(d.total)}</span></div>
+      <div class="note">${esc(LIBELLE_TYPE[r.type] || '')}${r.pages ? ` · ${r.pages === 1 ? '1 page' : r.pages + ' pages max'}` : ''}${opts ? ` · options : ${esc(opts)}` : ''}${r.delai === 'urgent' ? ' · urgent' : ''}${d.maintenance ? ' · maintenance' : ''}${d.calcule_le ? ` · calculé le ${new Date(d.calcule_le).toLocaleDateString('fr-FR')}` : ''}</div>
+    </div>`;
+}
+
 function carteProjet(p, avancees){
   const etat = etatProjet(p);
   const jauge = ETAPES.map((_, i) => {
@@ -497,6 +649,8 @@ function carteProjet(p, avancees){
         <select id="etape-${esc(p.id)}" data-etape="${esc(p.id)}">${options}</select>
         <span class="retour" data-retour-etape="${esc(p.id)}"></span>
       </div>
+
+      ${blocDevis(p.devis)}
 
       <h3>Avancement</h3>
       <div class="steps">${blocEtapes(p.etape)}</div>
@@ -616,9 +770,175 @@ async function chargerProjets(){
 
 }
 
+// ---------- Nouveau projet : questionnaire de chiffrage ----------
+// Grille tarifaire (forfaits, TTC non applicable — micro-entreprise). À ajuster ici, nulle part ailleurs.
+const TARIFS = {
+  base: { // prix de départ selon le type et le nombre de pages
+    vitrine: { 1: 700, 5: 1000, 10: 1400, 15: 1800 },
+    refonte: { 1: 650, 5: 950,  10: 1300, 15: 1700 },  // le contenu existe déjà, on repart de lui
+    boutique:{ 1: 1400, 5: 1600, 10: 2000, 15: 2400 }, // boutique incluse
+  },
+  identite: 450,
+  correctifs: { 2: 150, 4: 250, 8: 400 },
+  options: {
+    logo:        ['Logo / identité visuelle', 400],
+    boutique:    ['Boutique en ligne', 600],
+    reservation: ['Réservation / formulaire avancé', 200],
+    actus:       ['Actualités / blog', 150],
+    langues:     ['Version anglaise', 250],
+    domaine:     ['Nom de domaine, hébergement, mails pro', 80],
+  },
+  contenu: { pret: 0, partiel: 150, rien: 350 },
+  urgent: 0.20,          // majoration
+  maintenance: 30,       // €/mois, hors forfait
+};
+const LIBELLE_TYPE = {
+  vitrine: 'Site vitrine', refonte: 'Refonte de site', boutique: 'Site avec boutique',
+  identite: 'Identité visuelle', correctifs: 'Petite intervention',
+};
+
+function lireQuestionnaire(){
+  const f = $('form-projet');
+  const val = n => (f.querySelector(`[name="${n}"]:checked`) || {}).value;
+  return {
+    type:    val('q-type'),
+    pages:   Number(val('q-pages')),
+    options: [...f.querySelectorAll('[name="q-opt"]:checked')].map(i => i.value),
+    contenu: val('q-contenu'),
+    heures:  Number(val('q-heures')),
+    delai:   val('q-delai'),
+    maint:   val('q-maint'),
+  };
+}
+
+// Transforme les réponses en lignes de devis + total arrondi aux 50 €.
+function chiffrer(r){
+  const lignes = [];
+  let forfait = LIBELLE_TYPE[r.type];
+
+  if (r.type === 'identite') {
+    lignes.push(['Logo + charte graphique + déclinaisons', TARIFS.identite]);
+  } else if (r.type === 'correctifs') {
+    const h = TARIFS.correctifs[r.heures] ? r.heures : 2;
+    lignes.push([`Intervention ponctuelle (~${h} h)`, TARIFS.correctifs[h]]);
+  } else {
+    const pages = { 1:'une page', 5:'2 à 5 pages', 10:'6 à 10 pages', 15:'plus de 10 pages' }[r.pages] || '2 à 5 pages';
+    lignes.push([`${forfait} — ${pages}`, TARIFS.base[r.type][r.pages] || TARIFS.base[r.type][5]]);
+    r.options.forEach(o => {
+      if (r.type === 'boutique' && o === 'boutique') return; // déjà incluse
+      const [lib, prix] = TARIFS.options[o];
+      lignes.push([lib, prix]);
+    });
+    if (TARIFS.contenu[r.contenu]) {
+      lignes.push([r.contenu === 'rien' ? 'Rédaction des textes + sélection/retouche photos' : 'Complément de contenu (textes ou photos)',
+        TARIFS.contenu[r.contenu]]);
+    }
+    if (r.options.includes('logo')) forfait += ' + identité';
+  }
+
+  let total = lignes.reduce((s, [, m]) => s + m, 0);
+  if (r.delai === 'urgent') {
+    const maj = Math.round(total * TARIFS.urgent);
+    lignes.push(['Délai urgent (+20 %)', maj]);
+    total += maj;
+  }
+  total = Math.round(total / 50) * 50;
+
+  const semaines = r.type === 'correctifs' ? 1 : (r.delai === 'urgent' ? 2 : (r.pages >= 10 || r.type === 'boutique' ? 5 : 4));
+  return { lignes, total, forfait, semaines, maintenance: r.maint === 'oui' };
+}
+
+function afficherDevis(d){
+  const zone = $('np-devis');
+  zone.hidden = false;
+  zone.innerHTML =
+    d.lignes.map(([l, m]) => `<div class="ligne"><span>${esc(l)}</span><span class="m">${fmtMontant(m)}</span></div>`).join('')
+    + `<div class="total"><span class="l">Montant proposé</span><span class="v">${fmtMontant(d.total)}</span></div>
+       <div class="fourchette">Fourchette à annoncer : ${fmtMontant(Math.round(d.total * 0.9 / 50) * 50)} – ${fmtMontant(Math.round(d.total * 1.1 / 50) * 50)}</div>
+       <div class="note">${d.semaines > 1 ? `Délai indicatif : ${d.semaines} semaines.` : 'Intervention ponctuelle, sous une semaine.'}
+       ${d.maintenance ? ` Maintenance : ${TARIFS.maintenance} €/mois en plus, à facturer séparément.` : ''}
+       Le montant ci-dessous reste modifiable avant création.</div>`;
+}
+
+function allerVolet(n){
+  $('form-projet').querySelectorAll('.volet').forEach(v => v.classList.toggle('on', v.dataset.volet === String(n)));
+  $('np-volets').querySelectorAll('span').forEach(s => {
+    const v = Number(s.dataset.v);
+    s.className = v === n ? 'on' : (v < n ? 'fait' : '');
+  });
+  const premier = $('form-projet').querySelector(`.volet[data-volet="${n}"] input:not([type=radio]):not([type=checkbox])`);
+  if (premier) premier.focus();
+}
+
+// Le questionnaire change de forme selon le type de projet
+function adapterQuestionnaire(){
+  const type = lireQuestionnaire().type;
+  const site = ['vitrine', 'refonte', 'boutique'].includes(type);
+  const q = $('np-questionnaire');
+  q.querySelectorAll('[data-si-site]').forEach(el => el.hidden = !site);
+  q.querySelectorAll('[data-si-correctifs]').forEach(el => el.hidden = type !== 'correctifs');
+  const boutique = q.querySelector('[name="q-opt"][value="boutique"]');
+  boutique.disabled = type === 'boutique';
+  if (type === 'boutique') boutique.checked = false;
+}
+
+// Reprend la date de fin à partir du délai estimé
+function dateDans(semaines){
+  const d = new Date(); d.setDate(d.getDate() + semaines * 7);
+  return d.toISOString().slice(0, 10);
+}
+
+let devisCourant = null; // mémorisé pour l'enregistrer avec le projet
+
+function reinitialiserNouveauProjet(){
+  $('form-projet').reset();
+  devisCourant = null;
+  $('np-devis').hidden = true;
+  $('np-devis').innerHTML = '';
+  adapterQuestionnaire();
+  allerVolet(1);
+}
+
 // ---------- Écriture (réservée au responsable par les policies RLS) ----------
 function poserListenersAdmin(){
   const zone = $('admin');
+
+  // navigation entre les volets du nouveau projet
+  zone.addEventListener('click', e => {
+    const btn = e.target.closest('[data-aller]');
+    if (!btn) return;
+    const cible = Number(btn.dataset.aller);
+    if (cible > 1) {
+      // le volet 1 doit être valide avant d'avancer
+      const ok = ['np-email', 'np-nom'].every(id => $(id).reportValidity());
+      if (!ok) return;
+    }
+    if (btn.hasAttribute('data-sans-devis')) {
+      devisCourant = null;
+      $('np-devis').hidden = true;
+      if (!$('np-titre').value) $('np-titre').value = 'Site vitrine — ' + $('np-nom').value.trim();
+    }
+    allerVolet(cible);
+  });
+
+  zone.addEventListener('change', e => {
+    if (e.target.name === 'q-type') adapterQuestionnaire();
+  });
+
+  zone.addEventListener('click', e => {
+    if (e.target.id !== 'np-calculer') return;
+    const reponses = lireQuestionnaire();
+    const d = chiffrer(reponses);
+    devisCourant = { reponses, ...d, calcule_le: new Date().toISOString() };
+    afficherDevis(d);
+    const nom = $('np-nom').value.trim();
+    $('np-titre').value = `${LIBELLE_TYPE[reponses.type]} — ${nom}`;
+    $('np-forfait').value = d.forfait;
+    $('np-montant').value = d.total;
+    if (!$('np-debut').value) $('np-debut').value = new Date().toISOString().slice(0, 10);
+    if (d.semaines) $('np-livraison').value = dateDans(d.semaines);
+    allerVolet(3);
+  });
 
   zone.addEventListener('click', async e => {
     const detailBtn = e.target.closest('.btn-detail');
@@ -636,7 +956,7 @@ function poserListenersAdmin(){
       const ouvert = bloc.style.display === 'block';
       bloc.style.display = ouvert ? 'none' : 'block';
       e.target.textContent = ouvert ? '+ Nouveau projet' : 'Annuler';
-      if (!ouvert) $('np-email').focus();
+      if (!ouvert) reinitialiserNouveauProjet();
       return;
     }
 
@@ -693,7 +1013,7 @@ function poserListenersAdmin(){
       const vide = v => { const s = (v || '').trim(); return s === '' ? null : s; };
       btn.disabled = true;
       retour(cible, 'Création…');
-      const { error } = await sb.from('projets').insert({
+      const projet = {
         client_email: $('np-email').value.trim().toLowerCase(),
         nom_client: $('np-nom').value.trim(),
         titre: $('np-titre').value.trim(),
@@ -702,11 +1022,19 @@ function poserListenersAdmin(){
         etape: 1,
         date_debut: vide($('np-debut').value),
         date_livraison_prevue: vide($('np-livraison').value),
-      });
+      };
+      // le questionnaire est conservé dans la colonne `devis` (jsonb) si elle existe — SETUP.md, étape 3 quater
+      const devis = devisCourant ? { ...devisCourant, activite: $('np-activite').value } : null;
+      let { error } = await sb.from('projets').insert(devis ? { ...projet, devis } : projet);
+      if (error && devis && /devis/.test(error.message)) {
+        // colonne absente : on crée quand même le projet, sans le détail du chiffrage
+        ({ error } = await sb.from('projets').insert(projet));
+        if (!error) retour(cible, 'Projet créé — mais le questionnaire n\'a pas été enregistré (colonne « devis » absente, voir SETUP.md).', 'err');
+      }
       btn.disabled = false;
       if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
-      retour(cible, 'Projet créé.', 'ok');
-      $('form-projet').reset();
+      if (!cible.textContent.startsWith('Projet créé —')) retour(cible, 'Projet créé.', 'ok');
+      reinitialiserNouveauProjet();
       $('form-projet-bloc').style.display = 'none';
       $('btn-nouveau').textContent = '+ Nouveau projet';
       await chargerProjets();

@@ -150,6 +150,24 @@ Les clients restent en lecture seule : aucune policy d'écriture ne les vise.
 Volontairement, il n'y a **pas** de suppression de projet depuis la page — c'est
 trop définitif pour un bouton. Ça reste dans le Table Editor.
 
+## Étape 3 quater — Conserver le questionnaire de chiffrage (ajouté le 21/09/2026)
+
+Le bouton « + Nouveau projet » de l'espace privé passe maintenant par un questionnaire
+(type de projet, pages, options, contenu, délai) qui calcule un montant et pré-remplit
+le projet. Pour garder la trace de ce chiffrage avec le projet, ajoute une colonne
+`devis` (JSON). À coller dans le **SQL Editor** :
+
+```sql
+alter table projets add column if not exists devis jsonb;
+```
+
+Sans cette colonne, le projet est quand même créé, mais le détail du questionnaire
+n'est pas enregistré (la page l'indique en orange après la création).
+
+La vue client n'affiche pas cette colonne : elle ne montre que
+`forfait`, `montant` et les dates. La grille tarifaire est dans `index.html`,
+constante `TARIFS`, en tête de la section « Nouveau projet ».
+
 ## Étape 4 — Autoriser le site à se connecter
 
 Dans **Authentication → URL Configuration** :
