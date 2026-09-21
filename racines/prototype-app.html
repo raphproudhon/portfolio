@@ -162,9 +162,33 @@
   .menu-item{ background:var(--white); padding:15px 16px; border-radius:14px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; font-size:14px; font-weight:500; color:var(--ink); }
   .menu-item .chev{color:#c8cfc9;}
 </style>
+<style>
+  /* ============ ACCESSIBILITÉ ============ */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:1000;
+    background:#16150f; color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font:600 14px/1.2 system-ui, sans-serif; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  /* currentColor : l'anneau s'adapte au fond de chaque page */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+  }
+</style>
 </head>
 <body>
 
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu">
 <div class="caption">Prototype cliquable — app <b>Racines</b> (démo UI/UX, projet fictif)</div>
 
 <div class="switcher">
@@ -314,6 +338,7 @@
 
   </div>
 </div>
+</main>
 
 <script>
   function goTo(tab){

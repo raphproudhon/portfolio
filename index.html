@@ -12,19 +12,176 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Raphaël Proudhon",
-  "alternateName": "Raph Proudhon",
-  "jobTitle": "Développeur web & designer UI/UX indépendant",
-  "description": "Conception et développement de sites web sur-mesure, identités visuelles et prototypes d'application pour artisans, commerces et domaines viticoles.",
-  "url": "https://raphproudhon.fr/",
-  "image": "https://raphproudhon.fr/assets/og/portfolio.jpg",
-  "email": "mailto:contact@raphproudhon.fr",
-  "address": { "@type": "PostalAddress", "addressLocality": "Tours", "addressCountry": "FR" },
-  "knowsAbout": ["Développement web", "UI/UX design", "Identité visuelle", "Viticulture"],
-  "sameAs": [
-    "https://github.com/raphproudhon",
-    "https://www.malt.fr/profile/raphaelproudhon1"
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://raphproudhon.fr/#personne",
+      "name": "Raphaël Proudhon",
+      "alternateName": "Raph Proudhon",
+      "jobTitle": "Développeur web & designer UI/UX indépendant",
+      "description": "Conception et développement de sites web sur-mesure, identités visuelles et prototypes d'application pour artisans, commerces et domaines viticoles.",
+      "url": "https://raphproudhon.fr/",
+      "image": "https://raphproudhon.fr/assets/og/portfolio.jpg",
+      "email": "mailto:contact@raphproudhon.fr",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Loches",
+        "postalCode": "37600",
+        "addressRegion": "Indre-et-Loire",
+        "addressCountry": "FR"
+      },
+      "knowsLanguage": "fr",
+      "knowsAbout": [
+        "Développement web",
+        "UI/UX design",
+        "Identité visuelle",
+        "Accessibilité web",
+        "Viticulture",
+        "E-commerce"
+      ],
+      "sameAs": [
+        "https://github.com/raphproudhon",
+        "https://www.malt.fr/profile/raphaelproudhon1"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://raphproudhon.fr/#activite",
+      "name": "Raphaël Proudhon — développeur & designer indépendant",
+      "founder": {
+        "@id": "https://raphproudhon.fr/#personne"
+      },
+      "url": "https://raphproudhon.fr/",
+      "email": "mailto:contact@raphproudhon.fr",
+      "priceRange": "Sur devis",
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Indre-et-Loire"
+        },
+        {
+          "@type": "Country",
+          "name": "France"
+        }
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Artisans, commerces, domaines viticoles, PME et associations"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Prestations",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Développement front-end",
+              "description": "Sites et interfaces écrits à la main en HTML, CSS et JavaScript, sans page builder."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Développement back-end",
+              "description": "Authentification, base de données et espaces clients."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Design UI/UX & identité visuelle",
+              "description": "Logo, charte graphique, maquettes et prototypes cliquables."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Boutique en ligne",
+              "description": "Catalogue, panier et paiement sécurisé, avec calcul des prix côté serveur."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://raphproudhon.fr/#site",
+      "url": "https://raphproudhon.fr/",
+      "name": "raphproudhon.fr",
+      "inLanguage": "fr-FR",
+      "publisher": {
+        "@id": "https://raphproudhon.fr/#personne"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Projets présentés",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Brûlerie du Cher — boutique en ligne",
+            "description": "Boutique de démonstration : catalogue, panier persistant et paiement Stripe en mode test, avec prix fixés côté serveur.",
+            "url": "https://raphproudhon.fr/brulerie/",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Brûlerie du Cher n'existe pas et aucun paiement réel n'est encaissé.",
+            "keywords": "e-commerce, panier, Stripe, tunnel de commande"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Champagne Maison d'Exception",
+            "description": "Site vitrine de cinq pages pour un domaine champenois : identité, vérification d'âge, performance et accessibilité.",
+            "url": "https://raphproudhon.fr/site-champagne/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "keywords": "site vitrine, HTML, CSS, JavaScript, viticulture"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Racines — abonnement plantes",
+            "description": "Marque fictive créée de A à Z : logo SVG, charte graphique, site de conversion et prototype d'application mobile.",
+            "url": "https://raphproudhon.fr/racines/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Racines n'existe pas.",
+            "keywords": "identité visuelle, branding, prototype d'application"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Laine & Lin — vêtements en fibres naturelles",
+            "description": "Boutique fictive sans aucune photographie : textures et illustrations entièrement dessinées en CSS et SVG.",
+            "url": "https://raphproudhon.fr/laine-et-lin/etude-de-cas.html",
+            "creator": {
+              "@id": "https://raphproudhon.fr/#personne"
+            },
+            "abstract": "Projet de démonstration : la marque Laine & Lin n'existe pas.",
+            "keywords": "one-page, CSS, SVG, design sans photo"
+          }
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -266,9 +423,36 @@
   .f-bottom .legal{display:flex; gap:20px; flex-wrap:wrap;}
   .f-bottom a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
   .f-bottom a:hover{color:var(--ink);}
+
+  /* ============ ACCESSIBILITÉ ============ */
+  /* lien d'évitement : invisible jusqu'au premier Tab */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:100;
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* anneau de focus visible au clavier, sans gêner la souris */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;
+  }
+
+  /* respecte le réglage système « réduire les animations » */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+    .project:hover .cover img{transform:none;}
+  }
 </style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <!-- ============ NAV ============ -->
 <nav class="top">
@@ -290,6 +474,8 @@
     </div>
   </div>
 </nav>
+
+<main id="contenu">
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -316,6 +502,34 @@
       <h2>Trois projets, trois univers</h2>
       <p>Chaque projet couvre le design et le code — du logo à la mise en ligne.</p>
     </div>
+
+    <!-- BRÛLERIE -->
+    <article class="project">
+      <div class="cover solid" style="background:linear-gradient(135deg,#2b1d16 0%,#7a4a32 55%,#b06b3a 100%);">
+        <span class="chip">Boutique en ligne · paiement Stripe</span>
+        <svg width="330" height="86" viewBox="0 0 520 130" role="img" aria-label="Logo Brûlerie du Cher">
+          <text x="260" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="46" fill="#f7f1e8">Brûlerie du <tspan fill="#e0a06a">Cher</tspan></text>
+          <text x="260" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" letter-spacing="5" fill="#c9a98f">CAFÉS DE SPÉCIALITÉ · LOCHES</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="row">
+          <h3>Brûlerie du Cher — vente en ligne</h3>
+          <span class="stack">HTML · CSS · JS · Stripe · Supabase</span>
+        </div>
+        <p class="desc">
+          Boutique complète et fonctionnelle : catalogue, choix de mouture, panier
+          persistant et tunnel de commande jusqu'au paiement. Les prix sont fixés par
+          une fonction serveur, jamais par le navigateur — un panier trafiqué ne peut
+          pas changer le montant.
+        </p>
+        <div class="links">
+          <a class="main" href="brulerie/">Essayer la boutique</a>
+          <a href="brulerie/panier.html">Le panier</a>
+        </div>
+        <p class="note">Marque fictive. Le paiement fonctionne en mode test Stripe : aucune somme réelle n'est débitée.</p>
+      </div>
+    </article>
 
     <!-- CHAMPAGNE -->
     <article class="project">
@@ -440,6 +654,18 @@
         <p>Identités visuelles, design systems, prototypes et parcours utilisateurs qui convertissent.</p>
         <div class="tags"><span>UI Design</span><span>UX</span><span>Figma</span><span>Branding</span><span>Identité visuelle</span></div>
       </div>
+
+      <div class="skill-card">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d96f32" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <path d="M3 6h18M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <h3>Boutique en ligne</h3>
+        <p>Catalogue, panier et paiement sécurisé — prix calculés côté serveur, jamais dans le navigateur. Pour vendre sans abonnement mensuel.</p>
+        <div class="tags"><span>E-commerce</span><span>Stripe</span><span>Panier</span><span>Tunnel de commande</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -490,6 +716,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <div class="wrap">

@@ -181,9 +181,36 @@
   }
   .login .acces strong{display:block; color:var(--ink); font-weight:600; font-size:13.5px; margin-bottom:4px;}
   .login .acces a{color:var(--accent); text-decoration:underline; text-underline-offset:3px;}
+
+  /* ============ ACCESSIBILITÉ ============ */
+  /* lien d'évitement : invisible jusqu'au premier Tab */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:100;
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* anneau de focus visible au clavier, sans gêner la souris */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;
+  }
+
+  /* respecte le réglage système « réduire les animations » */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+    
+  }
 </style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <nav class="top">
   <div class="wrap">
@@ -195,7 +222,7 @@
   </div>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="contenu">
   <div class="center" id="loading">Chargement…</div>
 
   <!-- CONNEXION -->

@@ -1,0 +1,30 @@
+# raphproudhon.fr — portfolio de Raphaël Proudhon
+# Site public : l'indexation et la lecture par des agents sont autorisées.
+
+User-agent: *
+Allow: /
+
+# Agents des assistants IA : explicitement autorisés à lire le site.
+# Résumé lisible par machine : https://raphproudhon.fr/llms.txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://raphproudhon.fr/sitemap.xml

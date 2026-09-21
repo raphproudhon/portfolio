@@ -1,0 +1,67 @@
+# raphproudhon.fr
+
+> Portfolio de Raphaël Proudhon, développeur web et designer UI/UX indépendant
+> à Loches (Indre-et-Loire, France). Sites vitrines sur-mesure, identités
+> visuelles et prototypes d'application pour artisans, commerces, domaines
+> viticoles et PME.
+
+Ce fichier résume le site pour les agents et assistants qui le consultent.
+Le contenu est en français. Les prestations s'adressent exclusivement à des
+professionnels (B2B) et sont chiffrées sur devis : aucun prix n'est publié.
+
+## Contact
+
+- Courriel : contact@raphproudhon.fr — seul canal de prise de contact
+- Aucun formulaire de contact sur le site ; aucun paiement en ligne
+- Profils : https://github.com/raphproudhon · https://www.malt.fr/profile/raphaelproudhon1
+
+## Prestations
+
+- **Développement front-end** — sites et interfaces écrits à la main en HTML, CSS
+  et JavaScript, sans page builder ni gestionnaire de contenu.
+- **Développement back-end** — authentification, base de données, espaces clients.
+- **Boutique en ligne** — catalogue, panier et paiement sécurisé par Stripe.
+  Les prix sont calculés côté serveur, jamais dans le navigateur.
+- **Design UI/UX et identité visuelle** — logo, charte graphique, maquettes,
+  prototypes cliquables, UI kits.
+
+Méthode en quatre étapes : cadrage, design, développement, livraison. Un seul
+projet client à la fois. Rien ne démarre sans devis signé.
+
+## Pages
+
+- [Accueil](https://raphproudhon.fr/) : projets, compétences, méthode, contact
+- [Espace client](https://raphproudhon.fr/espace-client/) : suivi de projet réservé
+  aux clients, connexion par lien à usage unique
+- [Mentions légales](https://raphproudhon.fr/mentions-legales.html)
+- [Politique de confidentialité](https://raphproudhon.fr/confidentialite.html)
+- [Conditions d'utilisation](https://raphproudhon.fr/conditions-utilisation.html)
+
+## Projets présentés
+
+- [Brûlerie du Cher](https://raphproudhon.fr/brulerie/) — boutique en ligne
+  complète : catalogue, choix de mouture, panier persistant et tunnel de commande
+  jusqu'au paiement. **Marque fictive ; le paiement fonctionne en mode test
+  Stripe, aucune somme réelle n'est encaissée et rien n'est expédié.**
+- [Champagne Maison d'Exception](https://raphproudhon.fr/site-champagne/etude-de-cas.html)
+  — site vitrine de cinq pages pour un domaine champenois. Décliné en charte
+  graphique, UI kit et prototype d'application.
+- [Racines](https://raphproudhon.fr/racines/etude-de-cas.html) — création complète
+  d'une marque : logo SVG, charte, site de conversion, prototype mobile.
+  **Marque fictive, créée pour la démonstration.**
+- [Laine & Lin](https://raphproudhon.fr/laine-et-lin/etude-de-cas.html) — boutique
+  sans aucune photographie : tout est dessiné en CSS et SVG.
+  **Marque fictive, créée pour la démonstration.**
+
+Les pages de ces deux dernières marques contiennent des produits, prix et
+formulaires fictifs, sans valeur commerciale : aucune commande n'y est possible
+et leurs formulaires n'envoient rien.
+
+## Données et confidentialité
+
+- Aucune mesure d'audience, aucun traceur publicitaire, aucun cookie de suivi
+- Les typographies sont hébergées par le site : aucune requête vers Google
+- Un seul cookie sur le domaine : `ageVerified` (un an), sur la démonstration
+  Champagne, après confirmation de majorité par le visiteur
+- L'espace client stocke un jeton de session dans le navigateur ; les données de
+  projet sont hébergées dans l'Union européenne (Supabase, région de Paris)

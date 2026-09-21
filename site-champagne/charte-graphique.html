@@ -161,15 +161,38 @@
   }
   .footer-note a{color:var(--gold); text-decoration:none;}
 </style>
+<style>
+  /* ============ ACCESSIBILITÉ ============ */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:1000;
+    background:#16150f; color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font:600 14px/1.2 system-ui, sans-serif; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+  /* currentColor : l'anneau s'adapte au fond de chaque page */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid currentColor; outline-offset:3px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+  }
+</style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <!-- ============ COUVERTURE ============ -->
 <header class="cover">
   <div class="mark">CHAMPAGNE<span>MAISON D'EXCEPTION</span></div>
   <p class="doc">Charte graphique · v1 · juillet 2026</p>
 </header>
-
+<main id="contenu">
 <div class="wrap">
 
   <!-- ============ LOGO ============ -->
@@ -365,6 +388,7 @@
   </section>
 
 </div>
+</main>
 
 <footer class="footer-note">
   Charte graphique — document de démonstration réalisé dans le cadre d'un projet de portfolio.<br>

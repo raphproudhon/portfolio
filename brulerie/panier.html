@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votre panier — Brûlerie du Cher</title>
+<meta name="description" content="Panier de la boutique de démonstration Brûlerie du Cher.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="stylesheet" href="../assets/fonts/fraunces-work-sans.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu" class="wrap">
+  <header class="hero" style="padding-bottom:18px">
+    <h1>Votre panier</h1>
+  </header>
+  <div id="panier"></div>
+</main>
+
+<script type="module">
+import { lirePanier, changerQte, fiche, euros, total } from './assets/boutique.js';
+import { poserGabarit } from './assets/gabarit.js';
+import { FONCTION_PAIEMENT, SUPABASE_ANON_KEY } from './config.js';
+
+poserGabarit();
+const cible = document.getElementById('panier');
+
+function rendre() {
+  const lignes = lirePanier();
+
+  if (!lignes.length) {
+    cible.innerHTML = `<p class="vide">Votre panier est vide.<br><br>
+      <a class="bouton pale" href="./">Voir les cafés</a></p>`;
+    return;
+  }
+
+  cible.innerHTML = `
+    <div class="lignes">
+      ${lignes.map((l, i) => {
+        const p = fiche(l.ref);
+        return `<div class="ligne">
+          <div class="vignette" style="background:${p.fond}"></div>
+          <div>
+            <h3>${p.nom}</h3>
+            <div class="sous">${l.mouture} · ${p.poids} · ${euros(p.prix)} l'unité</div>
+          </div>
+          <div class="qte">
+            <button type="button" data-i="${i}" data-d="-1" aria-label="Retirer un ${p.nom}">−</button>
+            <span>${l.qte}</span>
+            <button type="button" data-i="${i}" data-d="1" aria-label="Ajouter un ${p.nom}">+</button>
+          </div>
+          <strong>${euros(p.prix * l.qte)}</strong>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="recap">
+      <div>
+        <div class="poids">Total, livraison offerte dès 35 €</div>
+        <div class="somme">${euros(total())}</div>
+      </div>
+      <button class="bouton" id="payer">Payer en mode test</button>
+    </div>
+    <p class="retour-ligne" id="retour" role="status"></p>`;
+
+  cible.querySelectorAll('.qte button').forEach(b => {
+    b.addEventListener('click', () => {
+      const i = +b.dataset.i;
+      changerQte(i, lirePanier()[i].qte + (+b.dataset.d));
+      rendre();
+    });
+  });
+
+  document.getElementById('payer').addEventListener('click', payer);
+}
+
+async function payer() {
+  const bouton = document.getElementById('payer');
+  const retour = document.getElementById('retour');
+
+  if (!FONCTION_PAIEMENT) {
+    retour.innerHTML = `Paiement non branché sur cette copie : renseignez
+      <code>FONCTION_PAIEMENT</code> dans <code>config.js</code> (voir
+      <code>SETUP.md</code>). Le panier, lui, fonctionne.`;
+    return;
+  }
+
+  bouton.disabled = true;
+  bouton.textContent = 'Redirection…';
+  retour.textContent = '';
+
+  try {
+    // On n'envoie que des références et des quantités : les prix sont décidés
+    // côté serveur, jamais par le navigateur.
+    const r = await fetch(FONCTION_PAIEMENT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json',
+                 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+      body: JSON.stringify({
+        lignes: lirePanier().map(l => ({ ref: l.ref, qte: l.qte, mouture: l.mouture })),
+        retour: location.origin + location.pathname.replace('panier.html', ''),
+      }),
+    });
+    const data = await r.json();
+    if (!r.ok || !data.url) throw new Error(data.erreur || 'réponse inattendue');
+    location.href = data.url;               // page de paiement hébergée par Stripe
+  } catch (e) {
+    bouton.disabled = false;
+    bouton.textContent = 'Payer en mode test';
+    retour.textContent = `Le paiement n'a pas pu démarrer : ${e.message}`;
+  }
+}
+
+rendre();
+</script>
+</body>
+</html>

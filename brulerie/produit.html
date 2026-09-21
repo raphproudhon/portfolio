@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche produit — Brûlerie du Cher</title>
+<meta name="description" content="Fiche produit de la boutique de démonstration Brûlerie du Cher.">
+<link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+<link rel="stylesheet" href="../assets/fonts/fraunces-work-sans.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<main id="contenu" class="wrap">
+  <div class="fiche" id="fiche"></div>
+</main>
+
+<script type="module">
+import { fiche, euros, MOUTURES, ajouter } from './assets/boutique.js';
+import { poserGabarit } from './assets/gabarit.js';
+
+poserGabarit();
+
+const ref = new URLSearchParams(location.search).get('ref');
+const p = fiche(ref);
+const cible = document.getElementById('fiche');
+
+if (!p) {
+  cible.innerHTML = `<p class="vide">Cette référence n'existe pas.
+    <a href="./">Revenir à la boutique</a></p>`;
+} else {
+  document.title = `${p.nom} — Brûlerie du Cher`;
+  cible.innerHTML = `
+    <div class="visuel" style="background:${p.fond}"><span>${p.nom}</span></div>
+    <div>
+      <h1>${p.nom}</h1>
+      <div class="prix-gros">${euros(p.prix)}</div>
+      <span class="poids">${p.poids} · torréfaction ${p.torre.toLowerCase()}</span>
+      <dl>
+        <dt>Notes</dt><dd>${p.notes}</dd>
+        <dt>Référence</dt><dd>${p.ref}</dd>
+        <dt>Expédition</dt><dd>sous 48 h</dd>
+      </dl>
+      <div class="champ">
+        <label for="mouture">Mouture</label>
+        <select id="mouture">${MOUTURES.map(m => `<option>${m}</option>`).join('')}</select>
+      </div>
+      <div class="champ">
+        <label for="qte">Quantité</label>
+        <input type="number" id="qte" value="1" min="1" max="12">
+      </div>
+      <button class="bouton" id="ajouter">Ajouter au panier</button>
+      <p class="retour-ligne" id="retour" role="status"></p>
+    </div>`;
+
+  document.getElementById('ajouter').addEventListener('click', () => {
+    const qte = Math.max(1, Math.min(12, parseInt(document.getElementById('qte').value, 10) || 1));
+    ajouter(p.ref, document.getElementById('mouture').value, qte);
+    document.getElementById('retour').textContent =
+      `Ajouté au panier — ${qte} × ${p.nom}.`;
+  });
+}
+</script>
+</body>
+</html>
