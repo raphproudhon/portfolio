@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
     session_id: session.id,
     courriel: session.customer_details?.email ?? null,
     nom: session.customer_details?.name ?? null,
-    montant_total: session.amount_total,
+    montant_centimes: session.amount_total,   // Stripe donne des centimes, on les garde tels quels
     devise: session.currency,
     lignes: await lignesDeLaSession(session.id, cleStripe),
     mode_test: evenement.livemode === false,
