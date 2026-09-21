@@ -12,19 +12,94 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Raphaël Proudhon",
-  "alternateName": "Raph Proudhon",
-  "jobTitle": "Développeur web & designer UI/UX indépendant",
-  "description": "Conception et développement de sites web sur-mesure, identités visuelles et prototypes d'application pour artisans, commerces et domaines viticoles.",
-  "url": "https://raphproudhon.fr/",
-  "image": "https://raphproudhon.fr/assets/og/portfolio.jpg",
-  "email": "mailto:contact@raphproudhon.fr",
-  "address": { "@type": "PostalAddress", "addressLocality": "Tours", "addressCountry": "FR" },
-  "knowsAbout": ["Développement web", "UI/UX design", "Identité visuelle", "Viticulture"],
-  "sameAs": [
-    "https://github.com/raphproudhon",
-    "https://www.malt.fr/profile/raphaelproudhon1"
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://raphproudhon.fr/#personne",
+      "name": "Raphaël Proudhon",
+      "alternateName": "Raph Proudhon",
+      "jobTitle": "Développeur web & designer UI/UX indépendant",
+      "description": "Conception et développement de sites web sur-mesure, identités visuelles et prototypes d'application pour artisans, commerces et domaines viticoles.",
+      "url": "https://raphproudhon.fr/",
+      "image": "https://raphproudhon.fr/assets/og/portfolio.jpg",
+      "email": "mailto:contact@raphproudhon.fr",
+      "address": { "@type": "PostalAddress", "addressLocality": "Loches", "postalCode": "37600", "addressRegion": "Indre-et-Loire", "addressCountry": "FR" },
+      "knowsLanguage": "fr",
+      "knowsAbout": ["Développement web", "UI/UX design", "Identité visuelle", "Accessibilité web", "Viticulture"],
+      "sameAs": ["https://github.com/raphproudhon", "https://www.malt.fr/profile/raphaelproudhon1"]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://raphproudhon.fr/#activite",
+      "name": "Raphaël Proudhon — développeur & designer indépendant",
+      "founder": { "@id": "https://raphproudhon.fr/#personne" },
+      "url": "https://raphproudhon.fr/",
+      "email": "mailto:contact@raphproudhon.fr",
+      "priceRange": "Sur devis",
+      "areaServed": [
+        { "@type": "AdministrativeArea", "name": "Indre-et-Loire" },
+        { "@type": "Country", "name": "France" }
+      ],
+      "audience": { "@type": "BusinessAudience", "audienceType": "Artisans, commerces, domaines viticoles, PME et associations" },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Prestations",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Développement front-end", "description": "Sites et interfaces écrits à la main en HTML, CSS et JavaScript, sans page builder." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Développement back-end", "description": "Authentification, base de données et espaces clients." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design UI/UX & identité visuelle", "description": "Logo, charte graphique, maquettes et prototypes cliquables." } }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://raphproudhon.fr/#site",
+      "url": "https://raphproudhon.fr/",
+      "name": "raphproudhon.fr",
+      "inLanguage": "fr-FR",
+      "publisher": { "@id": "https://raphproudhon.fr/#personne" }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Projets présentés",
+      "itemListElement": [
+        {
+          "@type": "ListItem", "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Champagne Maison d'Exception",
+            "description": "Site vitrine de cinq pages pour un domaine champenois : identité, vérification d'âge, performance et accessibilité.",
+            "url": "https://raphproudhon.fr/site-champagne/etude-de-cas.html",
+            "creator": { "@id": "https://raphproudhon.fr/#personne" },
+            "keywords": "site vitrine, HTML, CSS, JavaScript, viticulture"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Racines — abonnement plantes",
+            "description": "Marque fictive créée de A à Z : logo SVG, charte graphique, site de conversion et prototype d'application mobile.",
+            "url": "https://raphproudhon.fr/racines/etude-de-cas.html",
+            "creator": { "@id": "https://raphproudhon.fr/#personne" },
+            "abstract": "Projet de démonstration : la marque Racines n'existe pas.",
+            "keywords": "identité visuelle, branding, prototype d'application"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Laine & Lin — vêtements en fibres naturelles",
+            "description": "Boutique fictive sans aucune photographie : textures et illustrations entièrement dessinées en CSS et SVG.",
+            "url": "https://raphproudhon.fr/laine-et-lin/etude-de-cas.html",
+            "creator": { "@id": "https://raphproudhon.fr/#personne" },
+            "abstract": "Projet de démonstration : la marque Laine & Lin n'existe pas.",
+            "keywords": "one-page, CSS, SVG, design sans photo"
+          }
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -266,9 +341,36 @@
   .f-bottom .legal{display:flex; gap:20px; flex-wrap:wrap;}
   .f-bottom a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
   .f-bottom a:hover{color:var(--ink);}
+
+  /* ============ ACCESSIBILITÉ ============ */
+  /* lien d'évitement : invisible jusqu'au premier Tab */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:100;
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* anneau de focus visible au clavier, sans gêner la souris */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;
+  }
+
+  /* respecte le réglage système « réduire les animations » */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+    .project:hover .cover img{transform:none;}
+  }
 </style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <!-- ============ NAV ============ -->
 <nav class="top">
@@ -290,6 +392,8 @@
     </div>
   </div>
 </nav>
+
+<main id="contenu">
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -490,6 +594,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <div class="wrap">

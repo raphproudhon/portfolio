@@ -167,9 +167,36 @@
 
   footer{padding:0 0 50px; text-align:center; font-size:12.5px; color:var(--muted);}
   footer a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+
+  /* ============ ACCESSIBILITÉ ============ */
+  /* lien d'évitement : invisible jusqu'au premier Tab */
+  .skip{
+    position:absolute; left:16px; top:-60px; z-index:100;
+    background:var(--ink); color:#fff; padding:11px 18px; border-radius:0 0 10px 10px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:top .15s ease;
+  }
+  .skip:focus{top:0;}
+
+  /* anneau de focus visible au clavier, sans gêner la souris */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;
+  }
+
+  /* respecte le réglage système « réduire les animations » */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:.01ms !important; animation-iteration-count:1 !important;
+      transition-duration:.01ms !important; scroll-behavior:auto !important;
+    }
+    .project:hover .cover img{transform:none;}
+  }
 </style>
 </head>
 <body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
 
 <!-- ============ NAV ============ -->
 <nav class="top">
@@ -191,6 +218,8 @@
     </div>
   </div>
 </nav>
+
+<main id="contenu">
 
 <!-- ============ EN-TÊTE ============ -->
 <header class="head">
@@ -407,6 +436,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   © 2026 Raphaël Proudhon — Développeur &amp; Designer UI/UX freelance ·
