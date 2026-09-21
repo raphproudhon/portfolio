@@ -259,6 +259,28 @@ payer({
         Côté base, la table n'est lisible par personne : aucune règle d'accès n'est
         ouverte aux visiteurs, et seule la clé de service — côté serveur — peut y écrire.
       </p>
+
+      <h3>Puis le courriel de confirmation</h3>
+      <p>
+        Une fois la commande écrite, la même fonction envoie au client le récapitulatif
+        de sa commande. Écrire depuis le serveur de paiement plutôt que depuis le
+        navigateur a la même justification que ci-dessus : un client qui ferme
+        l'onglet reçoit quand même son courriel.
+      </p>
+      <p>
+        Reste un piège propre à l'envoi : <strong>Stripe réessaie les messages restés
+        sans réponse</strong>. Une confirmation en double est presque aussi gênante
+        qu'une confirmation absente. L'heure de l'envoi est donc conservée à côté de
+        la commande — le courriel n'est retenté que s'il n'est jamais parti. Et si le
+        service d'envoi refuse le message, la fonction répond en erreur <em>après</em>
+        avoir enregistré la commande : Stripe rappelle, la commande n'est pas
+        dupliquée, le courriel finit par partir.
+      </p>
+      <p>
+        Le message dit en clair qu'il s'agit d'une démonstration, que rien ne sera
+        expédié et qu'aucune somme n'a été débitée. Écrire à quelqu'un au nom d'une
+        marque fictive sans le préciser ne serait pas acceptable.
+      </p>
     </section>
 
     <section class="bloc">
@@ -279,7 +301,7 @@ payer({
       </p>
       <ul>
         <li><b>Pas de stock</b>, pas de frais de port calculés, pas de TVA paramétrée.</li>
-        <li><b>Pas de courriel de confirmation</b> ni de suivi d'expédition — ce sont des branchements, pas des difficultés.</li>
+        <li><b>Pas de suivi d'expédition</b> après la confirmation, ni de retour marchandise — ce sont des branchements, pas des difficultés.</li>
         <li><b>Le panier vit dans le navigateur</b> : effacer ses données de navigation le vide.</li>
       </ul>
       <p>

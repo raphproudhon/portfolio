@@ -15,6 +15,7 @@ affiche alors un message expliquant qu'il n'est pas branché.
 |---|---|---|
 | Catalogue, panier | navigateur | `assets/boutique.js`, panier dans `localStorage` |
 | Prix, session de paiement | fonction Edge Supabase | `fonction-supabase/index.ts` |
+| Enregistrement, confirmation | fonction Edge Supabase | `fonction-supabase/webhook.ts` |
 | Page de paiement | Stripe | formulaire hébergé par Stripe, en mode test |
 
 **Pourquoi une fonction serveur ?** Parce que les prix ne doivent jamais venir
@@ -136,10 +137,58 @@ encaissé.
 
 ---
 
+## Étape 6 — Le courriel de confirmation (facultatif)
+
+Sans cette étape, tout continue de fonctionner : la commande est enregistrée,
+simplement personne n'écrit au client. Le webhook constate l'absence de clé
+d'envoi et passe son chemin.
+
+L'envoi passe par [Resend](https://resend.com) : une adresse HTTP, pas de
+serveur de courrier à tenir. Le webhook y confie le message juste après avoir
+écrit la commande.
+
+1. **La colonne.** SQL Editor → coller `sql/migration-courriel.sql` → Run.
+   (Sur une base créée après ce changement, `commandes.sql` la contient déjà.)
+
+2. **Le compte.** Créer un compte Resend, puis API Keys → *Create API key* →
+   copier la clé, qui commence par `re_`.
+
+3. **Le secret.** Project Settings → Edge Functions → Secrets → ajouter
+   `RESEND_API_KEY`.
+
+4. **L'expéditeur.** Sans réglage, les messages partent de
+   `onboarding@resend.dev`, le domaine d'essai de Resend — qui ne délivre
+   **qu'à l'adresse du titulaire du compte**. C'est suffisant pour voir le
+   courriel arriver. Pour écrire à n'importe qui, il faut vérifier un domaine
+   dans Resend (Domains → *Add domain*, puis les trois enregistrements DNS
+   qu'il indique) et ajouter le secret `COURRIEL_EXPEDITEUR`, par exemple
+   `Brûlerie du Cher <boutique@raphproudhon.fr>`.
+
+5. **Redéployer** `webhook-brulerie`, puis refaire un paiement de test. Le
+   courriel arrive, et la colonne `courriel_envoye_le` de la commande porte
+   l'heure de l'envoi.
+
+> La page `merci.html` annonce au client que sa confirmation est partie : si
+> cette étape est laissée de côté, cette phrase promet un courriel que personne
+> n'envoie. À retirer, dans ce cas.
+
+**Pourquoi horodater l'envoi ?** Parce que Stripe réessaie un webhook qui a
+échoué. Sans cette colonne, une seconde tentative renverrait la même
+confirmation ; avec elle, le courriel n'est retenté que s'il n'était jamais
+parti. Et si Resend refuse l'envoi, la fonction répond en erreur **après**
+avoir enregistré la commande : Stripe réessaie, la commande n'est pas
+dupliquée, le courriel finit par partir.
+
+Le message annonce en clair qu'il s'agit d'une démonstration, que rien ne sera
+expédié et qu'aucune somme n'a été débitée — écrire à quelqu'un au nom d'une
+marque fictive sans le dire serait malhonnête.
+
+---
+
 ## Limites assumées
 
 - **Pas de stock.** Les six références sont toujours disponibles.
-- **Pas de courriel de confirmation** envoyé au client, ni de suivi d'expédition.
+- **Pas de suivi d'expédition** : le client reçoit sa confirmation, rien après.
 - **Pas de frais de port calculés**, pas de TVA paramétrée, pas de compte client.
 - Le panier vit dans le navigateur : vidé si le visiteur efface ses données.
 

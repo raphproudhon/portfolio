@@ -1,6 +1,7 @@
 // Fonction Edge Supabase — « webhook-brulerie »
 //
-// Rôle : enregistrer la commande quand Stripe confirme le paiement.
+// Rôle : enregistrer la commande quand Stripe confirme le paiement, puis
+// envoyer au client son courriel de confirmation.
 //
 // Pourquoi ne pas l'enregistrer depuis la page de remerciement ? Parce que
 // cette page dépend du visiteur : il peut fermer l'onglet avant d'y arriver,
@@ -12,13 +13,19 @@
 //   2. refuser les messages trop anciens — pour qu'un message intercepté ne
 //      puisse pas être rejoué plus tard
 //   3. supporter d'être appelé deux fois — Stripe réessaie quand il n'obtient
-//      pas de réponse, et une commande ne doit pas être enregistrée en double
+//      pas de réponse, et une commande ne doit être enregistrée qu'une fois,
+//      son courriel n'être envoyé qu'une fois
 //
 // Déploiement : voir SETUP.md, à côté de ce fichier.
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const TOLERANCE_SECONDES = 300;   // 5 minutes, la valeur conseillée par Stripe
+
+// Expéditeur par défaut : le domaine d'essai de Resend, qui ne délivre qu'à
+// l'adresse du titulaire du compte. Pour écrire à de vrais clients, il faut
+// un domaine vérifié et le secret COURRIEL_EXPEDITEUR (voir SETUP.md).
+const EXPEDITEUR_DEFAUT = 'Brûlerie du Cher <onboarding@resend.dev>';
 
 /** Compare deux chaînes en temps constant : la durée ne révèle pas où elles diffèrent. */
 function memeSignature(a: string, b: string): boolean {
@@ -73,6 +80,148 @@ async function lignesDeLaSession(sessionId: string, cleStripe: string) {
   }));
 }
 
+// ---------------------------------------------------------------------------
+// Le courriel de confirmation
+// ---------------------------------------------------------------------------
+
+type Ligne = { intitule?: string; quantite?: number; montant?: number };
+type Commande = {
+  session_id: string;
+  courriel: string | null;
+  nom: string | null;
+  montant_centimes: number;
+  devise: string;
+  lignes: Ligne[];
+};
+
+/** 8700 → « 87,00 € » — la virgule, puisque le courriel est en français. */
+function argent(centimes: number, devise: string): string {
+  const somme = (centimes / 100).toFixed(2).replace('.', ',');
+  return devise?.toLowerCase() === 'eur' ? `${somme} €` : `${somme} ${devise.toUpperCase()}`;
+}
+
+/** Le nom du client vient de Stripe, donc d'un formulaire : il ne va pas brut dans du HTML. */
+function echapper(texte: string): string {
+  return texte.replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!
+  ));
+}
+
+function versionTexte(c: Commande): string {
+  const lignes = c.lignes.map((l) =>
+    `  ${l.quantite ?? 1} × ${l.intitule ?? 'Article'} — ${argent(l.montant ?? 0, c.devise)}`
+  );
+  return [
+    `Bonjour${c.nom ? ' ' + c.nom : ''},`,
+    '',
+    'Votre commande est enregistrée. Merci !',
+    '',
+    'DÉMONSTRATION — la Brûlerie du Cher est une marque fictive. Le paiement',
+    "s'est fait en mode test Stripe : aucune somme n'a été débitée, et rien ne",
+    'sera expédié. Ce courriel montre seulement ce que recevrait un vrai client.',
+    '',
+    'Votre commande',
+    ...lignes,
+    '',
+    `Total : ${argent(c.montant_centimes, c.devise)}`,
+    `Référence : ${c.session_id}`,
+    '',
+    'Cette boutique fait partie du portfolio de Raphaël Proudhon.',
+    'https://raphproudhon.fr/brulerie/',
+  ].join('\n');
+}
+
+function versionHtml(c: Commande): string {
+  const lignes = c.lignes.map((l) => `
+      <tr>
+        <td style="padding:10px 0;border-bottom:1px solid #eee5dc">
+          ${echapper(String(l.quantite ?? 1))} × ${echapper(String(l.intitule ?? 'Article'))}
+        </td>
+        <td style="padding:10px 0;border-bottom:1px solid #eee5dc;text-align:right;white-space:nowrap">
+          ${argent(l.montant ?? 0, c.devise)}
+        </td>
+      </tr>`).join('');
+
+  return `<!DOCTYPE html>
+<html lang="fr"><body style="margin:0;background:#faf7f4;font-family:Georgia,'Times New Roman',serif;color:#2b1d16">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf7f4;padding:32px 16px">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border:1px solid #eee5dc;border-radius:10px">
+        <tr><td style="padding:28px 28px 0">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#a9613a">Brûlerie du Cher</div>
+          <h1 style="margin:10px 0 0;font-size:24px;font-weight:600">Votre commande est enregistrée</h1>
+          <p style="margin:14px 0 0;font-size:15px;line-height:1.6;color:#2b1d16">
+            Bonjour${c.nom ? ' ' + echapper(c.nom) : ''}, merci pour votre commande.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:20px 28px 0">
+          <div style="background:#fdf4e7;border:1px solid #f0d9b8;border-radius:8px;padding:14px 16px;font-size:14px;line-height:1.6">
+            <strong>Démonstration.</strong> La Brûlerie du Cher est une marque fictive.
+            Le paiement s'est fait en <strong>mode test Stripe</strong> : aucune somme
+            n'a été débitée et rien ne sera expédié. Ce message montre simplement ce
+            que recevrait un client réel.
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:22px 28px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:15px">
+            ${lignes}
+            <tr>
+              <td style="padding:14px 0 0;font-weight:700">Total</td>
+              <td style="padding:14px 0 0;text-align:right;font-weight:700;white-space:nowrap">${argent(c.montant_centimes, c.devise)}</td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <tr><td style="padding:22px 28px 28px">
+          <p style="margin:0;font-size:13px;line-height:1.6;color:#6b5a4e">
+            Référence de la commande : ${echapper(c.session_id)}<br>
+            Cette boutique fait partie du portfolio de Raphaël Proudhon —
+            <a href="https://raphproudhon.fr/brulerie/" style="color:#a9613a">raphproudhon.fr</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
+/**
+ * Envoie la confirmation via Resend.
+ * « ignoré » quand l'envoi n'est pas configuré ou qu'aucune adresse n'est connue :
+ * la commande reste enregistrée, le webhook n'a pas à échouer pour autant.
+ */
+async function envoyerConfirmation(c: Commande): Promise<'envoyé' | 'ignoré' | 'échec'> {
+  const cle = Deno.env.get('RESEND_API_KEY');
+  if (!cle) return 'ignoré';
+  if (!c.courriel) return 'ignoré';
+
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${cle}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: Deno.env.get('COURRIEL_EXPEDITEUR') ?? EXPEDITEUR_DEFAUT,
+        to: [c.courriel],
+        subject: `Commande confirmée — ${argent(c.montant_centimes, c.devise)} (démonstration)`,
+        text: versionTexte(c),       // pour les lecteurs qui n'affichent pas le HTML
+        html: versionHtml(c),
+      }),
+    });
+    if (!r.ok) {
+      console.error("Resend a refusé l'envoi", r.status, await r.text());
+      return 'échec';
+    }
+    return 'envoyé';
+  } catch (e) {
+    console.error('envoi impossible', e);
+    return 'échec';
+  }
+}
+
+// ---------------------------------------------------------------------------
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return new Response('méthode non autorisée', { status: 405 });
 
@@ -108,20 +257,56 @@ Deno.serve(async (req) => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,   // contourne le RLS : c'est le serveur qui écrit
   );
 
-  const { error } = await sb.from('commandes_brulerie').upsert({
+  const commande: Commande = {
     session_id: session.id,
     courriel: session.customer_details?.email ?? null,
     nom: session.customer_details?.name ?? null,
     montant_centimes: session.amount_total,   // Stripe donne des centimes, on les garde tels quels
     devise: session.currency,
     lignes: await lignesDeLaSession(session.id, cleStripe),
-    mode_test: evenement.livemode === false,
-  }, { onConflict: 'session_id', ignoreDuplicates: true });
+  };
+
+  const { data: ecrites, error } = await sb
+    .from('commandes_brulerie')
+    .upsert({ ...commande, mode_test: evenement.livemode === false },
+            { onConflict: 'session_id', ignoreDuplicates: true })
+    .select('id');
 
   if (error) {
     console.error('écriture impossible', error);
     // 500 : Stripe réessaiera, et l'upsert évitera le doublon
     return new Response('enregistrement impossible', { status: 500 });
+  }
+
+  // Rien n'a été inséré : la commande était déjà là, donc Stripe réessaie. Le
+  // courriel n'est renvoyé que s'il n'était jamais parti — une confirmation en
+  // double est presque aussi gênante qu'une confirmation absente.
+  if (!ecrites?.length) {
+    const { data: deja } = await sb
+      .from('commandes_brulerie')
+      .select('courriel_envoye_le')
+      .eq('session_id', session.id)
+      .maybeSingle();
+    if (!deja || deja.courriel_envoye_le) {
+      return new Response('commande déjà traitée', { status: 200 });
+    }
+  }
+
+  const envoi = await envoyerConfirmation(commande);
+
+  if (envoi === 'envoyé') {
+    const { error: e } = await sb
+      .from('commandes_brulerie')
+      .update({ courriel_envoye_le: new Date().toISOString() })
+      .eq('session_id', session.id);
+    if (e) console.error('horodatage du courriel impossible', e);
+  }
+
+  if (envoi === 'échec') {
+    // La commande est enregistrée, elle ne sera pas perdue. On répond tout de
+    // même en erreur pour que Stripe réessaie : au prochain appel, la ligne
+    // existe sans horodatage, et l'envoi est retenté.
+    return new Response('commande enregistrée, courriel en échec', { status: 500 });
   }
 
   return new Response('commande enregistrée', { status: 200 });
