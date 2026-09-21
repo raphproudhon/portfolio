@@ -486,6 +486,29 @@ const ETAPES = [
   ['Livraison',      'Mise en ligne et prise en main.'],
 ];
 
+/* Traduit l'échec d'envoi du lien en une phrase utile.
+   Trois pannes se cachaient derrière le même message :
+   l'adresse n'est pas encore autorisée (les inscriptions libres sont fermées,
+   c'est voulu), trop de demandes coup sur coup, ou l'envoi lui-même qui casse
+   — typiquement la clé SMTP expirée. Seule la deuxième se règle en attendant. */
+function messageDeConnexion(error){
+  const code  = (error.code || '').toLowerCase();
+  const texte = (error.message || '').toLowerCase();
+
+  if (error.status === 429 || /rate limit|too many/.test(texte)) {
+    return 'Trop de demandes en peu de temps. Attendez quelques minutes, puis réessayez.';
+  }
+  if (code === 'otp_disabled' || /signups not allowed|not authorized/.test(texte)) {
+    return "Cette adresse n'est pas encore ouverte : l'accès est créé par mes soins au démarrage du projet. "
+         + 'Vérifiez la saisie, ou écrivez-moi et je vous ouvre l\'accès.';
+  }
+  if (error.status >= 500 || /error sending|smtp/.test(texte)) {
+    return "L'envoi du courriel est momentanément en panne de mon côté — ce n'est pas votre adresse. "
+         + 'Réessayez plus tard, ou écrivez-moi directement.';
+  }
+  return "Impossible d'envoyer le lien. Vérifiez l'adresse, ou écrivez-moi directement.";
+}
+
 function showMsg(texte, type){
   const m = $('msg');
   m.textContent = texte;
@@ -505,7 +528,10 @@ $('form-login').addEventListener('submit', async (e) => {
   btn.disabled = false;
   btn.textContent = 'Recevoir mon lien de connexion';
   if (error) {
-    showMsg("Impossible d'envoyer le lien. Vérifiez l'adresse, ou écrivez-moi directement.", 'err');
+    // Un seul message pour trois pannes très différentes obligeait à deviner.
+    // Le détail technique va dans la console, le visiteur lit ce qui le concerne.
+    console.error('signInWithOtp', error.status, error.code, error.message);
+    showMsg(messageDeConnexion(error), 'err');
     return;
   }
   showMsg('Lien envoyé ! Ouvrez votre boîte mail et cliquez dessus pour accéder à votre espace.', 'ok');
@@ -1033,7 +1059,11 @@ function poserListenersAdmin(){
       }
       btn.disabled = false;
       if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
-      if (!cible.textContent.startsWith('Projet créé —')) retour(cible, 'Projet créé.', 'ok');
+      // Créer la ligne n'ouvre pas l'accès : les inscriptions libres sont fermées,
+      // le client doit exister dans Authentication → Users pour recevoir un lien.
+      const rappel = 'Projet créé. Reste à ouvrir l\'accès : Supabase → Authentication → Users → '
+                   + 'Add user → Send invitation, avec ' + projet.client_email + '.';
+      if (!cible.textContent.startsWith('Projet créé —')) retour(cible, rappel, 'ok');
       reinitialiserNouveauProjet();
       $('form-projet-bloc').style.display = 'none';
       $('btn-nouveau').textContent = '+ Nouveau projet';

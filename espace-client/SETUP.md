@@ -210,7 +210,19 @@ Quand tu signes un projet :
 
 ## Dépannage — « mon client ne reçoit pas le lien »
 
-À vérifier dans cet ordre :
+Depuis la page, la nature de la panne se lit dans le message affiché — et le
+détail technique (statut, code) dans la console du navigateur. Trois familles :
+
+**« Cette adresse n'est pas encore ouverte »** — l'adresse n'existe pas dans
+**Authentication → Users**. C'est la cause la plus fréquente, et elle n'a rien
+d'un bug : les inscriptions libres sont fermées (étape 4), donc créer la ligne
+dans `projets` ne suffit pas. Il faut **Add user → Send invitation** avec la
+même adresse (étape 6, point 2). Supabase répond alors `otp_disabled`.
+
+**« Trop de demandes »** — limite d'envoi atteinte, elle se lève seule.
+
+**« L'envoi est momentanément en panne »** — l'adresse est bien connue, c'est
+le courrier qui ne part pas. À vérifier dans cet ordre :
 
 1. **La clé SMTP Brevo a expiré ?** Elle meurt après **90 jours consécutifs sans aucun envoi**. En période creuse, c'est le suspect n°1 → régénérer la clé dans Brevo et la recoller dans Supabase.
 2. **Le projet Supabase est en pause ?** Le plan gratuit met le projet en pause après **7 jours sans activité**. Le réveiller depuis le tableau de bord Supabase (voir la parade ci-dessous).
