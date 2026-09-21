@@ -37,23 +37,34 @@ n'importe qui paierait 1 € un sac à 19 €.
 
 ## Étape 2 — Déployer la fonction
 
-Dans le projet Supabase (le même que l'espace client) :
+Deux chemins, au choix. **Le tableau de bord suffit** et évite d'installer
+quoi que ce soit — c'est le chemin conseillé sous Windows.
+
+### Depuis le tableau de bord Supabase
+
+1. Projet → **Edge Functions** → *Deploy a new function* → *Via editor*
+2. Nom : `paiement-brulerie`
+3. Coller le contenu de `fonction-supabase/index.ts`, puis déployer
+4. Project Settings → **Edge Functions** → *Secrets* → ajouter
+   `STRIPE_SECRET_KEY` avec la clé `sk_test_…`
+
+Laisser la vérification du jeton **activée** : la boutique envoie la clé
+`anon`, qui est un jeton valide. Inutile de rendre la fonction totalement
+ouverte.
+
+### Ou en ligne de commande
 
 ```
 supabase functions new paiement-brulerie
 # remplacer le contenu par fonction-supabase/index.ts
 supabase secrets set STRIPE_SECRET_KEY=sk_test_xxx
-supabase functions deploy paiement-brulerie --no-verify-jwt
+supabase functions deploy paiement-brulerie
 ```
 
-`--no-verify-jwt` parce qu'un visiteur de la boutique n'est pas connecté.
+## Étape 3 — Vérifier `config.js`
 
-## Étape 3 — Renseigner `config.js`
-
-```js
-export const FONCTION_PAIEMENT = 'https://<projet>.supabase.co/functions/v1/paiement-brulerie';
-export const SUPABASE_ANON_KEY = 'eyJ...';   // clé anon, publique par conception
-```
+Déjà rempli avec le projet Supabase existant. À ne changer que si la
+fonction porte un autre nom ou vit dans un autre projet.
 
 ## Étape 4 — Essayer
 
