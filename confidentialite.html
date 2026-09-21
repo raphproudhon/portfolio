@@ -59,20 +59,45 @@
   nav.top ul{display:flex; gap:28px; list-style:none;}
   nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
   nav.top ul a:hover{color:var(--ink);}
-  nav.top ul a.nav-cta{
-    color:var(--ink); border:1px solid var(--line); background:var(--surface);
+  nav.top a.nav-cta{
+    color:var(--ink); text-decoration:none; font-size:13px; font-weight:500;
+    border:1px solid var(--line); background:var(--surface);
     padding:7px 14px; border-radius:999px; white-space:nowrap;
     transition:color .2s, border-color .2s, background .2s;
   }
-  nav.top ul a.nav-cta:hover{color:var(--accent); border-color:var(--accent);}
+  nav.top a.nav-cta:hover{color:var(--accent); border-color:var(--accent);}
+  .nav-right{display:flex; align-items:center; gap:28px;}
+  .burger{
+    display:none; width:38px; height:38px; padding:0; border-radius:10px;
+    border:1px solid var(--line); background:var(--surface); cursor:pointer;
+    align-items:center; justify-content:center; flex-direction:column; gap:4px;
+    transition:border-color .2s;
+  }
+  .burger:hover{border-color:var(--ink);}
+  .burger span{
+    display:block; width:17px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition:transform .25s ease, opacity .2s ease;
+  }
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
   @media (max-width:760px){
-    /* en petite largeur, seul le bouton « Espace client » reste dans la barre :
-       les sections de la page restent atteignables en faisant défiler */
-    nav.top ul{gap:14px;}
-    nav.top ul li:not(:last-child){display:none;}
-    nav.top ul a.nav-cta{padding:6px 12px; font-size:12.5px;}
+    .nav-right{gap:12px;}
+    .burger{display:flex;}
     .wordmark{font-size:15px;}
     .brand{gap:9px;}
+    nav.top a.nav-cta{padding:6px 12px; font-size:12.5px;}
+    /* le menu passe en panneau déroulant sous la barre */
+    nav.top ul{
+      display:none; position:absolute; top:64px; left:0; right:0;
+      flex-direction:column; gap:0; padding:6px 24px 16px;
+      background:var(--bg); border-bottom:1px solid var(--line);
+      box-shadow:0 14px 26px rgba(22,21,15,.07);
+    }
+    nav.top ul.open{display:flex;}
+    nav.top ul li + li{border-top:1px solid var(--line);}
+    nav.top ul a{display:block; padding:14px 2px; font-size:15px; color:var(--ink);}
   }
 
   /* ============ EN-TÊTE ============ */
@@ -161,12 +186,17 @@
       <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
       <span class="wordmark">raphproudhon<span>.</span>fr</span>
     </a>
-    <ul>
-      <li><a href="./#projets">Projets</a></li>
-      <li><a href="./#competences">Compétences</a></li>
-      <li><a href="./#contact">Contact</a></li>
-      <li><a class="nav-cta" href="espace-client/">Espace client</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul id="nav-menu">
+        <li><a href="./#projets">Projets</a></li>
+        <li><a href="./#competences">Compétences</a></li>
+        <li><a href="./#contact">Contact</a></li>
+      </ul>
+      <a class="nav-cta" href="espace-client/">Espace client</a>
+      <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -445,5 +475,40 @@
   <a href="conditions-utilisation.html">Conditions d'utilisation</a>
 </footer>
 
+<!-- menu mobile -->
+<script>
+(function(){
+  var nav = document.querySelector('nav.top');
+  var burger = document.querySelector('.burger');
+  var menu = document.getElementById('nav-menu');
+  if(!nav || !burger || !menu) return;
+
+  function setOpen(open){
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  }
+
+  burger.addEventListener('click', function(){
+    setOpen(burger.getAttribute('aria-expanded') !== 'true');
+  });
+
+  // un lien choisi referme le panneau
+  menu.addEventListener('click', function(e){
+    if(e.target.closest('a')) setOpen(false);
+  });
+
+  // clic en dehors, touche Échap, ou retour au format large
+  document.addEventListener('click', function(e){
+    if(!nav.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') setOpen(false);
+  });
+  window.matchMedia('(min-width:761px)').addEventListener('change', function(e){
+    if(e.matches) setOpen(false);
+  });
+})();
+</script>
 </body>
 </html>
