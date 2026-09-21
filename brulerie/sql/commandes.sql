@@ -16,6 +16,10 @@ create table if not exists commandes_brulerie (
   mode_test     boolean not null default true,
   created_at    timestamptz not null default now(),
 
+  -- rempli quand la confirmation est partie : Stripe réessaie les webhooks,
+  -- et un client ne doit pas recevoir deux fois le même courriel
+  courriel_envoye_le timestamptz,
+
   -- colonne calculée, pour lire le montant sans faire la division de tête.
   -- Elle dérive de l'entier : impossible qu'elle diverge.
   montant_euros numeric(10,2) generated always as (montant_centimes / 100.0) stored

@@ -1,4 +1,3 @@
 # harnais de test éphémères, créés pour piloter un navigateur en local
-_t*.html
-_audit.html
-_test-*.html
+# (un commentaire en fin de ligne ferait partie du motif : il reste au-dessus)
+_*.html

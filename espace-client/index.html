@@ -486,6 +486,29 @@ const ETAPES = [
   ['Livraison',      'Mise en ligne et prise en main.'],
 ];
 
+/* Traduit l'échec d'envoi du lien en une phrase utile.
+   Trois pannes se cachaient derrière le même message :
+   l'adresse n'est pas encore autorisée (les inscriptions libres sont fermées,
+   c'est voulu), trop de demandes coup sur coup, ou l'envoi lui-même qui casse
+   — typiquement la clé SMTP expirée. Seule la deuxième se règle en attendant. */
+function messageDeConnexion(error){
+  const code  = (error.code || '').toLowerCase();
+  const texte = (error.message || '').toLowerCase();
+
+  if (error.status === 429 || /rate limit|too many/.test(texte)) {
+    return 'Trop de demandes en peu de temps. Attendez quelques minutes, puis réessayez.';
+  }
+  if (code === 'otp_disabled' || /signups not allowed|not authorized/.test(texte)) {
+    return "Cette adresse n'est pas encore ouverte : l'accès est créé par mes soins au démarrage du projet. "
+         + 'Vérifiez la saisie, ou écrivez-moi et je vous ouvre l\'accès.';
+  }
+  if (error.status >= 500 || /error sending|smtp/.test(texte)) {
+    return "L'envoi du courriel est momentanément en panne de mon côté — ce n'est pas votre adresse. "
+         + 'Réessayez plus tard, ou écrivez-moi directement.';
+  }
+  return "Impossible d'envoyer le lien. Vérifiez l'adresse, ou écrivez-moi directement.";
+}
+
 function showMsg(texte, type){
   const m = $('msg');
   m.textContent = texte;
@@ -505,7 +528,10 @@ $('form-login').addEventListener('submit', async (e) => {
   btn.disabled = false;
   btn.textContent = 'Recevoir mon lien de connexion';
   if (error) {
-    showMsg("Impossible d'envoyer le lien. Vérifiez l'adresse, ou écrivez-moi directement.", 'err');
+    // Un seul message pour trois pannes très différentes obligeait à deviner.
+    // Le détail technique va dans la console, le visiteur lit ce qui le concerne.
+    console.error('signInWithOtp', error.status, error.code, error.message);
+    showMsg(messageDeConnexion(error), 'err');
     return;
   }
   showMsg('Lien envoyé ! Ouvrez votre boîte mail et cliquez dessus pour accéder à votre espace.', 'ok');
@@ -605,6 +631,36 @@ function blocDevis(d){
     </div>`;
 }
 
+/* Ouvre l'accès d'un client : la fonction serveur invite l'adresse, ou lui
+   renvoie un lien si elle avait déjà un accès. La clé qui permet ça ne peut
+   pas descendre ici — elle reste dans la fonction. */
+async function inviterClient(email, nom){
+  try {
+    const { data, error } = await sb.functions.invoke('inviter-client', { body: { email, nom } });
+    if (error) {
+      // le message utile est dans le corps de la réponse, pas dans error.message
+      let detail = '';
+      try { detail = (await error.context?.json())?.erreur || ''; } catch { /* réponse illisible */ }
+      console.error('inviter-client', error, detail);
+      return { ok: false, message: detail || "l'invitation n'est pas partie" };
+    }
+    return { ok: true, etat: data?.etat };
+  } catch (e) {
+    console.error('inviter-client', e);
+    return { ok: false, message: 'fonction injoignable' };
+  }
+}
+
+function messageInvitation(inv, email){
+  if (!inv.ok) {
+    return 'L\'accès n\'a pas pu être ouvert : ' + inv.message.replace(/\.$/, '')
+         + '. À faire à la main — Authentication → Users → Add user, avec ' + email + '.';
+  }
+  return inv.etat === 'relance'
+    ? 'Cette adresse avait déjà un accès : un nouveau lien de connexion vient de lui être envoyé.'
+    : 'Invitation envoyée à ' + email + '.';
+}
+
 function carteProjet(p, avancees){
   const etat = etatProjet(p);
   const jauge = ETAPES.map((_, i) => {
@@ -648,6 +704,14 @@ function carteProjet(p, avancees){
         <label for="etape-${esc(p.id)}">Étape en cours</label>
         <select id="etape-${esc(p.id)}" data-etape="${esc(p.id)}">${options}</select>
         <span class="retour" data-retour-etape="${esc(p.id)}"></span>
+      </div>
+
+      <div class="pilote">
+        <label>Accès du client</label>
+        <button class="btn-sm fantome" type="button"
+                data-inviter="${esc(p.id)}" data-email="${esc(p.client_email)}"
+                data-nom="${esc(p.nom_client || '')}">Renvoyer l'invitation</button>
+        <span class="retour" data-retour-invit="${esc(p.id)}"></span>
       </div>
 
       ${blocDevis(p.devis)}
@@ -960,6 +1024,17 @@ function poserListenersAdmin(){
       return;
     }
 
+    const invit = e.target.closest('[data-inviter]');
+    if (invit) {
+      const cible = zone.querySelector(`[data-retour-invit="${CSS.escape(invit.dataset.inviter)}"]`);
+      invit.disabled = true;
+      retour(cible, 'Envoi…');
+      const inv = await inviterClient(invit.dataset.email, invit.dataset.nom);
+      invit.disabled = false;
+      retour(cible, messageInvitation(inv, invit.dataset.email), inv.ok ? 'ok' : 'err');
+      return;
+    }
+
     const suppr = e.target.closest('[data-suppr]');
     if (suppr) {
       if (!confirm('Supprimer cette avancée ? Le client ne la verra plus.')) return;
@@ -1025,15 +1100,23 @@ function poserListenersAdmin(){
       };
       // le questionnaire est conservé dans la colonne `devis` (jsonb) si elle existe — SETUP.md, étape 3 quater
       const devis = devisCourant ? { ...devisCourant, activite: $('np-activite').value } : null;
+      let avertissement = '';
       let { error } = await sb.from('projets').insert(devis ? { ...projet, devis } : projet);
       if (error && devis && /devis/.test(error.message)) {
         // colonne absente : on crée quand même le projet, sans le détail du chiffrage
         ({ error } = await sb.from('projets').insert(projet));
-        if (!error) retour(cible, 'Projet créé — mais le questionnaire n\'a pas été enregistré (colonne « devis » absente, voir SETUP.md).', 'err');
+        if (!error) avertissement = ' Le questionnaire, lui, n\'a pas été enregistré (colonne « devis » absente, voir SETUP.md).';
       }
       btn.disabled = false;
       if (error) { retour(cible, 'Échec : ' + error.message, 'err'); return; }
-      if (!cible.textContent.startsWith('Projet créé —')) retour(cible, 'Projet créé.', 'ok');
+
+      // Créer la ligne n'ouvre aucun accès : les inscriptions libres sont fermées,
+      // le client doit exister dans l'authentification pour recevoir un lien. La
+      // fonction serveur s'en charge, pour que l'étape ne puisse plus être oubliée.
+      retour(cible, 'Projet créé. Ouverture de l\'accès…', 'ok');
+      const inv = await inviterClient(projet.client_email, projet.nom_client);
+      retour(cible, 'Projet créé. ' + messageInvitation(inv, projet.client_email) + avertissement,
+             inv.ok && !avertissement ? 'ok' : 'err');
       reinitialiserNouveauProjet();
       $('form-projet-bloc').style.display = 'none';
       $('btn-nouveau').textContent = '+ Nouveau projet';

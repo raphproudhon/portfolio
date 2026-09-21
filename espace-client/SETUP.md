@@ -183,15 +183,57 @@ Dans **Authentication → Providers** :
 
 Ouvrir `espace-client/config.js` et remplacer les deux valeurs par celles de l'étape 2.
 
-## Étape 6 — Ajouter un client
+## Étape 6 — La fonction qui ouvre l'accès des clients
 
-Quand tu signes un projet :
+Sans elle, tout marche, mais il faut penser à inviter chaque client à la main
+dans **Authentication → Users** — un oubli silencieux, dont le client fait les
+frais : il demande son lien, et Supabase le refuse sans que personne ne le sache.
+
+1. **Edge Functions** → *Deploy a new function* → *Via editor* → nom
+   `inviter-client`, contenu de `fonction-supabase/inviter-client.ts`.
+2. **Vérification du jeton désactivée** (*Verify JWT*). Ce n'est pas un trou :
+   la fonction vérifie elle-même que l'appelant est connecté avec l'adresse du
+   responsable. Sans ça, la requête préalable `OPTIONS` du navigateur — qui ne
+   porte jamais d'en-tête d'autorisation — serait rejetée avant d'atteindre le
+   code, et la page afficherait « fonction injoignable ».
+3. Aucun secret à ajouter : `SUPABASE_SERVICE_ROLE_KEY` est fourni
+   automatiquement aux fonctions du projet.
+
+En ligne de commande&nbsp;:
+
+```
+supabase functions deploy inviter-client --no-verify-jwt
+```
+
+**Ce que la fonction refuse** — elle manipule la clé de service, qui contourne
+toutes les règles d'accès de la base, donc elle se garde deux fois :
+
+- **un appelant qui n'est pas le responsable** : le jeton de session est rejoué
+  côté serveur, et l'adresse doit être celle de l'administrateur ;
+- **une adresse sans projet** : la fonction ouvre l'accès d'un client, elle ne
+  sert pas à écrire à n'importe qui. Le projet doit exister d'abord.
+
+Si l'adresse a déjà un accès, la fonction ne recrée rien&nbsp;: elle envoie un
+nouveau lien de connexion. C'est ce qui rend le bouton **« Renvoyer
+l'invitation&nbsp;»** sûr à cliquer deux fois.
+
+## Étape 7 — Ajouter un client
+
+Quand tu signes un projet, depuis l'espace client lui-même (bouton
+**+ Nouveau projet**) : le projet est créé **et** le client invité dans la
+foulée. La page affiche laquelle des deux situations s'est produite —
+invitation envoyée, ou lien renvoyé à une adresse déjà connue.
+
+Si la fonction de l'étape 6 n'est pas déployée, la page le dit et rappelle la
+manœuvre manuelle :
 
 1. **Table Editor → projets → Insert row** : email du client, son nom, le titre, le forfait, l'étape 1, les dates.
 2. **Authentication → Users → Add user** → *Send invitation* avec le même email.
    Le client reçoit un lien, clique, et accède à son espace. Aucun mot de passe à créer ni à transmettre.
-3. À chaque avancée : **Table Editor → avancees → Insert row** (titre, détail, éventuellement un lien de preview).
-   Et fais avancer le champ `etape` du projet (1 → 5).
+
+Ensuite, à chaque avancée : **Table Editor → avancees → Insert row** (titre,
+détail, éventuellement un lien de preview) — ou le formulaire « Publier une
+avancée » dans la carte du projet. Et fais avancer le champ `etape` (1 → 5).
 
 ---
 
@@ -210,7 +252,20 @@ Quand tu signes un projet :
 
 ## Dépannage — « mon client ne reçoit pas le lien »
 
-À vérifier dans cet ordre :
+Depuis la page, la nature de la panne se lit dans le message affiché — et le
+détail technique (statut, code) dans la console du navigateur. Trois familles :
+
+**« Cette adresse n'est pas encore ouverte »** — l'adresse n'existe pas dans
+**Authentication → Users**. Les inscriptions libres sont fermées (étape 4),
+donc créer la ligne dans `projets` ne suffit pas. Supabase répond `otp_disabled`.
+Parade : le bouton **« Renvoyer l'invitation »** dans la carte du projet, qui
+ouvre l'accès en un clic. S'il échoue, la manœuvre manuelle reste
+**Add user → Send invitation** avec la même adresse.
+
+**« Trop de demandes »** — limite d'envoi atteinte, elle se lève seule.
+
+**« L'envoi est momentanément en panne »** — l'adresse est bien connue, c'est
+le courrier qui ne part pas. À vérifier dans cet ordre :
 
 1. **La clé SMTP Brevo a expiré ?** Elle meurt après **90 jours consécutifs sans aucun envoi**. En période creuse, c'est le suspect n°1 → régénérer la clé dans Brevo et la recoller dans Supabase.
 2. **Le projet Supabase est en pause ?** Le plan gratuit met le projet en pause après **7 jours sans activité**. Le réveiller depuis le tableau de bord Supabase (voir la parade ci-dessous).
@@ -257,6 +312,8 @@ Ancien expéditeur `raph.proudhon@gmail.com` dans Brevo : peut être supprimé, 
 1. **Ne jamais commiter la clé `service_role`** — si elle fuite, régénère-la immédiatement dans Supabase.
 2. **Ne jamais désactiver le RLS** sur ces tables.
 3. **Garder « Enable email signups » désactivé** — sinon n'importe qui crée un compte.
+   La fonction `inviter-client` est la seule porte d'entrée, et elle n'ouvre un
+   accès qu'à une adresse qui a déjà un projet.
 4. Après toute modification des policies, **vérifier** : se connecter avec un compte test et s'assurer qu'il ne voit que son projet.
 
 ## RGPD — l'essentiel à ton échelle
