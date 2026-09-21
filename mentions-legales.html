@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentions légales — raphproudhon.fr</title>
+<meta name="description" content="Mentions légales de raphproudhon.fr : éditeur du site, hébergeur, propriété intellectuelle, responsabilité et règlement des litiges.">
+
+<link rel="canonical" href="https://raphproudhon.fr/mentions-legales.html">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="raphproudhon.fr">
+<meta property="og:title" content="Mentions légales — raphproudhon.fr">
+<meta property="og:description" content="Mentions légales de raphproudhon.fr : éditeur du site, hébergeur, propriété intellectuelle, responsabilité et règlement des litiges.">
+<meta property="og:url" content="https://raphproudhon.fr/mentions-legales.html">
+<meta property="og:image" content="https://raphproudhon.fr/assets/og/portfolio.jpg">
+
+<link rel="icon" type="image/png" href="assets/brand/favicon.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f2ee;
+    --surface:#ffffff;
+    --ink:#16150f;
+    --muted:#6e695f;
+    --accent:#d96f32;
+    --line:rgba(22,21,15,.1);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--bg); color:var(--ink);
+    line-height:1.7; font-weight:300;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.2;}
+  img{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ============ NAV ============ */
+  nav.top{
+    position:sticky; top:0; z-index:50; background:rgba(244,242,238,.85);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .logo-mark{--s:34px; position:relative; width:var(--s); height:var(--s); border-radius:calc(var(--s)*0.23);
+    background:#f6f4ef; border:1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .logo-mark .r{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:calc(var(--s)*0.61);
+    line-height:1; color:var(--ink); letter-spacing:-.04em;}
+  .logo-mark .d{position:absolute; border-radius:50%; background:var(--accent);
+    width:calc(var(--s)*0.122); height:calc(var(--s)*0.122); right:calc(var(--s)*0.186); bottom:calc(var(--s)*0.20);}
+  .wordmark{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:17px; text-decoration:none; color:var(--ink);}
+  .wordmark span{color:var(--accent);}
+  nav.top ul{display:flex; gap:28px; list-style:none;}
+  nav.top ul a{font-size:13px; font-weight:500; text-decoration:none; color:var(--muted); transition:color .2s;}
+  nav.top ul a:hover{color:var(--ink);}
+  @media (max-width:600px){nav.top ul{gap:16px;} nav.top ul li:nth-child(2){display:none;} .wordmark{font-size:15px;} .brand{gap:9px;}}
+
+  /* ============ EN-TÊTE ============ */
+  .head{padding:clamp(50px,8vw,90px) 0 clamp(26px,4vw,40px);}
+  .head .k{
+    font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .head h1{font-size:clamp(32px,5.5vw,52px); letter-spacing:-.02em; max-width:800px;}
+  .head p.lead{margin-top:20px; max-width:640px; font-size:clamp(15px,2vw,17px); color:var(--muted);}
+  .head .maj{margin-top:22px; font-size:12.5px; color:var(--muted);}
+
+  /* ============ CONTENU ============ */
+  .doc{padding-bottom:clamp(50px,8vw,90px);}
+  .doc .inner{max-width:760px;}
+  .doc section{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:clamp(24px,4vw,34px); margin-bottom:18px; scroll-margin-top:84px;
+  }
+  .doc h2{font-size:clamp(20px,3vw,25px); letter-spacing:-.01em; margin-bottom:14px;}
+  .doc h3{font-size:16px; margin:22px 0 8px;}
+  .doc p{font-size:14.5px; color:var(--muted); margin-bottom:12px;}
+  .doc p:last-child{margin-bottom:0;}
+  .doc strong{color:var(--ink); font-weight:600;}
+  .doc a{color:var(--accent); text-decoration:underline; text-underline-offset:3px;}
+  .doc ul{list-style:none; margin:4px 0 14px; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .doc li{font-size:14.5px; color:var(--muted); padding-left:20px; position:relative; line-height:1.6;}
+  .doc li::before{
+    content:""; position:absolute; left:2px; top:10px; width:7px; height:7px;
+    border-radius:50%; background:var(--accent); opacity:.55;
+  }
+
+  /* fiche d'identité : libellé / valeur */
+  .idt{display:grid; grid-template-columns:200px 1fr; gap:11px 20px; margin:4px 0 4px;}
+  .idt dt{
+    font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--ink); padding-top:2px;
+  }
+  .idt dd{font-size:14.5px; color:var(--muted);}
+  @media (max-width:560px){
+    .idt{grid-template-columns:1fr; gap:3px;}
+    .idt dd{margin-bottom:12px;}
+    .idt dd:last-child{margin-bottom:0;}
+  }
+
+  /* encart de synthèse */
+  .callout{
+    display:flex; gap:16px; align-items:flex-start;
+    background:#fdf1e8; border:1px solid rgba(217,111,50,.28); border-radius:16px;
+    padding:22px 26px; margin-bottom:18px;
+  }
+  .callout .ico{
+    width:40px; height:40px; border-radius:11px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .callout .lab{
+    font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:4px;
+  }
+  .callout p{font-size:14px; color:var(--muted); margin:0;}
+  .callout strong{color:var(--ink); font-weight:600;}
+
+  /* ============ CONTACT ============ */
+  .contact-band{
+    background:var(--ink); color:#fff; border-radius:24px;
+    padding:clamp(34px,6vw,56px); text-align:center; margin-bottom:40px;
+  }
+  .contact-band h2{font-size:clamp(24px,4vw,36px); letter-spacing:-.01em;}
+  .contact-band p{margin-top:14px; color:#b5b1a6; max-width:520px; margin-left:auto; margin-right:auto; font-size:15px;}
+  .contact-band .btn{
+    display:inline-block; padding:14px 28px; border-radius:10px; font-size:14px;
+    font-weight:600; text-decoration:none; font-family:'Space Grotesk', sans-serif;
+    background:var(--accent); color:#fff; margin-top:28px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .contact-band .btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.25);}
+
+  footer{padding:0 0 50px; text-align:center; font-size:12.5px; color:var(--muted);}
+  footer a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="raphproudhon.fr — accueil">
+      <span class="logo-mark"><span class="r">R</span><span class="d"></span></span>
+      <span class="wordmark">raphproudhon<span>.</span>fr</span>
+    </a>
+    <ul>
+      <li><a href="index.html#projets">Projets</a></li>
+      <li><a href="index.html#competences">Compétences</a></li>
+      <li><a href="index.html#tarifs">Tarifs</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ EN-TÊTE ============ -->
+<header class="head">
+  <div class="wrap">
+    <div class="k">Informations légales</div>
+    <h1>Mentions légales</h1>
+    <p class="lead">
+      Qui édite ce site, qui l'héberge, à qui appartiennent les contenus et ce qui
+      s'applique en cas de litige. Les informations exigées par l'article 6-III de la
+      loi pour la confiance dans l'économie numérique.
+    </p>
+    <p class="maj">Dernière mise à jour : 21 septembre 2026</p>
+  </div>
+</header>
+
+<!-- ============ CONTENU ============ -->
+<div class="doc">
+  <div class="wrap">
+    <div class="inner">
+
+      <div class="callout">
+        <div class="ico">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <path d="M14 2v6h6M9 13h6M9 17h6"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="lab">L'essentiel</div>
+          <p>
+            Ce site est édité à titre professionnel par <strong>Raphaël Proudhon</strong>,
+            entrepreneur individuel à Loches (37), et hébergé par <strong>GitHub</strong>.
+            Le traitement de vos données est décrit dans la
+            <a href="confidentialite.html">politique de confidentialité</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 1 — Éditeur -->
+      <section id="editeur">
+        <h2>1. Éditeur du site</h2>
+        <dl class="idt">
+          <dt>Éditeur</dt>
+          <dd>Raphaël Proudhon, entrepreneur individuel<br>Développeur web et designer UI/UX</dd>
+
+          <dt>Adresse</dt>
+          <dd>75 avenue du Général de Gaulle<br>37600 Loches, France</dd>
+
+          <dt>Courriel</dt>
+          <dd><a href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a></dd>
+
+          <dt>SIRET</dt>
+          <dd>107 961 757 00013</dd>
+
+          <dt>TVA</dt>
+          <dd>TVA non applicable — article 293 B du code général des impôts (franchise en base)</dd>
+
+          <dt>Directeur de la publication</dt>
+          <dd>Raphaël Proudhon</dd>
+        </dl>
+      </section>
+
+      <!-- 2 — Hébergeur -->
+      <section id="hebergeur">
+        <h2>2. Hébergeur</h2>
+        <p>
+          Le site est hébergé sur <strong>GitHub Pages</strong>, service de&nbsp;:
+        </p>
+        <dl class="idt">
+          <dt>Hébergeur</dt>
+          <dd>GitHub, Inc.</dd>
+
+          <dt>Adresse</dt>
+          <dd>88 Colin P. Kelly Jr. Street<br>San Francisco, CA 94107, États-Unis</dd>
+
+          <dt>Site</dt>
+          <dd><a href="https://github.com" rel="noopener">github.com</a></dd>
+        </dl>
+        <p>
+          L'espace client s'appuie par ailleurs sur <strong>Supabase</strong>, dont le projet
+          est hébergé dans la région <strong>eu-west-3 (Paris, France)</strong>.
+        </p>
+      </section>
+
+      <!-- 3 — Propriété intellectuelle -->
+      <section id="propriete">
+        <h2>3. Propriété intellectuelle</h2>
+        <p>
+          L'ensemble de ce site — structure, code source, mise en page, textes, logos,
+          illustrations et visuels — est une création originale protégée par le code de la
+          propriété intellectuelle. Sauf mention contraire, j'en suis l'auteur et le titulaire
+          des droits.
+        </p>
+        <p>
+          Toute reproduction, représentation, adaptation ou exploitation, totale ou partielle,
+          sur quelque support que ce soit, est interdite sans autorisation écrite préalable.
+          Citer une page en la liant à sa source reste évidemment libre.
+        </p>
+
+        <h3>Projets présentés</h3>
+        <p>
+          <strong>Racines</strong> et <strong>Laine &amp; Lin</strong> sont des marques
+          <strong>fictives</strong>, créées de toutes pièces à des fins de démonstration&nbsp;:
+          toute ressemblance avec une entreprise existante serait fortuite. Les travaux réalisés
+          pour des clients réels sont publiés avec leur accord&nbsp;; les droits cédés sur ces
+          travaux sont ceux prévus par le devis signé.
+        </p>
+
+        <h3>Typographies</h3>
+        <p>
+          Le site utilise les polices <em>Space Grotesk</em> et <em>Inter</em>, distribuées sous
+          licence libre SIL Open Font License et servies via Google Fonts.
+        </p>
+      </section>
+
+      <!-- 4 — Données personnelles -->
+      <section id="donnees">
+        <h2>4. Données personnelles et cookies</h2>
+        <p>
+          Ce site ne pratique aucune mesure d'audience et ne dépose aucun cookie publicitaire.
+          Le détail des données traitées, de leur durée de conservation, des sous-traitants
+          concernés et de vos droits figure dans la
+          <a href="confidentialite.html">politique de confidentialité</a>, qui fait partie
+          intégrante des présentes mentions légales.
+        </p>
+      </section>
+
+      <!-- 5 — Responsabilité -->
+      <section id="responsabilite">
+        <h2>5. Responsabilité</h2>
+        <p>
+          Les informations publiées sur ce site — descriptions de prestations, délais, tarifs —
+          sont données à titre indicatif et peuvent évoluer. Seul un devis signé engage
+          contractuellement les parties.
+        </p>
+        <p>
+          Je m'efforce de maintenir le site accessible et à jour, sans pouvoir garantir une
+          disponibilité permanente&nbsp;: une interruption peut survenir du fait de l'hébergeur,
+          d'une maintenance ou d'un incident réseau. Ma responsabilité ne saurait être engagée
+          pour un dommage résultant de l'indisponibilité du site ou de l'usage fait des
+          informations qui y figurent.
+        </p>
+
+        <h3>Liens sortants</h3>
+        <p>
+          Ce site renvoie vers des sites tiers (GitHub, Malt, sites de clients). Ces liens sont
+          proposés pour votre commodité&nbsp;; je n'exerce aucun contrôle sur leur contenu et
+          n'en assume pas la responsabilité.
+        </p>
+      </section>
+
+      <!-- 6 — Litiges -->
+      <section id="litiges">
+        <h2>6. Droit applicable et litiges</h2>
+        <p>
+          Les présentes mentions légales sont soumises au <strong>droit français</strong>.
+        </p>
+        <p>
+          En cas de difficulté, écrivez-moi d'abord&nbsp;: la très grande majorité des
+          désaccords se règle par un échange direct. À défaut d'accord amiable, le litige
+          relève des juridictions françaises compétentes.
+        </p>
+      </section>
+
+      <!-- 7 — Crédits -->
+      <section id="credits">
+        <h2>7. Crédits</h2>
+        <p>
+          Conception, design et développement&nbsp;: Raphaël Proudhon. Le site est écrit à la
+          main en HTML, CSS et JavaScript, sans page builder ni gestionnaire de contenu.
+        </p>
+        <p>
+          Pour signaler une erreur sur cette page ou un contenu qui vous semble litigieux&nbsp;:
+          <a href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a>.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section>
+  <div class="wrap">
+    <div class="contact-band">
+      <h2>Une question ?</h2>
+      <p>
+        Sur ces mentions, sur un contenu du site ou sur un projet à venir —
+        écrivez-moi, je réponds.
+      </p>
+      <a class="btn" href="mailto:contact@raphproudhon.fr">contact@raphproudhon.fr</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Raphaël Proudhon — Développeur &amp; Designer UI/UX freelance ·
+  <a href="index.html">Accueil</a> ·
+  <a href="confidentialite.html">Politique de confidentialité</a>
+</footer>
+
+</body>
+</html>
