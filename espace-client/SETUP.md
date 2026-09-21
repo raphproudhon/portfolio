@@ -14,22 +14,6 @@ Architecture : **frontend statique** (GitHub Pages) + **Supabase** (authentifica
    - Region : `Europe (Paris)` ou `Europe (Frankfurt)` — données hébergées en UE, c'est mieux pour le RGPD
 3. Attendre ~2 minutes que le projet se crée.
 
-## Étape 1 bis — Déposer la bibliothèque Supabase
-
-Le site ne charge aucune ressource depuis un CDN : la bibliothèque cliente est servie
-par le site lui-même. Sur votre machine :
-
-```
-npm pack @supabase/supabase-js
-tar -xzf supabase-supabase-js-<version>.tgz package/dist/umd/supabase.js
-```
-
-Copiez ensuite `package/dist/umd/supabase.js` dans `espace-client/vendor/supabase.js`,
-puis commitez-le. Sans ce fichier, la page affiche « Bibliothèque manquante ».
-
-À refaire une à deux fois par an : la bibliothèque étant figée dans le dépôt, ses
-correctifs ne sont plus reçus automatiquement — et c'est le code d'authentification.
-
 ## Étape 2 — Récupérer les clés
 
 Dans **Project Settings → API** :
