@@ -8,9 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="../assets/brand/favicon.png">
 <link rel="apple-touch-icon" href="../assets/brand/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/space-grotesk-inter.css">
 <style>
   :root{
     --bg:#f4f2ee; --surface:#fff; --ink:#16150f; --muted:#6e695f;
@@ -170,7 +168,8 @@
   .empty{color:var(--muted); font-size:14px;}
   .center{text-align:center; padding:60px 20px; color:var(--muted);}
   #dash{display:none;} #auth{display:none;} #admin{display:none;}
-  footer{border-top:1px solid var(--line); padding:24px 0 50px; font-size:12.5px; color:var(--muted); text-align:center;}
+  /* même piège que main.wrap : sans la classe, .wrap{padding:0 24px} écrase ce rembourrage */
+  footer.wrap{border-top:1px solid var(--line); padding:26px 24px 50px; font-size:12.5px; color:var(--muted); text-align:center;}
   footer .ligne{margin-bottom:8px;}
   footer .liens{display:flex; flex-wrap:wrap; justify-content:center; gap:8px 18px;}
   footer .liens a{color:var(--muted); text-decoration:underline; text-underline-offset:3px;}
