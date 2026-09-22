@@ -204,8 +204,10 @@ enregistrées, et la création du projet le signale en orange.
 
 ## Étape 3 sexies — La remise (ajouté le 22/09/2026)
 
-Le volet de chiffrage porte un menu déroulant de remise, par tranches de 5 %
-jusqu'à la moitié. Le montant affiché est toujours le **net** ; le taux et le
+Le bloc de chiffrage porte un menu déroulant de remise **collé au montant
+proposé** — c'est là qu'on décide d'un geste commercial, pas dans un champ
+perdu plus bas. Tranches de 5 % jusqu'à la moitié. Le montant affiché est
+toujours le **net** ; le taux et le
 montant brut sont conservés dans la colonne `devis`, de sorte que la carte du
 projet réaffiche plus tard le sous-total, la remise et le total.
 
@@ -215,6 +217,9 @@ Deux règles pour que le chiffre à l'écran ne soit jamais ambigu :
   de 50 ; une remise ne doit pas les transformer en 1 487,50 €.
 - **Un montant tapé à la main remet la remise à zéro** et devient la nouvelle
   référence. Sans ça, on ne saurait plus si le chiffre affiché est brut ou net.
+
+Le menu n'apparaît qu'avec un chiffrage calculé : sans questionnaire, il n'y a
+pas de montant de référence à réduire — on saisit directement le prix voulu.
 
 Rien à exécuter : la remise voyage dans la colonne `devis`, qui existe déjà.
 

@@ -195,6 +195,8 @@
     padding-top:12px; border-top:2px solid var(--ink);}
   .devis .total .l{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;}
   .devis .total .v{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; color:var(--accent);}
+  .devis .total .l select{margin-left:10px; padding:4px 8px; font-size:12.5px;
+    font-family:'Space Grotesk',sans-serif; border-radius:8px; width:auto; vertical-align:middle;}
   .devis .ligne.remise{color:var(--accent);}
   .devis .ligne.remise .m{color:var(--accent);}
   .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
@@ -443,8 +445,6 @@
                 <input type="text" id="np-titre" required placeholder="Site vitrine — Domaine X"></div>
               <div class="champ"><label for="np-forfait">Formule</label>
                 <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
-              <div class="champ"><label for="np-remise">Remise</label>
-                <select id="np-remise"></select></div>
               <div class="champ"><label for="np-montant">Montant (€)</label>
                 <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
               <div class="champ large"><label for="np-notes">Notes internes</label>
@@ -950,7 +950,7 @@ function afficherDevis(d){
   zone.innerHTML =
     d.lignes.map(([l, m]) => `<div class="ligne"><span>${esc(l)}</span><span class="m">${fmtMontant(m)}</span></div>`).join('')
     + remise
-    + `<div class="total"><span class="l">Montant proposé</span><span class="v">${fmtMontant(d.total)}</span></div>
+    + `<div class="total"><span class="l">Montant proposé ${menuRemise()}</span><span class="v">${fmtMontant(d.total)}</span></div>
        <div class="fourchette">Fourchette à annoncer : ${fmtMontant(Math.round(d.total * 0.9 / 50) * 50)} – ${fmtMontant(Math.round(d.total * 1.1 / 50) * 50)}</div>
        <div class="note">${d.semaines > 1 ? `Délai indicatif : ${d.semaines} semaines.` : 'Intervention ponctuelle, sous une semaine.'}
        ${d.maintenance ? ` Maintenance : ${TARIFS.maintenance} €/mois en plus, à facturer séparément.` : ''}
@@ -991,23 +991,24 @@ let devisCourant = null; // mémorisé pour l'enregistrer avec le projet
    sans cette référence, appliquer 5 % puis 10 % retrancherait deux fois. */
 let montantBrut = 0;
 
-// Remises par tranches de 5 %, jusqu'à la moitié — au-delà, ce n'est plus une
-// remise, c'est une autre formule.
-(function remplirRemises(){
-  const sel = $('np-remise');
-  for (let p = 0; p <= 50; p += 5) {
-    const o = document.createElement('option');
-    o.value = String(p);
-    o.textContent = p === 0 ? 'Aucune' : `− ${p} %`;
-    sel.appendChild(o);
-  }
-})();
+/* La remise choisie. Elle vit ici et non dans le DOM : le bloc de chiffrage est
+   redessiné à chaque calcul, et un menu qui s'y trouve perdrait sa valeur. */
+let remisePct = 0;
 
-const remiseChoisie = () => Number($('np-remise').value) || 0;
+/* Le menu de remise, par tranches de 5 % jusqu'à la moitié — au-delà, ce n'est
+   plus une remise, c'est une autre formule. Il est rendu avec le chiffrage,
+   collé au montant : c'est là qu'on décide d'un geste commercial. */
+function menuRemise(){
+  let options = '';
+  for (let p = 0; p <= 50; p += 5) {
+    options += `<option value="${p}"${p === remisePct ? ' selected' : ''}>${p === 0 ? 'prix plein' : '− ' + p + ' %'}</option>`;
+  }
+  return `<select id="np-remise" aria-label="Remise à appliquer">${options}</select>`;
+}
 
 /** Applique la remise courante au montant de référence et rafraîchit l'écran. */
 function appliquerRemise(){
-  const pct = remiseChoisie();
+  const pct = remisePct;
   // arrondi aux 10 € : les totaux de base tombent sur des multiples de 50, une
   // remise ne doit pas les transformer en 1 487,50 € — un devis s'annonce rond
   const net = Math.round(montantBrut * (1 - pct / 100) / 10) * 10;
@@ -1022,7 +1023,7 @@ function reinitialiserNouveauProjet(){
   $('form-projet').reset();
   devisCourant = null;
   montantBrut = 0;
-  $('np-remise').value = '0';
+  remisePct = 0;
   $('np-devis').hidden = true;
   $('np-devis').innerHTML = '';
   adapterQuestionnaire();
@@ -1053,7 +1054,7 @@ function poserListenersAdmin(){
 
   zone.addEventListener('change', e => {
     if (e.target.name === 'q-type') adapterQuestionnaire();
-    if (e.target.id === 'np-remise') appliquerRemise();
+    if (e.target.id === 'np-remise') { remisePct = Number(e.target.value) || 0; appliquerRemise(); }
   });
 
   // Un montant tapé à la main devient la nouvelle référence, et la remise
@@ -1062,7 +1063,7 @@ function poserListenersAdmin(){
   zone.addEventListener('input', e => {
     if (e.target.id !== 'np-montant') return;
     montantBrut = Number(e.target.value) || 0;
-    $('np-remise').value = '0';
+    remisePct = 0;
     if (devisCourant) {
       devisCourant = { ...devisCourant, remise_pct: 0, total_brut: montantBrut, total: montantBrut };
       afficherDevis(devisCourant);
