@@ -168,6 +168,56 @@ La vue client n'affiche pas cette colonne : elle ne montre que
 `forfait`, `montant` et les dates. La grille tarifaire est dans `index.html`,
 constante `TARIFS`, en tête de la section « Nouveau projet ».
 
+## Étape 3 quinquies — Les notes internes (ajouté le 22/09/2026)
+
+Le formulaire de création d'un projet, et la carte de chaque projet, portent un
+espace de notes : ce qui s'est dit au téléphone, les contraintes, ce qu'il ne
+faut pas oublier.
+
+**Pourquoi une table à part, et pas une colonne de `projets` ?** Parce qu'un
+client connecté peut lire sa propre ligne de `projets` par l'API — c'est le RLS
+qui l'autorise, et c'est voulu. Le masquer dans l'affichage ne le masquerait
+pas dans les données. Des notes rangées là seraient donc lisibles par celui
+qu'elles concernent. Le RLS travaille par ligne, pas par colonne : la seule
+séparation solide est une table distincte, sans aucune policy pour les clients.
+
+```sql
+create table if not exists notes_projet (
+  projet_id  uuid primary key references projets(id) on delete cascade,
+  texte      text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+alter table notes_projet enable row level security;
+
+-- Aucune policy pour les clients : sans policy, le RLS refuse tout.
+drop policy if exists "notes du responsable" on notes_projet;
+create policy "notes du responsable"
+  on notes_projet for all
+  to authenticated
+  using      ( (auth.jwt() ->> 'email') = 'raph.proudhon@gmail.com' )
+  with check ( (auth.jwt() ->> 'email') = 'raph.proudhon@gmail.com' );
+```
+
+Sans cette table, la page marche : les notes ne sont simplement pas
+enregistrées, et la création du projet le signale en orange.
+
+## Étape 3 sexies — La remise (ajouté le 22/09/2026)
+
+Le volet de chiffrage porte un menu déroulant de remise, par tranches de 5 %
+jusqu'à la moitié. Le montant affiché est toujours le **net** ; le taux et le
+montant brut sont conservés dans la colonne `devis`, de sorte que la carte du
+projet réaffiche plus tard le sous-total, la remise et le total.
+
+Deux règles pour que le chiffre à l'écran ne soit jamais ambigu :
+
+- Le net est **arrondi aux 10 €**. Les totaux de base tombent sur des multiples
+  de 50 ; une remise ne doit pas les transformer en 1 487,50 €.
+- **Un montant tapé à la main remet la remise à zéro** et devient la nouvelle
+  référence. Sans ça, on ne saurait plus si le chiffre affiché est brut ou net.
+
+Rien à exécuter : la remise voyage dans la colonne `devis`, qui existe déjà.
+
 ## Étape 4 — Autoriser le site à se connecter
 
 Dans **Authentication → URL Configuration** :
