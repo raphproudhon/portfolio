@@ -176,6 +176,9 @@
   .volet .grille{margin-bottom:8px;}
   .q{margin-bottom:22px;}
   .q .qt{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:9px;}
+  /* le libellé global est en display:block ; dans un intitulé de question il
+     doit rester sur la même ligne que sa précision */
+  .q .qt label{display:inline; font-size:inherit; margin:0;}
   .q .qt small{font-weight:400; color:var(--muted); font-size:12.5px; margin-left:6px;}
   .choix{display:flex; flex-wrap:wrap; gap:8px;}
   .choix label{display:inline-flex; align-items:center; gap:8px; margin:0; font-weight:500; font-size:13.5px;
@@ -431,6 +434,11 @@
               </div>
             </div>
 
+            <div class="q">
+              <div class="qt"><label for="np-notes">Notes internes</label> <small>pour vous seul, le client n'y a aucun accès</small></div>
+              <textarea id="np-notes" placeholder="Rappeler lundi. Veut garder ses couleurs actuelles. Paiement en deux fois."></textarea>
+            </div>
+
             <div class="actions">
               <button class="btn-sm fantome" type="button" data-aller="1">← Retour</button>
               <button class="btn-sm" type="button" id="np-calculer">Calculer le prix →</button>
@@ -447,9 +455,6 @@
                 <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
               <div class="champ"><label for="np-montant">Montant (€)</label>
                 <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
-              <div class="champ large"><label for="np-notes">Notes internes</label>
-                <textarea id="np-notes" placeholder="Ce qui s'est dit, les contraintes, ce qu'il ne faut pas oublier."></textarea>
-                <p class="aide">Pour vous seul : stockées à part, le client n'y a aucun accès.</p></div>
               <div class="champ"><label for="np-debut">Démarré le</label>
                 <input type="date" id="np-debut"></div>
               <div class="champ"><label for="np-livraison">Livraison prévue</label>

@@ -170,9 +170,11 @@ constante `TARIFS`, en tête de la section « Nouveau projet ».
 
 ## Étape 3 quinquies — Les notes internes (ajouté le 22/09/2026)
 
-Le formulaire de création d'un projet, et la carte de chaque projet, portent un
-espace de notes : ce qui s'est dit au téléphone, les contraintes, ce qu'il ne
-faut pas oublier.
+Un espace de notes clôt le questionnaire, sous la dernière question, et se
+retrouve dans la carte de chaque projet : ce qui s'est dit au téléphone, les
+contraintes, ce qu'il ne faut pas oublier. En passant le questionnaire
+(« Passer le questionnaire »), on ne le croise pas — les notes s'ajoutent
+alors depuis la carte du projet, une fois celui-ci créé.
 
 **Pourquoi une table à part, et pas une colonne de `projets` ?** Parce qu'un
 client connecté peut lire sa propre ligne de `projets` par l'API — c'est le RLS
