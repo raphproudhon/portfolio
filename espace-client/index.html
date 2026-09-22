@@ -195,6 +195,9 @@
     padding-top:12px; border-top:2px solid var(--ink);}
   .devis .total .l{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;}
   .devis .total .v{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; color:var(--accent);}
+  .devis .ligne.remise{color:var(--accent);}
+  .devis .ligne.remise .m{color:var(--accent);}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
   .devis .fourchette{font-size:12.5px; color:var(--muted); margin-top:4px;}
   .devis .note{font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.55;}
 
@@ -440,8 +443,13 @@
                 <input type="text" id="np-titre" required placeholder="Site vitrine — Domaine X"></div>
               <div class="champ"><label for="np-forfait">Formule</label>
                 <input type="text" id="np-forfait" placeholder="Site vitrine"></div>
+              <div class="champ"><label for="np-remise">Remise</label>
+                <select id="np-remise"></select></div>
               <div class="champ"><label for="np-montant">Montant (€)</label>
                 <input type="number" id="np-montant" min="0" step="50" placeholder="1200"></div>
+              <div class="champ large"><label for="np-notes">Notes internes</label>
+                <textarea id="np-notes" placeholder="Ce qui s'est dit, les contraintes, ce qu'il ne faut pas oublier."></textarea>
+                <p class="aide">Pour vous seul : stockées à part, le client n'y a aucun accès.</p></div>
               <div class="champ"><label for="np-debut">Démarré le</label>
                 <input type="date" id="np-debut"></div>
               <div class="champ"><label for="np-livraison">Livraison prévue</label>
@@ -626,6 +634,8 @@ function blocDevis(d){
   return `<h3>Chiffrage initial</h3>
     <div class="devis">
       ${d.lignes.map(([l, m]) => `<div class="ligne"><span>${esc(l)}</span><span class="m">${fmtMontant(m)}</span></div>`).join('')}
+      ${d.remise_pct ? `<div class="ligne"><span>Sous-total</span><span class="m">${fmtMontant(d.total_brut)}</span></div>
+      <div class="ligne remise"><span>Remise ${d.remise_pct} %</span><span class="m">− ${fmtMontant(d.total_brut - d.total)}</span></div>` : ''}
       <div class="total"><span class="l">Total calculé</span><span class="v">${fmtMontant(d.total)}</span></div>
       <div class="note">${esc(LIBELLE_TYPE[r.type] || '')}${r.pages ? ` · ${r.pages === 1 ? '1 page' : r.pages + ' pages max'}` : ''}${opts ? ` · options : ${esc(opts)}` : ''}${r.delai === 'urgent' ? ' · urgent' : ''}${d.maintenance ? ' · maintenance' : ''}${d.calcule_le ? ` · calculé le ${new Date(d.calcule_le).toLocaleDateString('fr-FR')}` : ''}</div>
     </div>`;
@@ -661,7 +671,7 @@ function messageInvitation(inv, email){
     : 'Invitation envoyée à ' + email + '.';
 }
 
-function carteProjet(p, avancees){
+function carteProjet(p, avancees, note){
   const etat = etatProjet(p);
   const jauge = ETAPES.map((_, i) => {
     const n = i + 1;
@@ -715,6 +725,19 @@ function carteProjet(p, avancees){
       </div>
 
       ${blocDevis(p.devis)}
+
+      <h3>Notes internes</h3>
+      <p class="aide">Le client ne les voit pas : elles sont dans une table à laquelle son compte n'a pas accès.</p>
+      <form class="grille form-note" data-note="${esc(p.id)}">
+        <div class="champ large">
+          <label for="note-${esc(p.id)}" class="sr">Notes sur le projet</label>
+          <textarea id="note-${esc(p.id)}" name="texte" placeholder="Ce qui s'est dit, les contraintes, ce qu'il ne faut pas oublier.">${esc(note?.texte || '')}</textarea>
+        </div>
+        <div class="champ large">
+          <button class="btn-sm fantome" type="submit">Enregistrer les notes</button>
+          <div class="retour" data-retour-note="${esc(p.id)}"></div>
+        </div>
+      </form>
 
       <h3>Avancement</h3>
       <div class="steps">${blocEtapes(p.etape)}</div>
@@ -804,6 +827,11 @@ async function chargerProjets(){
 
   const { data: toutes } = await sb.from('avancees')
     .select('*').order('created_at', { ascending:false });
+
+  // Table facultative : si elle n'existe pas encore, la page marche sans.
+  const { data: lesNotes, error: eNotes } = await sb.from('notes_projet').select('*');
+  if (eNotes) console.error('notes_projet', eNotes);
+  const noteDe = new Map((lesNotes || []).map(n => [n.projet_id, n]));
   const parProjet = new Map();
   (toutes || []).forEach(a => {
     if (!parProjet.has(a.projet_id)) parProjet.set(a.projet_id, []);
@@ -829,8 +857,8 @@ async function chargerProjets(){
         <div class="v" style="color:#a8563f">${enRetard}</div></div>` : '');
 
   $('admin-liste').innerHTML =
-      (enCours.length ? `<div class="groupe">En cours</div>` + enCours.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('') : '')
-    + (livres.length  ? `<div class="groupe">Livrés</div>`  + livres.map(p => carteProjet(p, parProjet.get(p.id) || [])).join('')  : '');
+      (enCours.length ? `<div class="groupe">En cours</div>` + enCours.map(p => carteProjet(p, parProjet.get(p.id) || [], noteDe.get(p.id))).join('') : '')
+    + (livres.length  ? `<div class="groupe">Livrés</div>`  + livres.map(p => carteProjet(p, parProjet.get(p.id) || [], noteDe.get(p.id))).join('')  : '');
 
 }
 
@@ -915,8 +943,13 @@ function chiffrer(r){
 function afficherDevis(d){
   const zone = $('np-devis');
   zone.hidden = false;
+  const brut = d.total_brut ?? d.total;
+  const remise = d.remise_pct ? `
+      <div class="ligne"><span>Sous-total</span><span class="m">${fmtMontant(brut)}</span></div>
+      <div class="ligne remise"><span>Remise ${d.remise_pct} %</span><span class="m">− ${fmtMontant(brut - d.total)}</span></div>` : '';
   zone.innerHTML =
     d.lignes.map(([l, m]) => `<div class="ligne"><span>${esc(l)}</span><span class="m">${fmtMontant(m)}</span></div>`).join('')
+    + remise
     + `<div class="total"><span class="l">Montant proposé</span><span class="v">${fmtMontant(d.total)}</span></div>
        <div class="fourchette">Fourchette à annoncer : ${fmtMontant(Math.round(d.total * 0.9 / 50) * 50)} – ${fmtMontant(Math.round(d.total * 1.1 / 50) * 50)}</div>
        <div class="note">${d.semaines > 1 ? `Délai indicatif : ${d.semaines} semaines.` : 'Intervention ponctuelle, sous une semaine.'}
@@ -954,9 +987,42 @@ function dateDans(semaines){
 
 let devisCourant = null; // mémorisé pour l'enregistrer avec le projet
 
+/* Le montant de référence, avant remise. Le champ « Montant » affiche le net :
+   sans cette référence, appliquer 5 % puis 10 % retrancherait deux fois. */
+let montantBrut = 0;
+
+// Remises par tranches de 5 %, jusqu'à la moitié — au-delà, ce n'est plus une
+// remise, c'est une autre formule.
+(function remplirRemises(){
+  const sel = $('np-remise');
+  for (let p = 0; p <= 50; p += 5) {
+    const o = document.createElement('option');
+    o.value = String(p);
+    o.textContent = p === 0 ? 'Aucune' : `− ${p} %`;
+    sel.appendChild(o);
+  }
+})();
+
+const remiseChoisie = () => Number($('np-remise').value) || 0;
+
+/** Applique la remise courante au montant de référence et rafraîchit l'écran. */
+function appliquerRemise(){
+  const pct = remiseChoisie();
+  // arrondi aux 10 € : les totaux de base tombent sur des multiples de 50, une
+  // remise ne doit pas les transformer en 1 487,50 € — un devis s'annonce rond
+  const net = Math.round(montantBrut * (1 - pct / 100) / 10) * 10;
+  $('np-montant').value = net || '';
+  if (devisCourant) {
+    devisCourant = { ...devisCourant, remise_pct: pct, total_brut: montantBrut, total: net };
+    afficherDevis(devisCourant);
+  }
+}
+
 function reinitialiserNouveauProjet(){
   $('form-projet').reset();
   devisCourant = null;
+  montantBrut = 0;
+  $('np-remise').value = '0';
   $('np-devis').hidden = true;
   $('np-devis').innerHTML = '';
   adapterQuestionnaire();
@@ -987,18 +1053,32 @@ function poserListenersAdmin(){
 
   zone.addEventListener('change', e => {
     if (e.target.name === 'q-type') adapterQuestionnaire();
+    if (e.target.id === 'np-remise') appliquerRemise();
+  });
+
+  // Un montant tapé à la main devient la nouvelle référence, et la remise
+  // repart de zéro : sinon on ne saurait plus si le chiffre affiché est brut
+  // ou net. Un montant qu'on saisit est le montant, point.
+  zone.addEventListener('input', e => {
+    if (e.target.id !== 'np-montant') return;
+    montantBrut = Number(e.target.value) || 0;
+    $('np-remise').value = '0';
+    if (devisCourant) {
+      devisCourant = { ...devisCourant, remise_pct: 0, total_brut: montantBrut, total: montantBrut };
+      afficherDevis(devisCourant);
+    }
   });
 
   zone.addEventListener('click', e => {
     if (e.target.id !== 'np-calculer') return;
     const reponses = lireQuestionnaire();
     const d = chiffrer(reponses);
+    montantBrut = d.total;
     devisCourant = { reponses, ...d, calcule_le: new Date().toISOString() };
-    afficherDevis(d);
+    appliquerRemise();          // rend le devis, remise comprise s'il y en a une
     const nom = $('np-nom').value.trim();
     $('np-titre').value = `${LIBELLE_TYPE[reponses.type]} — ${nom}`;
     $('np-forfait').value = d.forfait;
-    $('np-montant').value = d.total;
     if (!$('np-debut').value) $('np-debut').value = new Date().toISOString().slice(0, 10);
     if (d.semaines) $('np-livraison').value = dateDans(d.semaines);
     allerVolet(3);
@@ -1058,6 +1138,28 @@ function poserListenersAdmin(){
   });
 
   zone.addEventListener('submit', async e => {
+    // --- notes internes ---
+    const formN = e.target.closest('.form-note');
+    if (formN) {
+      e.preventDefault();
+      const id = formN.dataset.note;
+      const cible = zone.querySelector(`[data-retour-note="${CSS.escape(id)}"]`);
+      retour(cible, 'Enregistrement…');
+      // upsert : une seule note par projet, qu'on écrase à chaque fois
+      const { error } = await sb.from('notes_projet').upsert({
+        projet_id: id,
+        texte: formN.querySelector('[name="texte"]').value.trim(),
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'projet_id' });
+      if (error) {
+        console.error('notes_projet', error);
+        retour(cible, 'Échec : ' + error.message, 'err');
+        return;
+      }
+      retour(cible, 'Notes enregistrées.', 'ok');
+      return;
+    }
+
     // --- nouvelle avancée ---
     const formA = e.target.closest('.form-avancee');
     if (formA) {
@@ -1101,10 +1203,11 @@ function poserListenersAdmin(){
       // le questionnaire est conservé dans la colonne `devis` (jsonb) si elle existe — SETUP.md, étape 3 quater
       const devis = devisCourant ? { ...devisCourant, activite: $('np-activite').value } : null;
       let avertissement = '';
-      let { error } = await sb.from('projets').insert(devis ? { ...projet, devis } : projet);
+      let { data: cree, error } = await sb.from('projets')
+        .insert(devis ? { ...projet, devis } : projet).select('id').maybeSingle();
       if (error && devis && /devis/.test(error.message)) {
         // colonne absente : on crée quand même le projet, sans le détail du chiffrage
-        ({ error } = await sb.from('projets').insert(projet));
+        ({ data: cree, error } = await sb.from('projets').insert(projet).select('id').maybeSingle());
         if (!error) avertissement = ' Le questionnaire, lui, n\'a pas été enregistré (colonne « devis » absente, voir SETUP.md).';
       }
       btn.disabled = false;
@@ -1113,6 +1216,18 @@ function poserListenersAdmin(){
       // Créer la ligne n'ouvre aucun accès : les inscriptions libres sont fermées,
       // le client doit exister dans l'authentification pour recevoir un lien. La
       // fonction serveur s'en charge, pour que l'étape ne puisse plus être oubliée.
+      // Les notes vivent dans leur propre table : le client peut lire sa ligne
+      // de `projets` par l'API, pas celle-ci. Voir SETUP.md, étape 3 quinquies.
+      const texteNote = $('np-notes').value.trim();
+      if (texteNote && cree?.id) {
+        const { error: eNote } = await sb.from('notes_projet')
+          .insert({ projet_id: cree.id, texte: texteNote });
+        if (eNote) {
+          console.error('notes_projet', eNote);
+          avertissement += ' Les notes n\'ont pas été enregistrées (table « notes_projet » absente, voir SETUP.md).';
+        }
+      }
+
       retour(cible, 'Projet créé. Ouverture de l\'accès…', 'ok');
       const inv = await inviterClient(projet.client_email, projet.nom_client);
       retour(cible, 'Projet créé. ' + messageInvitation(inv, projet.client_email) + avertissement,
