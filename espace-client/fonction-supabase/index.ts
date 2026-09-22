@@ -11,7 +11,17 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
+// --- Version déployée -------------------------------------------------------
+// Écrite dans les journaux au démarrage, à côté de « booted ». Elle répond à la
+// question qu'on ne peut pas trancher autrement : le code qui tourne ici est-il
+// bien celui du dépôt ? Une panne a déjà coûté une soirée parce qu'une version
+// antérieure était restée déployée, sans que rien ne le signale.
+// À incrémenter à chaque modification de ce fichier.
+const VERSION = '2026-09-22';
+
 const ADMIN_EMAIL = 'raph.proudhon@gmail.com';
+
+console.log(`depots-github ${VERSION} — jeton GitHub : ${Deno.env.get('GITHUB_TOKEN') ? 'ok' : 'ABSENT'}`);
 
 const CORS: Record<string, string> = {
   'Access-Control-Allow-Origin': '*',

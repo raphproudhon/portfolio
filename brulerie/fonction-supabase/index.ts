@@ -10,11 +10,26 @@
 //
 // Déploiement : voir SETUP.md, à côté de ce fichier.
 
+// --- Version déployée -------------------------------------------------------
+// Écrite dans les journaux au démarrage, à côté de « booted ». Elle répond à la
+// question qu'on ne peut pas trancher autrement : le code qui tourne ici est-il
+// bien celui du dépôt ? Une panne a déjà coûté une soirée parce qu'une version
+// antérieure était restée déployée, sans que rien ne le signale.
+// À incrémenter à chaque modification de ce fichier.
+const VERSION = '2026-09-22';
+
 const CORS: Record<string, string> = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
+
+console.log(`paiement-brulerie ${VERSION} — clé Stripe : ${
+  (() => {
+    const c = Deno.env.get('STRIPE_SECRET_KEY');
+    return !c ? 'ABSENTE' : c.startsWith('sk_test_') ? 'test' : 'REFUSÉE (production)';
+  })()
+}`);
 
 const json = (corps: unknown, status = 200) =>
   new Response(JSON.stringify(corps), {

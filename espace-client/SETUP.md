@@ -323,3 +323,29 @@ Tu stockes des données personnelles (nom, email de tes clients) : tu en es resp
 - Ne collecte que le strict nécessaire (c'est déjà le cas ici).
 - Supprime les données d'un client sur simple demande de sa part (`delete` de la ligne suffit).
 - Mentionne-le dans tes conditions ou ton devis : « les données de suivi sont hébergées chez Supabase (UE) et supprimées sur demande. »
+
+---
+
+## Vérifier quelle version tourne
+
+Chaque fonction écrit son numéro de version dans ses journaux **au démarrage**,
+juste à côté de la ligne `booted` :
+
+```
+webhook-brulerie 2026-09-22 — secrets Stripe : ok — envoi du courriel : brevo
+```
+
+Cette ligne répond à la seule question qu'on ne peut pas trancher autrement :
+*le code qui tourne est-il bien celui du dépôt ?* Elle dit aussi, sans jamais
+révéler de valeur, quels secrets la fonction a trouvés — `INCOMPLETS`,
+`ABSENTE` ou `désactivé` sautent aux yeux.
+
+Pour la faire apparaître sans attendre un vrai appel, visitez l'adresse de la
+fonction dans un navigateur : elle répond « méthode non autorisée », ce qui
+suffit à la réveiller et à écrire la ligne.
+
+Comparez la date affichée avec celle du `const VERSION` en tête du fichier
+dans le dépôt. Si elles diffèrent, la fonction déployée est périmée : recollez
+le fichier. **Cette vérification est née d'une panne réelle** — une version
+antérieure au renommage d'une colonne était restée déployée, et rien ne le
+signalait : ni Stripe, ni la table, ni le message d'erreur.

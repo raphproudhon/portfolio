@@ -21,7 +21,19 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
+// --- Version déployée -------------------------------------------------------
+// Écrite dans les journaux au démarrage, à côté de « booted ». Elle répond à la
+// question qu'on ne peut pas trancher autrement : le code qui tourne ici est-il
+// bien celui du dépôt ? Une panne a déjà coûté une soirée parce qu'une version
+// antérieure était restée déployée, sans que rien ne le signale.
+// À incrémenter à chaque modification de ce fichier.
+const VERSION = '2026-09-22';
+
 const ADMIN_EMAIL = 'raph.proudhon@gmail.com';
+
+console.log(`inviter-client ${VERSION} — clé de service : ${
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ? 'ok' : 'ABSENTE'
+}`);
 const RETOUR = 'https://raphproudhon.fr/espace-client/';   // doit figurer dans les Redirect URLs
 
 const CORS: Record<string, string> = {

@@ -20,7 +20,21 @@
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
+// --- Version déployée -------------------------------------------------------
+// Écrite dans les journaux au démarrage, à côté de « booted ». Elle répond à la
+// question qu'on ne peut pas trancher autrement : le code qui tourne ici est-il
+// bien celui du dépôt ? Une panne a déjà coûté une soirée parce qu'une version
+// antérieure était restée déployée, sans que rien ne le signale.
+// À incrémenter à chaque modification de ce fichier.
+const VERSION = '2026-09-22';
+
 const TOLERANCE_SECONDES = 300;   // 5 minutes, la valeur conseillée par Stripe
+
+console.log(`webhook-brulerie ${VERSION} — secrets Stripe : ${
+  Deno.env.get('STRIPE_SECRET_KEY') && Deno.env.get('STRIPE_WEBHOOK_SECRET') ? 'ok' : 'INCOMPLETS'
+} — envoi du courriel : ${
+  Deno.env.get('BREVO_API_KEY') ? 'brevo' : Deno.env.get('RESEND_API_KEY') ? 'resend' : 'désactivé'
+}`);
 
 // Expéditeurs par défaut, selon le service configuré.
 //   Brevo  : le domaine raphproudhon.fr y est déjà authentifié (DKIM, DMARC),
