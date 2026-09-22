@@ -48,9 +48,59 @@ document.addEventListener("DOMContentLoaded", () => {
        VERIFICATION AGE
     ========================= */
 
+    // Une fenêtre modale ne l'est vraiment que si le clavier y reste. Sans ça,
+    // la touche Tab promène le focus dans la page verrouillée derrière —
+    // invisible pour qui voit, mais un lecteur d'écran y lit un site auquel
+    // le visiteur n'a pas encore le droit d'accéder.
+    const FOCUSABLES = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    let libererFocus = null;
+
+    function piegerFocus(conteneur) {
+        const cibles = () => Array.from(conteneur.querySelectorAll(FOCUSABLES))
+            .filter((el) => !el.disabled && el.offsetParent !== null);
+
+        function surTouche(e) {
+            if (e.key !== "Tab") return;
+            const liste = cibles();
+            if (!liste.length) return;
+            const premier = liste[0];
+            const dernier = liste[liste.length - 1];
+            // le focus peut avoir échappé au conteneur : on le ramène
+            if (!conteneur.contains(document.activeElement)) {
+                e.preventDefault();
+                premier.focus();
+                return;
+            }
+            if (e.shiftKey && document.activeElement === premier) {
+                e.preventDefault();
+                dernier.focus();
+            } else if (!e.shiftKey && document.activeElement === dernier) {
+                e.preventDefault();
+                premier.focus();
+            }
+        }
+
+        document.addEventListener("keydown", surTouche, true);
+        const premier = cibles()[0];
+        if (premier) premier.focus();
+        return () => document.removeEventListener("keydown", surTouche, true);
+    }
+
     function unlockSite() {
         document.body.classList.remove("age-lock");
-        if (agePopup) agePopup.classList.add("hide");
+        if (agePopup) {
+            agePopup.classList.add("hide");
+            agePopup.setAttribute("aria-hidden", "true");
+        }
+        if (libererFocus) { libererFocus(); libererFocus = null; }
+        // le visiteur entre dans le site : le focus repart du début de la page
+        const entree = document.querySelector(".header a, .header button, main, h1");
+        if (entree) {
+            if (!entree.hasAttribute("tabindex") && !/^(A|BUTTON)$/.test(entree.tagName)) {
+                entree.setAttribute("tabindex", "-1");
+            }
+            entree.focus({ preventScroll: true });
+        }
     }
 
     if (agePopup) {
@@ -66,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // (il est de toute façon masqué derrière elle).
             document.body.classList.add("age-lock");
             hideLoader();
+            libererFocus = piegerFocus(agePopup);
         }
 
         if (yesAge) {
