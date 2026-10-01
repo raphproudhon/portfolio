@@ -17,7 +17,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 // bien celui du dépôt ? Une panne a déjà coûté une soirée parce qu'une version
 // antérieure était restée déployée, sans que rien ne le signale.
 // À incrémenter à chaque modification de ce fichier.
-const VERSION = '2026-09-22';
+const VERSION = '2026-10-01';
 
 const ADMIN_EMAIL = 'raph.proudhon@gmail.com';
 
@@ -34,6 +34,21 @@ function json(corps: unknown, status = 200) {
     status,
     headers: { ...CORS, 'Content-Type': 'application/json' },
   });
+}
+
+// Adresse du site en ligne d'un dépôt, s'il en a un : d'abord le champ
+// « Website » renseigné sur GitHub (c'est là que va un nom de domaine), sinon
+// l'adresse GitHub Pages quand Pages est activé. null s'il n'y a rien à voir.
+function adresseDuSite(d: Record<string, any>): string | null {
+  const homepage = String(d.homepage ?? '').trim();
+  if (/^https?:\/\//i.test(homepage)) return homepage;
+  if (!d.has_pages) return null;
+  const compte = String(d.owner?.login ?? '').toLowerCase();
+  const nom = String(d.name ?? '');
+  // le dépôt « compte.github.io » est servi à la racine
+  return nom.toLowerCase() === `${compte}.github.io`
+    ? `https://${compte}.github.io/`
+    : `https://${compte}.github.io/${nom}/`;
 }
 
 Deno.serve(async (req) => {
@@ -75,7 +90,7 @@ Deno.serve(async (req) => {
 
   // 3. On ne renvoie que ce que la page affiche.
   const depots = await reponse.json();
-  return json(depots.map((d: Record<string, unknown>) => ({
+  return json(depots.map((d: Record<string, any>) => ({
     nom: d.name,
     prive: d.private,
     url: d.html_url,
@@ -84,5 +99,6 @@ Deno.serve(async (req) => {
     maj: d.pushed_at,
     archive: d.archived,
     branche: d.default_branch,
+    site: adresseDuSite(d),
   })));
 });

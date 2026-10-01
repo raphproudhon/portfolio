@@ -127,8 +127,17 @@
     text-transform:uppercase; color:var(--muted); margin:38px 0 16px;}
 
   /* ---- Dépôts GitHub ---- */
-  .depot{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  .depot{display:flex; align-items:center; gap:10px 16px; flex-wrap:wrap;
     border-top:1px solid var(--line); padding:13px 0;}
+  .depot .infos{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; flex:1 1 320px; min-width:0;}
+  .depot .actions{display:flex; gap:8px; margin-left:auto; flex-shrink:0;}
+  .depot .actions a, .depot .actions span{font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600;
+    padding:7px 12px; border-radius:8px; border:1px solid var(--line); text-decoration:none; white-space:nowrap;}
+  .depot .actions a.site{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .depot .actions a.site:hover{background:var(--accent); border-color:var(--accent);}
+  .depot .actions a.repo{color:var(--ink);}
+  .depot .actions a.repo:hover{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .depot .actions span.sans-site{color:var(--muted); background:#efece5; border-color:transparent; cursor:default;}
   .depot:first-of-type{border-top:none;}
   .depot a.nom{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
     text-decoration:none; color:var(--ink);}
@@ -801,12 +810,23 @@ async function afficherDepots(){
 
   const actifs = data.filter(d => !d.archive);
   const archives = data.filter(d => d.archive);
+  // « Voir le site » seulement si le dépôt est en ligne (champ site renvoyé
+  // par la fonction Edge depuis sa version du 2026-10-01).
+  const boutonSite = d => /^https?:\/\//i.test(d.site || '')
+    ? `<a class="site" href="${esc(d.site)}" target="_blank" rel="noopener" aria-label="Voir le site de ${esc(d.nom)}">Voir le site ↗</a>`
+    : '<span class="sans-site" title="Ni GitHub Pages ni adresse « Website » renseignée sur ce dépôt">Pas de site</span>';
   const ligne = d => `<div class="depot">
-    <a class="nom" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.nom)}</a>
-    ${d.prive ? '<span class="tag prive">privé</span>' : '<span class="tag">public</span>'}
-    ${d.langage ? `<span class="tag langage">${esc(d.langage)}</span>` : ''}
-    <span class="desc">${esc(d.description || '')}</span>
-    <span class="quand">${depuis(d.maj)}</span>
+    <div class="infos">
+      <a class="nom" href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.nom)}</a>
+      ${d.prive ? '<span class="tag prive">privé</span>' : '<span class="tag">public</span>'}
+      ${d.langage ? `<span class="tag langage">${esc(d.langage)}</span>` : ''}
+      <span class="desc">${esc(d.description || '')}</span>
+      <span class="quand">${depuis(d.maj)}</span>
+    </div>
+    <div class="actions">
+      ${boutonSite(d)}
+      <a class="repo" href="${esc(d.url)}" target="_blank" rel="noopener" aria-label="Voir le dépôt ${esc(d.nom)} sur GitHub">Voir le repo ↗</a>
+    </div>
   </div>`;
 
   zone.innerHTML = actifs.map(ligne).join('')
