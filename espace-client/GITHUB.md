@@ -81,6 +81,24 @@ Si elle affiche « Liste indisponible » :
 Le détail de l'erreur est visible dans Supabase → **Edge Functions** →
 `depots-github` → onglet **Logs**.
 
+## Boutons « Voir le site » et « Voir le repo »
+
+Chaque ligne de la liste a deux boutons. « Voir le repo » ouvre le dépôt sur
+GitHub. « Voir le site » ouvre le site en ligne, pris dans cet ordre :
+
+1. le champ **Website** du dépôt sur GitHub (roue dentée à droite de « About ») —
+   c'est là qu'on met un nom de domaine, par exemple `https://raphproudhon.fr` ;
+2. sinon l'adresse **GitHub Pages** (`https://raphproudhon.github.io/<dépôt>/`)
+   si Pages est activé sur le dépôt.
+
+Sans l'un ni l'autre, la ligne affiche « Pas de site ».
+
+Cette adresse est calculée par la fonction (version `2026-10-01`). Tant que
+l'ancienne version reste déployée, toutes les lignes affichent « Pas de site » :
+il faut **redéployer la fonction** une fois (étape 3, en recollant
+`fonction-supabase/index.ts`). Les journaux doivent alors afficher
+`depots-github 2026-10-01`.
+
 ## Quand le jeton expire
 
 Au bout de 90 jours la liste redevient indisponible. Rien n'est cassé : tu
