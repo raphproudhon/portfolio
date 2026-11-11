@@ -3,6 +3,8 @@
 
 User-agent: *
 Allow: /
+# Outil personnel de suivi de comptes : pas d'intérêt à l'indexer
+Disallow: /comptes/
 
 # Agents des assistants IA : explicitement autorisés à lire le site.
 # Résumé lisible par machine : https://raphproudhon.fr/llms.txt
